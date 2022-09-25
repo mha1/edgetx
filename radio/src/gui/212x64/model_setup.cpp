@@ -1502,9 +1502,9 @@ void menuModelSetup(event_t event)
 
          lcdDrawText(INDENT_WIDTH, y, title);
          if (title == STR_MULTI_RFTUNE) {
-           lcdDrawText(MODEL_SETUP_2ND_COLUMN + 23, y, "RSSI(", LEFT);
+           lcdDrawText(MODEL_SETUP_2ND_COLUMN + 23, y, getRSSILabel(), LEFT);
+           lcdDrawText(lcdLastRightPos, y, ":", LEFT);
            lcdDrawNumber(lcdLastRightPos, y, TELEMETRY_RSSI(), LEFT);
-           lcdDrawText(lcdLastRightPos, y, ")", LEFT);
          }
 
          int optionValue = g_model.moduleData[moduleIdx].multi.optionValue;

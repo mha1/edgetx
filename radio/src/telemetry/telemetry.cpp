@@ -571,3 +571,29 @@ void ModuleSyncStatus::getRefreshString(char * statusText)
 #endif
   tmp = strAppend(tmp, "us");
 }
+
+const char* getRssiLabel()
+{
+#if defined(MULTIMODULE)
+  if (g_model.moduleData[EXTERNAL_MODULE].multi.rfProtocol == MODULE_SUBTYPE_MULTI_FS_AFHDS2A ||
+      g_model.moduleData[EXTERNAL_MODULE].multi.rfProtocol == MODULE_SUBTYPE_MULTI_FS_AFHDS2A ||
+      g_model.moduleData[INTERNAL_MODULE].multi.rfProtocol == MODULE_SUBTYPE_MULTI_HOTT ||
+      g_model.moduleData[EXTERNAL_MODULE].multi.rfProtocol == MODULE_SUBTYPE_MULTI_HOTT ||
+      g_model.moduleData[INTERNAL_MODULE].multi.rfProtocol == MODULE_SUBTYPE_MULTI_MLINK ||
+      g_model.moduleData[EXTERNAL_MODULE].multi.rfProtocol == MODULE_SUBTYPE_MULTI_MLINK) {
+    return("LQI");
+  }
+#endif
+#if defined(GHOST)
+  if(g_model.moduleData[EXTERNAL_MODULE].type == MODULE_TYPE_GHOST) {
+    return "RQly";
+  }
+#endif
+#if defined (PCBNV14)
+  extern uint32_t NV14internalModuleFwVersion;
+  if ( (telemetryProtocol == PROTOCOL_TELEMETRY_FLYSKY_NV14) 
+        && (NV14internalModuleFwVersion >=  0x1000E) )
+    return "Sgnl";
+#endif
+  return "RSSI";
+}

@@ -513,10 +513,9 @@ void ModuleWindow::startRSSIDialog(std::function<void()> closeHandler)
   auto rssiDialog = new DynamicMessageDialog(
       parent, "Range Test",
       [=]() {
-        return std::to_string((int)TELEMETRY_RSSI()) +
-               std::string(SIGNAL_POSTFIX);
+        return std::to_string((int)TELEMETRY_RSSI());
       },
-      SIGNAL_MESSAGE, 50,
+      getRssiLabel(), 50,
       COLOR_THEME_SECONDARY1 | CENTERED | FONT(BOLD) | FONT(XL));
 
   rssiDialog->setCloseHandler([this, closeHandler]() {
