@@ -61,24 +61,29 @@ struct MixerSchedule {
 
 static MixerSchedule mixerSchedules[NUM_MODULES];
 
-uint16_t getMixerSchedulerPeriod()
-{
+uint16_t getMixerSchedulerPeriod() {
+  uint16_t mixPeriod = MIXER_SCHEDULER_DEFAULT_PERIOD_US;
+
 #if defined(HARDWARE_INTERNAL_MODULE)
-  if (mixerSchedules[INTERNAL_MODULE].period) {
-    return mixerSchedules[INTERNAL_MODULE].period;
-  }
+  uint16_t intMixPeriod = mixerSchedules[INTERNAL_MODULE].period;
+
+  if (intMixPeriod > 0 && intMixPeriod < mixPeriod)
+      mixPeriod = intMixPeriod;
 #endif
+
 #if defined(HARDWARE_EXTERNAL_MODULE)
-  if (mixerSchedules[EXTERNAL_MODULE].period) {
-    return mixerSchedules[EXTERNAL_MODULE].period;
-  }
+  uint16_t extMixPeriod = mixerSchedules[EXTERNAL_MODULE].period;
+  
+  if (extMixPeriod > 0 && extMixPeriod < mixPeriod)
+      mixPeriod = extMixPeriod;
 #endif
+
 #if defined(STM32) && !defined(SIMU)
-  if (getSelectedUsbMode() == USB_JOYSTICK_MODE) {
-    return MIXER_SCHEDULER_JOYSTICK_PERIOD_US;
-  }
+  if (getSelectedUsbMode() == USB_JOYSTICK_MODE)
+    mixPeriod = MIXER_SCHEDULER_JOYSTICK_PERIOD_US;
 #endif
-  return MIXER_SCHEDULER_DEFAULT_PERIOD_US;
+  
+  return mixPeriod;
 }
 
 void mixerSchedulerInit()
