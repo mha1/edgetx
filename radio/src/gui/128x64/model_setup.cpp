@@ -1156,12 +1156,14 @@ void menuModelSetup(event_t event)
 #if (defined(CROSSFIRE) || defined(GHOST))
 #if defined(HARDWARE_INTERNAL_MODULE)
       case ITEM_MODEL_SETUP_INTERNAL_MODULE_SERIALSTATUS:
+        lcdDrawText(INDENT_WIDTH, y, STR_STATUS);
+        lcdDrawNumber(MODEL_SETUP_2ND_COLUMN, y, 1000000 / getMixerSchedulerPeriodInternal(), LEFT | attr);
 #endif
 #if defined(HARDWARE_EXTERNAL_MODULE)
       case ITEM_MODEL_SETUP_EXTERNAL_MODULE_SERIALSTATUS:
-#endif
         lcdDrawText(INDENT_WIDTH, y, STR_STATUS);
-        lcdDrawNumber(MODEL_SETUP_2ND_COLUMN, y, 1000000 / getMixerSchedulerPeriod(), LEFT | attr);
+        lcdDrawNumber(MODEL_SETUP_2ND_COLUMN, y, 1000000 / getMixerSchedulerPeriodExternal(), LEFT | attr);
+#endif
         lcdDrawText(lcdNextPos, y, "Hz ", attr);
         lcdDrawNumber(lcdNextPos, y, telemetryErrors, attr);
         lcdDrawText(lcdNextPos + 1, y, "Err", attr);

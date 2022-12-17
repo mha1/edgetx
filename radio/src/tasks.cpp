@@ -19,6 +19,42 @@
  * GNU General Public License for more details.
  */
 
+#define TESTPORTAUX2CTS
+
+#if defined(TESTPORTAUX2CTS)
+  #if !defined(SIMU)
+    #include "opentx.h"
+
+    #define TESTPORT_INIT testPortInit();
+    #define TESTPORT_HIGH GPIO_SetBits(BT_EN_GPIO, BT_EN_GPIO_PIN);
+    #define TESTPORT_LOW  GPIO_ResetBits(BT_EN_GPIO, BT_EN_GPIO_PIN);
+
+    void testPortInit() {
+      static bool testPortInitialized = false;
+
+      if(!testPortInitialized) {
+        GPIO_InitTypeDef GPIO_InitStructure;
+        GPIO_InitStructure.GPIO_Pin = BT_EN_GPIO_PIN;
+        GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+        GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+        GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+        GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
+        GPIO_Init(BT_EN_GPIO, &GPIO_InitStructure);
+
+        testPortInitialized = true;
+      }
+      
+      //TESTPORT_INIT   // nur um zu sehen, ob der Compiler/Linker meckert
+      //TESTPORT_HIGH   // nur um zu sehen, ob der Compiler/Linker meckert
+      //TESTPORT_LOW    // nur um zu sehen, ob der Compiler/Linker meckert
+    }
+  #else
+    #define TESTPORT_INIT
+    #define TESTPORT_HIGH
+    #define TESTPORT_LOW
+  #endif
+#endif
+
 #include "opentx.h"
 #include "mixer_scheduler.h"
 #include "timers_driver.h"
@@ -66,19 +102,31 @@ bool isForcePowerOffRequested()
   return false;
 }
 
-void sendSynchronousPulses(uint8_t runMask)
-{
+void sendSynchronousPulsesInternal() {
 #if defined(HARDWARE_INTERNAL_MODULE)
-  if (runMask & (1 << INTERNAL_MODULE)) {
-    if (setupPulsesInternalModule())
+  uint32_t nowInternal = getTmr2MHz();
+  static uint32_t lastIntPulse = nowInternal;
+
+  //if((nowInternal - lastIntPulse) >= (getMixerSchedulerPeriodInternal()*2)) { 
+   if((nowInternal - lastIntPulse) >= (7000*2)) { 
+    if(setupPulsesInternalModule())
       intmoduleSendNextFrame();
+
+    lastIntPulse = nowInternal;
   }
 #endif
+}
 
+void sendSynchronousPulsesExternal() {
+  TESTPORT_INIT
 #if defined(HARDWARE_EXTERNAL_MODULE)
-  if (runMask & (1 << EXTERNAL_MODULE)) {
-    if (setupPulsesExternalModule())
+    
+    TESTPORT_HIGH
+    if(setupPulsesExternalModule())
       extmoduleSendNextFrame();
+
+    lastExtPulse = nowExternal;
+    TESTPORT_LOW
   }
 #endif
 }
@@ -156,7 +204,8 @@ TASK_FUNCTION(mixerTask)
       RTOS_LOCK_MUTEX(mixerMutex);
 
       doMixerCalculations();
-      sendSynchronousPulses((1 << INTERNAL_MODULE) | (1 << EXTERNAL_MODULE));
+      sendSynchronousPulsesInternal();
+      sendSynchronousPulsesExternal();
       doMixerPeriodicUpdates();
 
       DEBUG_TIMER_START(debugTimerMixerCalcToUsage);

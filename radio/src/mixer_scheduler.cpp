@@ -61,7 +61,7 @@ struct MixerSchedule {
 
 static MixerSchedule mixerSchedules[NUM_MODULES];
 
-uint16_t getMixerSchedulerPeriod() {
+uint16_t getMixerSchedulerPeriodFastest() {
   uint16_t mixPeriod = MIXER_SCHEDULER_DEFAULT_PERIOD_US;
 
 #if defined(HARDWARE_INTERNAL_MODULE)
@@ -84,6 +84,26 @@ uint16_t getMixerSchedulerPeriod() {
 #endif
   
   return mixPeriod;
+}
+
+uint16_t getMixerSchedulerPeriodInternal()
+{
+#if defined(HARDWARE_INTERNAL_MODULE)
+  if (mixerSchedules[INTERNAL_MODULE].period) {
+    return mixerSchedules[INTERNAL_MODULE].period;
+  }
+#endif
+  return 0;
+}
+
+uint16_t getMixerSchedulerPeriodExternal()
+{
+#if defined(HARDWARE_EXTERNAL_MODULE)
+  if (mixerSchedules[EXTERNAL_MODULE].period) {
+    return mixerSchedules[EXTERNAL_MODULE].period;
+  }
+#endif
+  return 0;
 }
 
 void mixerSchedulerInit()

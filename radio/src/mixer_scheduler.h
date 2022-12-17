@@ -52,8 +52,14 @@ void mixerSchedulerEnableTrigger();
 // Disable the timer trigger
 void mixerSchedulerDisableTrigger();
 
-// Fetch the current scheduling period
-uint16_t getMixerSchedulerPeriod();
+// Fetch the the faster one of periodInternal and periodExternal
+uint16_t getMixerSchedulerPeriodFastest();
+
+// fetch internal module mixer period
+uint16_t getMixerSchedulerPeriodInternal();
+
+// fetch external module mixer period
+uint16_t getMixerSchedulerPeriodExternal();
 
 // Trigger mixer from an ISR
 void mixerSchedulerISRTrigger();
