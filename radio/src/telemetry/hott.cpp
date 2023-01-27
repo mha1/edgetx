@@ -23,11 +23,11 @@
 
 /* HoTT Telemetry 
 
-HoTT telemetry comprises of one and up to eight devices connected to the receiver's one-wire serial bus. The devices
-have unique ID's and each decive ID may be present on the bus only once. 
+HoTT telemetry comprises of one bus master (RX) and up to seven devices connected to the receiver's one-wire serial bus. 
+The devices have unique ID's and each decive ID may be present on the bus only once. 
 
-HoTT telemetry knows to operating modes, Binary mode (normal operating mode) and Text mode (configuration mode). 
-Telemetry data is passed from the receiver via MPM to OpenTx in pages. The pages can be present or not, they 
+HoTT telemetry knows two operating modes, Binary mode (normal operating mode) and Text mode (configuration mode). 
+Telemetry data is passed from the receiver via MPM to EdgeTx in pages. The pages can be present or not, they 
 also do not have to follow each others.
 
 Telemetry device IDs: 
@@ -91,7 +91,7 @@ Text Mode:
   0 to 19. 
 
 RSSI:
-The packet[0] TX RSSI and packet[7] RX RSSI values describe estimates of the signal level in the
+The packet[0] TX RSSI and packet[7] RX RSSI values describe estimates of the signal's power level in the
 currently active channel from TX to RX (RX values, uplinked control data) and RX to TX (TX values, 
 downlinked telemetry data). RSSI values are based on the current gain setting in the RX chain 
 and telemetry frames. The downlink (telemetry) uses lower transmission power. Therefore TX RSSI
