@@ -51,6 +51,7 @@
 static const YamlLookupTable protocolLut = {
   {  PULSES_OFF, "TYPE_NONE"  },
   {  PULSES_PPM, "TYPE_PPM"  },
+  {  PULSES_PPM_MSB, "TYPE_PPM_MSB"  },
   {  PULSES_PXX_XJT_X16, "TYPE_XJT_PXX1"  },
   {  PULSES_ACCESS_ISRM, "TYPE_ISRM_PXX2"  },
   {  PULSES_LP45, "TYPE_DSM2"  },

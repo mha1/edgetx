@@ -481,7 +481,8 @@ void TelemetryPanel::update()
   lock = true;
 
   if (IS_HORUS_OR_TARANIS(firmware->getBoard())) {
-    if (model->moduleData[0].protocol == PULSES_OFF && model->moduleData[1].protocol == PULSES_PPM) {
+    if (model->moduleData[0].protocol == PULSES_OFF && 
+          (model->moduleData[1].protocol == PULSES_PPM || model->moduleData[1].protocol == PULSES_PPM_MSB)) {
       ui->telemetryProtocol->setEnabled(true);
     }
     else {

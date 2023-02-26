@@ -1385,7 +1385,7 @@ void menuModelSetup(event_t event)
               break;
             case 1:
               CHECK_INCDEC_MODELVAR_CHECK(event, moduleData.channelsCount, -4, min<int8_t>(maxModuleChannels_M8(moduleIdx), 32-8-moduleData.channelsStart), moduleData.type == MODULE_TYPE_ISRM_PXX2 ? isPxx2IsrmChannelsCountAllowed : nullptr);
-              if (checkIncDec_Ret && moduleData.type == MODULE_TYPE_PPM) {
+              if (checkIncDec_Ret && isModulePPM(moduleIdx)) {
                 setDefaultPpmFrameLength(moduleIdx);
               }
               break;

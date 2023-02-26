@@ -41,8 +41,12 @@ enum {
   MLINK_TX_LQI = 19,       // out of range ID for handling Telemetry LQI reported by multi
 };
 
-void processMLinkTelemetryData(uint8_t data, uint8_t* rxBuffer, uint8_t& rxBufferCount);
 void mlinkSetDefault(int index, uint16_t id, uint8_t subId, uint8_t instance);
 
 // Used by multi protocol
 void processMLinkPacket(const uint8_t *packet);
+
+// used by external MLink module driver
+#define PPM_MSB_BAUDRATE  115200
+
+void processExternalMlinkSerialData(void* ctx, uint8_t data, uint8_t* buffer, uint8_t* len);

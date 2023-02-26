@@ -265,6 +265,10 @@ uint8_t getRequiredProtocol(uint8_t module)
     case MODULE_TYPE_PPM:
       protocol = PROTOCOL_CHANNELS_PPM;
       break;
+      
+    case MODULE_TYPE_PPM_MSB:
+      protocol = PROTOCOL_CHANNELS_PPM_MSB;
+      break;
 
     case MODULE_TYPE_XJT_PXX1:
     case MODULE_TYPE_R9M_PXX1:
@@ -460,8 +464,11 @@ static void pulsesEnableModule(uint8_t module, uint8_t protocol)
 
 #if defined(PPM)
   case PROTOCOL_CHANNELS_PPM:
-      _init_module(module, &PpmDriver);
-      break;
+    _init_module(module, &PpmDriver);
+    break;
+  case PROTOCOL_CHANNELS_PPM_MSB:
+    _init_module(module, &PpmDriverMSB);
+    break;  
 #endif
 
 #if defined(INTERNAL_MODULE_AFHDS2A) && defined(AFHDS2)

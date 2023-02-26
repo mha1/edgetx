@@ -50,7 +50,7 @@ constexpr uint8_t TELEMETRY_TIMEOUT10ms = 100; // 1 second
 #define TELEMETRY_SERIAL_8E2           1
 #define TELEMETRY_SERIAL_WITHOUT_DMA   2
 
-#if defined(CROSSFIRE) || defined(MULTIMODULE) || defined(AFHDS3) || defined(PXX2)
+#if defined(CROSSFIRE) || defined(MULTIMODULE) || defined(AFHDS3) || defined(PXX2) || defined(PPM)
 #define TELEMETRY_RX_PACKET_SIZE       128
 // multi module Spektrum telemetry is 18 bytes, FlySky is 37 bytes
 #else
@@ -155,7 +155,13 @@ inline uint8_t modelTelemetryProtocol()
   if (!sportUsed && isModulePPM(EXTERNAL_MODULE)) {
     return g_model.telemetryProtocol;
   }
-
+/*  
+#if defined(PPM)
+  if (!sportUsed && isModulePPM_MSB(EXTERNAL_MODULE)) {
+    return PROTOCOL_TELEMETRY_MLINK;
+  }
+#endif
+*/
 #if defined(MULTIMODULE)
   if (!sportUsed && isModuleMultimodule(EXTERNAL_MODULE)) {
     return PROTOCOL_TELEMETRY_MULTIMODULE;

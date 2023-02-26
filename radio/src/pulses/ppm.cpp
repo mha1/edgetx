@@ -27,6 +27,8 @@
 
 #include "opentx.h"
 
+#include "telemetry/mlink.h"
+
 // Minimum space after the last PPM pulse in us
 #define PPM_SAFE_MARGIN 3000 // 3ms
 
@@ -117,6 +119,24 @@ static void* ppmInit(uint8_t module)
   return (void*)mod_st;  
 }
 
+static const etx_serial_init ppmMSBSerialParams = {
+  .baudrate = PPM_MSB_BAUDRATE,
+  .encoding = ETX_Encoding_8N1,
+  .direction = ETX_Dir_RX,
+  .polarity = ETX_Pol_Normal,
+};
+
+static void* ppmMSBInit(uint8_t module) {
+  etx_module_state_t *mod_st = (etx_module_state_t *)ppmInit(module);
+  
+  if (mod_st) {
+    etx_serial_init params(ppmMSBSerialParams);
+    mod_st = modulePortInitSerial(module, ETX_MOD_PORT_SPORT_INV, &params);
+  };
+
+  return (void*)mod_st;
+}
+
 static void ppmDeInit(void* ctx)
 {
   auto mod_st = (etx_module_state_t*)ctx;
@@ -157,4 +177,12 @@ const etx_proto_driver_t PpmDriver = {
   .deinit = ppmDeInit,
   .sendPulses = ppmSendPulses,
   .processData = nullptr,
+};
+
+const etx_proto_driver_t PpmDriverMSB = {
+  .protocol = PROTOCOL_CHANNELS_PPM_MSB,
+  .init = ppmMSBInit,
+  .deinit = ppmDeInit,
+  .sendPulses = ppmSendPulses,
+  .processData = processExternalMlinkSerialData,
 };

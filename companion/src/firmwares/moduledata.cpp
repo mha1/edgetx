@@ -289,6 +289,7 @@ QString ModuleData::protocolToString(unsigned int protocol)
   static const QString strings[] = {
     tr("OFF"),
     tr("PPM"),
+    tr("PPM_MSB"),
     tr("Silverlit A"), tr("Silverlit B"), tr("Silverlit C"),
     tr("CTP1009"),
     tr("LP45"), tr("DSM2"), tr("DSMX"),
@@ -371,6 +372,7 @@ int ModuleData::getMaxChannelCount()
     case PULSES_GHOST:
     case PULSES_SBUS:
     case PULSES_PPM:
+    case PULSES_PPM_MSB:
       return 16;
     case PULSES_XJT_LITE_LR12:
     case PULSES_PXX_XJT_LR12:
@@ -416,6 +418,7 @@ int ModuleData::getTypeFromProtocol(unsigned int protocol)
 
                           { PULSES_OFF,                 MODULE_TYPE_NONE },
                           { PULSES_PPM,                 MODULE_TYPE_PPM },
+                          { PULSES_PPM_MSB,             MODULE_TYPE_PPM_MSB },
 
                           { PULSES_PXX_XJT_X16,         MODULE_TYPE_XJT_PXX1 },
                           { PULSES_PXX_XJT_D8,          MODULE_TYPE_XJT_PXX1 },
@@ -529,6 +532,7 @@ bool ModuleData::isProtocolAvailable(int moduleidx, unsigned int protocol, Gener
         switch (protocol) {
           case PULSES_OFF:
           case PULSES_PPM:
+          case PULSES_PPM_MSB:
             return true;
           case PULSES_PXX_XJT_X16:
           case PULSES_PXX_XJT_D8:
@@ -562,6 +566,7 @@ bool ModuleData::isProtocolAvailable(int moduleidx, unsigned int protocol, Gener
       case -1:
         switch (protocol) {
           case PULSES_PPM:
+          case PULSES_PPM_MSB:
             return true;
           default:
             return false;
@@ -576,6 +581,7 @@ bool ModuleData::isProtocolAvailable(int moduleidx, unsigned int protocol, Gener
       case 0:
         switch (protocol) {
           case PULSES_PPM:
+          case PULSES_PPM_MSB:
           case PULSES_PXX_XJT_X16:
           case PULSES_PXX_XJT_D8:
           case PULSES_PXX_XJT_LR12:
@@ -593,6 +599,7 @@ bool ModuleData::isProtocolAvailable(int moduleidx, unsigned int protocol, Gener
       case 1:
         switch (protocol) {
           case PULSES_PPM:
+          case PULSES_PPM_MSB:
             return true;
           default:
             return false;
@@ -605,6 +612,7 @@ bool ModuleData::isProtocolAvailable(int moduleidx, unsigned int protocol, Gener
   else {
     switch (protocol) {
       case PULSES_PPM:
+      case PULSES_PPM_MSB:
       case PULSES_DSMX:
       case PULSES_LP45:
       case PULSES_DSM2:

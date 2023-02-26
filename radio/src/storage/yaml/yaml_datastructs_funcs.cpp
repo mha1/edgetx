@@ -430,6 +430,7 @@ static uint8_t select_mod_type(void* user, uint8_t* data, uint32_t bitoffs)
   switch (mod_data->type) {
     case MODULE_TYPE_NONE:
     case MODULE_TYPE_PPM:
+    case MODULE_TYPE_PPM_MSB:
     case MODULE_TYPE_DSM2:
       return 1;
     case MODULE_TYPE_MULTIMODULE:

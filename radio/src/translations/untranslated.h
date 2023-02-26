@@ -106,6 +106,7 @@
 #define TR_MODULE_PROTOCOLS          \
     TR_OFF,                          \
     "PPM",                           \
+    "PPM MSB",                       \
     "XJT",                           \
     "ISRM",                          \
     "DSM2",                          \

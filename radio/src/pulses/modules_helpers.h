@@ -239,12 +239,22 @@ inline bool isExtraModule(uint8_t)
 
 inline bool isModuleTypePPM(uint8_t type)
 {
-  return type == MODULE_TYPE_PPM;
+  return (type == MODULE_TYPE_PPM) || (type == MODULE_TYPE_PPM_MSB);
 }
 
 inline bool isModulePPM(uint8_t moduleIdx)
 {
   return isModuleTypePPM(g_model.moduleData[moduleIdx].type);
+}
+
+inline bool isModuleTypePPM_MSB(uint8_t type)
+{
+  return type == MODULE_TYPE_PPM_MSB;
+}
+
+inline bool isModulePPM_MSB(uint8_t moduleIdx)
+{
+  return isModuleTypePPM_MSB(g_model.moduleData[moduleIdx].type);
 }
 
 inline bool isModuleTypeR9MNonAccess(uint8_t type)
@@ -403,6 +413,7 @@ inline bool isModuleDSMP(uint8_t idx)
 static const int8_t maxChannelsModules_M8[] = {
   0, // MODULE_TYPE_NONE
   8, // MODULE_TYPE_PPM
+  8, // MODULE_TYPE_PPM_MSB
   0, // MODULE_TYPE_XJT_PXX1: index NOT USED
   16,// MODULE_TYPE_ISRM_PXX2
   -2,// MODULE_TYPE_DSM2
@@ -798,7 +809,7 @@ inline void setModuleType(uint8_t moduleIdx, uint8_t moduleType)
   moduleData.channelsCount = defaultModuleChannels_M8(moduleIdx);
   if (moduleData.type == MODULE_TYPE_SBUS)
     moduleData.sbus.refreshRate = -31;
-  else if (moduleData.type == MODULE_TYPE_PPM)
+  else if (isModuleTypePPM(moduleData.type))
     setDefaultPpmFrameLength(moduleIdx);
   else if (moduleData.type == MODULE_TYPE_FLYSKY) {
     resetAfhdsOptions(moduleIdx);

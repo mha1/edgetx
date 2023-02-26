@@ -711,6 +711,7 @@ bool isModuleUsingSport(uint8_t moduleBay, uint8_t moduleType)
     case MODULE_TYPE_NONE:
     case MODULE_TYPE_SBUS:
     case MODULE_TYPE_PPM:
+    case MODULE_TYPE_PPM_MSB:
     case MODULE_TYPE_DSM2:
     case MODULE_TYPE_MULTIMODULE:
     case MODULE_TYPE_ISRM_PXX2:
@@ -763,8 +764,8 @@ bool isInternalModuleSupported(int moduleType)
 #if defined(INTERNAL_MODULE_PXX2)
   case MODULE_TYPE_ISRM_PXX2: return true;
 #endif
-#if defined(INTERNAL_MODULE_PPM)
-  case MODULE_TYPE_PPM: return true;
+#if defined(INTERNAL_MODULE_PPM)     
+  case MODULE_TYPE_PPM: return true;  // internal MODULE_TYPE_PPM_MSB not supported
 #endif
 #if defined(INTERNAL_MODULE_AFHDS2A) || defined(INTERNAL_MODULE_AFHDS3)
   case MODULE_TYPE_FLYSKY: return true;
@@ -896,7 +897,7 @@ bool isExternalModuleAvailable(int moduleType)
 #endif
 
 #if !defined(PPM)
-  if (moduleType == MODULE_TYPE_PPM)
+  if (isModuleTypePPM(moduleType))
     return false;
 #endif
 

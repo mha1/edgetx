@@ -255,6 +255,7 @@ bool Ersky9xInterface::isAvailable(PulsesProtocol prot, int port)
 {
   switch (prot) {
     case PULSES_PPM:
+    case PULSES_PPM_MSB:
     case PULSES_DSM2:
     case PULSES_PXX_DJT:
     case PULSES_PPM16:

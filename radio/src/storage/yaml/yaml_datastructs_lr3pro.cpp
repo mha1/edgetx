@@ -22,6 +22,7 @@ const struct YamlIdStr enum_AntennaModes[] = {
 const struct YamlIdStr enum_ModuleType[] = {
   {  MODULE_TYPE_NONE, "TYPE_NONE"  },
   {  MODULE_TYPE_PPM, "TYPE_PPM"  },
+  {  MODULE_TYPE_PPM_MSB, "TYPE_PPM_MSB"  },
   {  MODULE_TYPE_XJT_PXX1, "TYPE_XJT_PXX1"  },
   {  MODULE_TYPE_ISRM_PXX2, "TYPE_ISRM_PXX2"  },
   {  MODULE_TYPE_DSM2, "TYPE_DSM2"  },

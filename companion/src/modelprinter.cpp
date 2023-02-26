@@ -206,10 +206,10 @@ QString ModelPrinter::printModule(int idx)
     str << printLabelValue(tr("Protocol"), ModuleData::protocolToString(module.protocol));
     if (module.protocol) {
       str << printLabelValue(tr("Channels"), QString("%1-%2").arg(module.channelsStart + 1).arg(module.channelsStart + module.channelsCount));
-      if (module.protocol == PULSES_PPM || module.protocol == PULSES_SBUS) {
+      if (module.protocol == PULSES_PPM || module.protocol == PULSES_PPM_MSB || module.protocol == PULSES_SBUS) {
         str << printLabelValue(tr("Frame length"), QString("%1ms").arg(printPPMFrameLength(module.ppm.frameLength)));
         str << printLabelValue(tr("Polarity"), module.polarityToString());
-        if (module.protocol == PULSES_PPM)
+        if (module.protocol == PULSES_PPM || module.protocol == PULSES_PPM)
           str << printLabelValue(tr("Delay"), QString("%1us").arg(module.ppm.delay));
       }
       else {

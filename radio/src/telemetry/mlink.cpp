@@ -166,3 +166,33 @@ void mlinkSetDefault(int index, uint16_t id, uint8_t subId, uint8_t instance)
 
   storageDirty(EE_MODEL);
 }
+
+void processExternalMlinkSerialData(void* ctx, uint8_t data, uint8_t* buffer, uint8_t* len)
+{
+  if (*len == 0 && (data == 0x13 || data == 0x03)) {      // RX-9 or RX-5 data format
+    buffer[0] = 0;  // dummy MLINK_TX_RSSI
+    buffer[1] = 0;  // dummy MLINK_TX_LQi
+    *len = 2;
+  }
+
+  buffer[(*len)++] = data;
+  
+  if(*len > 8) {    // if valid packet found
+    TRACE("[MLINK] processing packet");
+    processMLinkPacket(buffer);
+    *len = 0;
+  }
+
+  /*
+  #if defined(LUA)
+      default:
+        if (luaInputTelemetryFifo && luaInputTelemetryFifo->hasSpace(rxBufferCount-2) ) {
+          for (uint8_t i=1; i<rxBufferCount-1; i++) {
+            // destination address and CRC are skipped
+            luaInputTelemetryFifo->push(rxBuffer[i]);
+          }
+        }
+        break;
+  #endif
+  */
+  }

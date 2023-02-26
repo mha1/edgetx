@@ -33,6 +33,7 @@ class GeneralSettings;
 enum ModuleType {
   MODULE_TYPE_NONE = 0,
   MODULE_TYPE_PPM,
+  MODULE_TYPE_PPM_MSB,
   MODULE_TYPE_XJT_PXX1,
   MODULE_TYPE_ISRM_PXX2,
   MODULE_TYPE_DSM2,
@@ -55,6 +56,7 @@ enum ModuleType {
 enum PulsesProtocol {
   PULSES_OFF,
   PULSES_PPM,
+  PULSES_PPM_MSB,
   PULSES_SILV_A,
   PULSES_SILV_B,
   PULSES_SILV_C,
