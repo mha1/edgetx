@@ -204,17 +204,23 @@ static inline void pollTelemetry(uint8_t module, const etx_proto_driver_t* drv, 
   uint8_t& rxBufferCount = getTelemetryRxBufferCount(module);
 
   /*MH*Remove*******/
-  /* static testinf in companion
-  static uint8_t buf[7] = { 0x13, 0x3a, 0x5b, 0x00, 0x52, 0x6e, 0x01 };
+  /*
+  // for static test in companion
+  static uint8_t buf[22] = { 
+    0x02, 0x01, 0x1b, 0x22, 0x1b, 0x23, 0x04, 0x05, 0x06, 0x46, 0x3a, 0x5b, 
+    0x00, 0x52, 0x6e, 0x01, 0x14, 0x15, 0x16, 0x17, 0x18, 0x03 };
   static int i = 0;  
   static int n = 0;
-
+  */
+  /*
   if(++n > 30) n = 0;
-  if(i == 2) buf[2] = 0x5b + n;    // Send RSSI otherwise telemetry won't update   
-  if(i == 5) buf[5] = 0x6e + n*2;  // Send current
-
+  if(i == 2) buf[9] = 0x5b + n;    // Send RSSI otherwise telemetry won't update   
+  if(i == 5) buf[12] = 0x6e + n*2;  // Send current
+  */
+  /*
+  TRACE("sending %2x index %d", buf[i], i);
   drv->processData(ctx, buf[i++], rxBuffer, &rxBufferCount);
-  if(i == 7) i = 0;
+  if(i == 22) i = 0;
   */
   /*MH**************/
 
