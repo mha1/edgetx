@@ -45,7 +45,7 @@ const MLinkSensor mlinkSensors[] = {
   {MLINK_CAPACITY,        STR_SENSOR_CAPACITY,          UNIT_MAH,               0},
   {MLINK_FLOW,            STR_SENSOR_FLOW,              UNIT_MILLILITERS,       0},
   {MLINK_DISTANCE,        STR_SENSOR_DIST,              UNIT_KM,                1},
-  {MLINK_GRATE,           STR_SENSOR_ACCX,              UNIT_G,                 1},
+  {MLINK_GRATE,           STR_SENSOR_ACC,               UNIT_G,                 1},
   {MLINK_LQI,             STR_SENSOR_RSSI,              UNIT_RAW,               0},
   {MLINK_LOSS,            STR_SENSOR_LOSS,              UNIT_RAW,               0},
   {MLINK_TX_RSSI,         STR_SENSOR_TX_RSSI,           UNIT_RAW,               0},

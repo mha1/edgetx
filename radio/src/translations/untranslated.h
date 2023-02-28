@@ -188,6 +188,7 @@
 #define STR_SENSOR_ACCX                      "AccX"
 #define STR_SENSOR_ACCY                      "AccY"
 #define STR_SENSOR_ACCZ                      "AccZ"
+#define STR_SENSOR_ACC                       "Acc"
 #define STR_SENSOR_GYROX                     "GYRX"
 #define STR_SENSOR_GYROY                     "GYRY"
 #define STR_SENSOR_GYROZ                     "GYRZ"
