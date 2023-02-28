@@ -31,6 +31,7 @@ struct MLinkSensor
 };
 
 const MLinkSensor mlinkSensors[] = {
+  {MLINK_SPECIAL,         STR_SENSOR_SPECIAL,           UNIT_RAW,               0},
   {MLINK_RX_VOLTAGE,      STR_SENSOR_BATT,              UNIT_VOLTS,             1},
   {MLINK_VOLTAGE,         STR_SENSOR_VFAS,              UNIT_VOLTS,             1},
   {MLINK_CURRENT,         STR_SENSOR_CURR,              UNIT_AMPS,              1},
@@ -44,6 +45,7 @@ const MLinkSensor mlinkSensors[] = {
   {MLINK_CAPACITY,        STR_SENSOR_CAPACITY,          UNIT_MAH,               0},
   {MLINK_FLOW,            STR_SENSOR_FLOW,              UNIT_MILLILITERS,       0},
   {MLINK_DISTANCE,        STR_SENSOR_DIST,              UNIT_KM,                1},
+  {MLINK_GRATE,           STR_SENSOR_ACCX,              UNIT_G,                 1},
   {MLINK_LQI,             STR_SENSOR_RSSI,              UNIT_RAW,               0},
   {MLINK_LOSS,            STR_SENSOR_LOSS,              UNIT_RAW,               0},
   {MLINK_TX_RSSI,         STR_SENSOR_TX_RSSI,           UNIT_RAW,               0},
@@ -74,6 +76,9 @@ void processMLinkPacket(const uint8_t * packet)
       val = val >> 1; // remove alarm flag
       uint8_t adress = (data[i] & 0xF0) >> 4;
       switch (data[i] & 0x0F) {
+        case MLINK_SVC:
+          setTelemetryValue(PROTOCOL_TELEMETRY_MLINK, MLINK_SPECIAL, 0, 0, val & 0x007f, UNIT_RAW, 0);
+          break;
         case MLINK_VOLTAGE:
           if ((data[i] & 0xF0) == 0x00){
             setTelemetryValue(PROTOCOL_TELEMETRY_MLINK, MLINK_RX_VOLTAGE, 0, adress, val, UNIT_VOLTS, 1);
@@ -120,6 +125,9 @@ void processMLinkPacket(const uint8_t * packet)
           break;
         case MLINK_DISTANCE:
           setTelemetryValue(PROTOCOL_TELEMETRY_MLINK, MLINK_DISTANCE, 0, adress, val, UNIT_KM, 1);
+          break;
+        case MLINK_GRATE:
+          setTelemetryValue(PROTOCOL_TELEMETRY_MLINK, MLINK_GRATE, 0, adress, val, UNIT_G, 1);
           break;
         case MLINK_LQI:
           uint8_t mlinkRssi = data[i + 1] >> 1;

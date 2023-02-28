@@ -35,11 +35,15 @@ enum {
   MLINK_CAPACITY = 11,
   MLINK_FLOW = 12,
   MLINK_DISTANCE = 13,
+  MLINK_GRATE = 14,
   MLINK_RX_VOLTAGE = 16,   // out of range ID for specific RxBt treatment
   MLINK_LOSS = 17,         // out of range ID for handling number of loss
   MLINK_TX_RSSI = 18,      // out of range ID for handling Telemetry RSSi reported by multi
   MLINK_TX_LQI = 19,       // out of range ID for handling Telemetry LQI reported by multi
+  MLINK_SPECIAL = 20,      // out of raneg ID fro handling special value class
 };
+
+#define MLINK_SVC 0         // ID speial value class - can't use in enum as indexes have to start at 0
 
 void mlinkSetDefault(int index, uint16_t id, uint8_t subId, uint8_t instance);
 

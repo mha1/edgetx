@@ -319,6 +319,7 @@
 #define STR_SENSOR_SERVO_VOLTAGE             "SrvV"
 #define STR_SENSOR_SERVO_TEMPERATURE         "SrvT"
 #define STR_SENSOR_SERVO_STATUS              "SrvS"
+#define STR_SENSOR_SPECIAL                   "Spcl"
 
 #define STR_CHAR_RIGHT     "\302\200"
 #define STR_CHAR_LEFT      "\302\201"
