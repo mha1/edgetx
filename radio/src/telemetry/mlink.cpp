@@ -66,7 +66,8 @@ void processMLinkPacket(const uint8_t * packet)
   const uint8_t * data = packet + 2;
 
   // Multi telem
-  setTelemetryValue(PROTOCOL_TELEMETRY_MLINK, MLINK_TX_RSSI, 0, 0, (packet[0] * 100) / 31, UNIT_RAW, 0);
+  //setTelemetryValue(PROTOCOL_TELEMETRY_MLINK, MLINK_TX_RSSI, 0, 0, (packet[0] * 100) / 31, UNIT_RAW, 0);
+  setTelemetryValue(PROTOCOL_TELEMETRY_MLINK, MLINK_TX_RSSI, 0, 0, packet[0], UNIT_RAW, 0);
   setTelemetryValue(PROTOCOL_TELEMETRY_MLINK, MLINK_TX_LQI, 0, 0, packet[1], UNIT_RAW, 0);
 
   // M-Link telem
@@ -178,52 +179,61 @@ void mlinkSetDefault(int index, uint16_t id, uint8_t subId, uint8_t instance)
 void processExternalMlinkSerialData(void* ctx, uint8_t data, uint8_t* buffer, uint8_t* len)
 {
   static bool destuff = false;
+  static bool started = false;
+  static uint8_t faults = 0;
+  static uint8_t berrs = 0;
 
-  if(*len > (2 * MSB_EXT_MODULE_PACKET_LEN)) {// shouldn't happen but
-    *len = 0;                                 // prevent buffer overflow after max. 2 packets
-    return;
+  if(*len > (2 * MSB_EXT_MODULE_PACKET_LEN)) { // shouldn't happen but
+    started = false;                           // prevent buffer overflow after max. 2 packets
+    berrs = *len;
   }
 
-  if (data == MSB_ETX) {                      // start byte detected
-    destuff = false;                          // init 
-    *len = 0;
-    return;
-  }
-
-  if(destuff) {                               // byte requires treatment
-    buffer[(*len)++] = data - MSB_STUFF_OFFSET;
-    destuff = false;
-    return;
-  }
-
-  if(data == MSB_STUFF_ESC) {                 // ignore stuffing byte
-    destuff = true;                           // and treat next byte
-    return;
-  }
-
-  if(data != MSB_STX) {                       // store any other byte than end byte
-    buffer[(*len)++] = data;
-  } else {
-    if(buffer[6] != MSB_NORMAL &&             // status must be normal mode with or without fast response
-       buffer[6] != MSB_NORMAL_FAST &&        // or range test mode with or without fast response
-       buffer[6] != MSB_RANGE &&              // to have valid telemetry    
-       buffer[6] != MSB_RANGE_FAST )
-       return;
-    
-    if(*len != (MSB_EXT_MODULE_PACKET_LEN-2))
+  if(!started) {
+    if (data == MSB_ETX) {                      // start byte detected
+      destuff = false;                          // init 
+      *len = 0;
+      started = true;
       return;
+    }
+  }
 
-    buffer[0] = 5;                            // dummy MLINK_TX_RSSI                   
-    buffer[1] = 66;                           // dummy MLINK_TX_LQI
-    buffer[2] = MSB_VALID_TELEMETRY;          // indicate valid telemetry
-    buffer[3] = buffer[7];                    // first telemetry parameter
-    buffer[4] = buffer[8];
-    buffer[5] = buffer[9];
-    buffer[6] = buffer[10];                   // second telemetry parameter
-    buffer[7] = buffer[11];
-    buffer[8] = buffer[12];
+  if(started) {
+    if(destuff) {                               // byte requires treatment
+      buffer[(*len)++] = data - MSB_STUFF_OFFSET;
+      destuff = false;
+      return;
+    }
 
-    processMLinkPacket(buffer);               // process telemetry packet
-                                              // as if it came from MPM
+    if(data == MSB_STUFF_ESC) {                 // ignore stuffing byte
+      destuff = true;                           // and treat next byte
+      return;
+    }
+
+    if(data != MSB_STX) {                       // store any other byte than end byte
+      buffer[(*len)++] = data; 
+    } else {
+      if((*len == (MSB_EXT_MODULE_PACKET_LEN) &&
+         (buffer[6] == MSB_NORMAL ||            // status must be normal mode with or without fast response
+          buffer[6] == MSB_NORMAL_FAST ||       // or range test mode with or without fast response
+          buffer[6] == MSB_RANGE ||             // to have valid telemetry    
+          buffer[6] == MSB_RANGE_FAST ))) {
+
+          // build MPM like buffer
+          buffer[0] = berrs;                    // dummy MLINK_TX_RSSI                   
+          buffer[1] = faults;                   // dummy MLINK_TX_LQI
+          buffer[2] = MSB_VALID_TELEMETRY;      // indicate valid telemetry
+          buffer[3] = buffer[7];                // first telemetry parameter
+          buffer[4] = buffer[8];
+          buffer[5] = buffer[9];
+          buffer[6] = buffer[10];               // second telemetry parameter
+          buffer[7] = buffer[11];
+          buffer[8] = buffer[12];
+
+          processMLinkPacket(buffer);           // process telemetry packet as if it came from MPM
+      } else {
+        faults = *len;
+      }
+      started = false;                          // prepare for next packet
+    }
   }
 }

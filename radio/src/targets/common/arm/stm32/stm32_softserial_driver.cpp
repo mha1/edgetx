@@ -19,6 +19,44 @@
  * GNU General Public License for more details.
  */
 
+#define TESTPORTAUX2CTS
+
+#if defined(TESTPORTAUX2CTS)
+  #if !defined(SIMU)
+    #include "stm32_hal_ll.h"
+    #include "opentx.h"
+
+    #define TESTPORT_INIT testPortInit();
+    #define TESTPORT_HIGH GPIO_SetBits(BT_EN_GPIO, BT_EN_GPIO_PIN);
+    #define TESTPORT_LOW  GPIO_ResetBits(BT_EN_GPIO, BT_EN_GPIO_PIN);
+
+    void testPortInit() {
+      static bool testPortInitialized = false;
+
+      if(!testPortInitialized) {
+        GPIO_InitTypeDef GPIO_InitStructure;
+        GPIO_InitStructure.GPIO_Pin = BT_EN_GPIO_PIN;
+        GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+        GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+        GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+        GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
+        GPIO_Init(BT_EN_GPIO, &GPIO_InitStructure);
+
+        testPortInitialized = true;
+      }
+      
+      //TESTPORT_INIT   // just to see ich compiler complains 
+      //TESTPORT_HIGH   // just to see ich compiler complains 
+      //TESTPORT_LOW    // just to see ich compiler complains 
+    }
+  #else
+    #define TESTPORT_INIT
+    #define TESTPORT_HIGH
+    #define TESTPORT_LOW
+  #endif
+#endif
+
+
 #include "stm32_softserial_driver.h"
 #include "stm32_exti_driver.h"
 
@@ -43,7 +81,7 @@ static const stm32_softserial_rx_port* _softserialPort;
 static void _softserial_exti()
 {
   if (rxBitCount == 0) {
-
+    TESTPORT_HIGH
     // enable timer counter
     auto TIMx = _softserialPort->TIMx;
     LL_TIM_SetAutoReload(TIMx, (BITLEN + BITLEN/2) - 1);
@@ -51,6 +89,7 @@ static void _softserial_exti()
     
     // disable start bit interrupt
     LL_EXTI_DisableIT_0_31(_softserialPort->EXTI_Line);
+    TESTPORT_LOW
   }
 }
 
@@ -134,6 +173,8 @@ static void _softserial_deinit_rx(const stm32_softserial_rx_port* port)
 
 static void* stm32_softserial_rx_init(void* hw_def, const etx_serial_init* params)
 {
+  TESTPORT_INIT
+  TESTPORT_LOW
   auto port = (const stm32_softserial_rx_port*)hw_def;
   _softserial_init_rx(port, params);
   return hw_def;
@@ -186,8 +227,10 @@ void stm32_softserial_rx_timer_isr(const stm32_softserial_rx_port* port)
       rxByte >>= 1;
     }
 
+    TESTPORT_HIGH
     if (LL_GPIO_IsInputPinSet(port->GPIOx, port->GPIO_Pin) == 0)
       rxByte |= 0x80;
+    TESTPORT_LOW
 
     ++rxBitCount;
   }

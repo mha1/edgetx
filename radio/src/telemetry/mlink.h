@@ -51,11 +51,11 @@ void mlinkSetDefault(int index, uint16_t id, uint8_t subId, uint8_t instance);
 void processMLinkPacket(const uint8_t *packet);
 
 // used by telemetry driver
-#define MSB_EXT_MODULE_PACKET_LEN  20
-#define MSB_ETX             0x02
-#define MSB_STX             0x03
-#define MSB_STUFF_ESC       0x1B
-#define MSB_STUFF_OFFSET    0x20
+#define MSB_EXT_MODULE_PACKET_LEN  18   // packet length minus start and stop byte
+#define MSB_ETX             0x02        // start byte
+#define MSB_STX             0x03        // stop byte
+#define MSB_STUFF_ESC       0x1B        // ESC symbol
+#define MSB_STUFF_OFFSET    0x20        // byte stuffing offset
 #define MSB_VALID_TELEMETRY 0x13
 #define MSB_NORMAL          0x06
 #define MSB_NORMAL_FAST     0x04
