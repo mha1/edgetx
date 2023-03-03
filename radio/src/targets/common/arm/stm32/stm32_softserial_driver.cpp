@@ -43,6 +43,7 @@ static const stm32_softserial_rx_port* _softserialPort;
 static void _softserial_exti()
 {
   if (rxBitCount == 0) {
+
     // enable timer counter
     auto TIMx = _softserialPort->TIMx;
     LL_TIM_SetAutoReload(TIMx, (BITLEN + BITLEN/2) - 1);
