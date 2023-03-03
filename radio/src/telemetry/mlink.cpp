@@ -63,18 +63,15 @@ const MLinkSensor * getMLinkSensor(uint16_t id)
 
 void processMLinkPacket(const uint8_t * packet, bool multi)
 {
-  const uint8_t * data;
+  const uint8_t * data = packet;    // pointer to setup for external module
 
   if(multi) {
     // Multi telem
     setTelemetryValue(PROTOCOL_TELEMETRY_MLINK, MLINK_TX_RSSI, 0, 0, (packet[0] * 100) / 31, UNIT_RAW, 0);
     setTelemetryValue(PROTOCOL_TELEMETRY_MLINK, MLINK_TX_LQI, 0, 0, packet[1], UNIT_RAW, 0);
     
-    data = packet + 2;
-  } else {
-    // external Mlink module telemetry
-    data = packet;
-  }
+    data = &packet[2];              // correct pointer to data for Multimodule
+  } 
 
   // M-Link telem
   if (data[0] == 0x13) {  // Telemetry type RX-9
