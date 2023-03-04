@@ -179,62 +179,60 @@ void mlinkSetDefault(int index, uint16_t id, uint8_t subId, uint8_t instance)
   storageDirty(EE_MODEL);
 }
 
-void processExternalMlinkSerialData(void* ctx, uint8_t data, uint8_t* buffer, uint8_t* len)
-{
-  static bool destuff = false;
-  static bool started = false;
+void processExternalMlinkSerialData(void* ctx, uint8_t data, uint8_t* buffer, uint8_t* len) {
+  static bool destuff = false;                // byte requires adjustment
+  static bool started = false;                // start of frame detected
 
-  if(!started) {                                // waiting for start byte
-    if (data == MSB_ETX) {                      // start byte detected
-      destuff = false;                          // init 
+  if(!started) {                              // waiting for start byte
+    if (data == MSB_ETX) {                    // start byte detected
+      destuff = false;                        // init 
       *len = 0;
       started = true;
       return;
     }
   }
 
-  if(started) {                                 // start byte detected, collect data bytes
-    if(data == MSB_STUFF_ESC) {                 // ignore stuffing byte
-      destuff = true;                           // and treat next byte
-      return;
-    }
-
-    if(data != MSB_STX) {                       // store any other byte than end byte
-      if(*len >= MSB_EXT_MODULE_PACKET_LEN) {   // sanity check: number of data bytes received
-        started = false;
-        return;
-      } 
-
-      if(destuff) {                             // byte requires stuffing treatment
-        destuff = false;
-        data -= MSB_STUFF_OFFSET;
-      }
-
-      buffer[(*len)++] = data;                  // collect data
-    } else {                                    // end byte received, check buffer sanity
-      started = false;                          // prepare for next frame
-
-      if(*len != MSB_EXT_MODULE_PACKET_LEN) {   // sanity check: number of data bytes received
-        return;
-      }
-
-      if(buffer[6] != MSB_NORMAL &&             // sanity check: telemetry ok
-         buffer[6] != MSB_NORMAL_FAST &&        //status must be normal mode with or without fast response
-         buffer[6] != MSB_RANGE &&              // or range test mode with or without fast response    
-         buffer[6] != MSB_RANGE_FAST ) {        // to have valid telemetry
-        return;
-      }
-
-      uint8_t sum = 0;                          // sanity check: checksum
-      for (uint8_t i = 0; i < MSB_EXT_MODULE_PACKET_LEN; i++)
-        sum += buffer[i];                       // expect sum == 0xff for valid packet
-      if (++sum) {                              // adding 1 -> expect 0x00 if checksum ok   
-        return;
-      }
-
-                                                // buffer is sane, build MPM like buffer and process it
-      buffer[6] = MSB_VALID_TELEMETRY;          // indicate valid telemetry, bytes 7-12 contain 2 Mlink parameters
-      processMLinkPacket(&buffer[6], false);    // process telemetry packet as if it came from MPM
-    }
+  if(data == MSB_STUFF_ESC) {                 // ignore stuffing byte
+    destuff = true;                           // and treat next byte
+    return;
   }
+
+  if(data != MSB_STX) {                       // store any other byte than end byte
+    if(*len >= MSB_EXT_MODULE_PACKET_LEN) {   // sanity check: number of data bytes received
+      started = false;                        // try again
+      return;
+    } 
+
+    if(destuff) {                             // byte requires stuffing treatment
+      destuff = false;                
+      data -= MSB_STUFF_OFFSET;               // adjust byte
+    }
+
+    buffer[(*len)++] = data;                  // collect data
+    return;
+  } 
+
+  started = false;                            // end byte received, prepare for next frame, check buffer sanity
+
+  if(*len != MSB_EXT_MODULE_PACKET_LEN) {     // sanity check: number of data bytes received
+    return;
+  }
+
+  if(buffer[6] != MSB_NORMAL &&               // sanity check: telemetry ok
+     buffer[6] != MSB_NORMAL_FAST &&          // status must be normal mode with or without fast response
+     buffer[6] != MSB_RANGE &&                // or range test mode with or without fast response    
+     buffer[6] != MSB_RANGE_FAST ) {          // to have valid telemetry
+    return;
+  }
+
+  uint8_t sum = 1;                            // sanity check: checksum
+  for (uint8_t i = 0; i < MSB_EXT_MODULE_PACKET_LEN; i++)
+    sum += buffer[i];                         // expect sum == 1+0xff = 0x00 for valid packet
+  if (sum) {                                  // adding 1 -> expect 0x00 if checksum ok   
+    return;
+  }
+
+                                              // buffer is sane, build MPM like buffer and process it
+  buffer[6] = MSB_VALID_TELEMETRY;            // indicate valid telemetry, bytes 7-12 contain 2 Mlink parameters
+  processMLinkPacket(&buffer[6], false);      // process telemetry packet as if it came from MPM
 }
