@@ -52,8 +52,8 @@ void processMLinkPacket(const uint8_t *packet, bool multi);
 
 // used by telemetry driver
 #define MSB_EXT_MODULE_PACKET_LEN  18   // packet length minus start and stop byte
-#define MSB_ETX             0x02        // start byte
-#define MSB_STX             0x03        // stop byte
+#define MSB_STX             0x02        // start byte
+#define MSB_ETX             0x03        // stop byte
 #define MSB_STUFF_ESC       0x1B        // ESC symbol
 #define MSB_STUFF_OFFSET    0x20        // byte stuffing offset
 #define MSB_VALID_TELEMETRY 0x13

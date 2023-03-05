@@ -184,7 +184,7 @@ void processExternalMlinkSerialData(void* ctx, uint8_t data, uint8_t* buffer, ui
   static bool started = false;                // start of frame detected
 
   if(!started) {                              // waiting for start byte
-    if (data == MSB_ETX) {                    // start byte detected
+    if (data == MSB_STX) {                    // start byte detected
       destuff = false;                        // init 
       *len = 0;
       started = true;
@@ -197,7 +197,7 @@ void processExternalMlinkSerialData(void* ctx, uint8_t data, uint8_t* buffer, ui
     return;
   }
 
-  if(data != MSB_STX) {                       // store any other byte than end byte
+  if(data != MSB_ETX) {                       // store any other byte than end byte
     if(*len >= MSB_EXT_MODULE_PACKET_LEN) {   // sanity check: number of data bytes received
       started = false;                        // try again
       return;
