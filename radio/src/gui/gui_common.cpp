@@ -764,8 +764,9 @@ bool isInternalModuleSupported(int moduleType)
 #if defined(INTERNAL_MODULE_PXX2)
   case MODULE_TYPE_ISRM_PXX2: return true;
 #endif
-#if defined(INTERNAL_MODULE_PPM)     
-  case MODULE_TYPE_PPM: return true;  // internal MODULE_TYPE_PPM_MSB not supported
+#if defined(INTERNAL_MODULE_PPM)
+  case MODULE_TYPE_PPM:
+  case MODULE_TYPE_PPM_MSB: return true;
 #endif
 #if defined(INTERNAL_MODULE_AFHDS2A) || defined(INTERNAL_MODULE_AFHDS3)
   case MODULE_TYPE_FLYSKY: return true;
