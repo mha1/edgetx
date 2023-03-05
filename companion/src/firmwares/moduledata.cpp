@@ -99,6 +99,7 @@ bool ModuleData::isAvailable(PulsesProtocol proto, int port)
         switch (proto) {
           case PULSES_OFF:
           case PULSES_PPM:
+          case PULSES_PPM_MSB:
             return true;
           case PULSES_PXX_XJT_X16:
           case PULSES_PXX_XJT_D8:
@@ -130,6 +131,7 @@ bool ModuleData::isAvailable(PulsesProtocol proto, int port)
       case -1:
         switch (proto) {
           case PULSES_PPM:
+          case PULSES_PPM_MSB:
             return true;
           default:
             return false;
@@ -173,6 +175,7 @@ bool ModuleData::isAvailable(PulsesProtocol proto, int port)
   else {
     switch (proto) {
       case PULSES_PPM:
+      case PULSES_PPM_MSB:
       case PULSES_DSMX:
       case PULSES_LP45:
       case PULSES_DSM2:
@@ -418,7 +421,6 @@ int ModuleData::getTypeFromProtocol(unsigned int protocol)
 
                           { PULSES_OFF,                 MODULE_TYPE_NONE },
                           { PULSES_PPM,                 MODULE_TYPE_PPM },
-                          { PULSES_PPM_MSB,             MODULE_TYPE_PPM_MSB },
 
                           { PULSES_PXX_XJT_X16,         MODULE_TYPE_XJT_PXX1 },
                           { PULSES_PXX_XJT_D8,          MODULE_TYPE_XJT_PXX1 },
@@ -477,6 +479,7 @@ QString ModuleData::typeToString(int type)
   static const char * strings[] = {
     "OFF",
     "PPM",
+    "PPM MSB",
     "XJT",
     "ISRM",
     "DSM2",

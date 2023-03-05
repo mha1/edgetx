@@ -188,8 +188,8 @@ void processExternalMlinkSerialData(void* ctx, uint8_t data, uint8_t* buffer, ui
       destuff = false;                        // init 
       *len = 0;
       started = true;
-      return;
     }
+    return;
   }
 
   if(data == MSB_STUFF_ESC) {                 // ignore stuffing byte

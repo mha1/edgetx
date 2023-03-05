@@ -113,6 +113,7 @@ const YamlLookupTable internalModuleLut = {
   {  MODULE_TYPE_SBUS, "TYPE_SBUS"  },
   {  MODULE_TYPE_XJT_LITE_PXX2, "TYPE_XJT_LITE_PXX2"  },
   {  MODULE_TYPE_FLYSKY, "TYPE_FLYSKY"  },
+  {  MODULE_TYPE_LEMON_DSMP, "TYPE_LEMON_DSMP"  },
 };
 
 YamlTelemetryBaudrate::YamlTelemetryBaudrate(
