@@ -83,6 +83,8 @@ class ViewMain: public Window
     void onClicked() override;
     void onCancel() override;
 
+    void runBackground();
+
   protected:
     static ViewMain * _instance;
 

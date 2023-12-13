@@ -63,6 +63,8 @@ class Page : public Window
   PageHeader header;
   FormWindow body;
 
+  void checkEvents() override;
+
   void onEvent(event_t event) override;
 };
 
