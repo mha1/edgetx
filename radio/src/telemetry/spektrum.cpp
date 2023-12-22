@@ -457,11 +457,11 @@ static void processGPSStatPacket(const uint8_t *packet, const uint16_t pseudoId,
   // Depending on the last byte it SETS DATE or TIME:  
   // DATE: HEX (YYMMDD01)   TIME: HEX(HHMMSS00)
   int32_t value = (td.tm_hour << 24) + (td.tm_min << 16) + (td.tm_sec << 8);
-  // setTelemetryValue(PROTOCOL_TELEMETRY_SPEKTRUM, pseudoId, 0, instance, value, UNIT_DATETIME, 0);
+  setTelemetryValue(PROTOCOL_TELEMETRY_SPEKTRUM, pseudoId, 0, instance, value, UNIT_DATETIME, 0);
 
   value = ((td.tm_year + 1900 - 2000) << 24) + ((td.tm_mon + 1) << 16) +
           (td.tm_mday << 8) + 0x01;
-  // setTelemetryValue(PROTOCOL_TELEMETRY_SPEKTRUM, pseudoId, 0, instance, value, UNIT_DATETIME, 0);
+  setTelemetryValue(PROTOCOL_TELEMETRY_SPEKTRUM, pseudoId, 0, instance, value, UNIT_DATETIME, 0);
 
   // Get Altitude High since we need to combine it with Alt-Low
   // Save the high part for later (0-99)
@@ -493,7 +493,7 @@ static void processGPSLocPacket(const uint8_t *packet, const uint16_t pseudoId, 
   if ((gpsFlags & GPS_INFO_FLAGS_IS_NORTH) == 0) {  // SOUTH, negative
     value = -value;
   }
-  // setTelemetryValue(PROTOCOL_TELEMETRY_SPEKTRUM, pseudoId, 0, instance, value, UNIT_GPS_LATITUDE, 0);
+  setTelemetryValue(PROTOCOL_TELEMETRY_SPEKTRUM, pseudoId, 0, instance, value, UNIT_GPS_LATITUDE, 0);
 
   // LONGITUDE
   fmin = bcdToInt8(packetData[6]) + (bcdToInt8(packetData[7]) * 100);
@@ -506,7 +506,7 @@ static void processGPSLocPacket(const uint8_t *packet, const uint16_t pseudoId, 
   if ((gpsFlags & GPS_INFO_FLAGS_IS_EAST) == 0) {  // WEST, negative
     value = -value;
   }
-  // setTelemetryValue(PROTOCOL_TELEMETRY_SPEKTRUM, pseudoId, 0, instance, value, UNIT_GPS_LONGITUDE, 0);
+  setTelemetryValue(PROTOCOL_TELEMETRY_SPEKTRUM, pseudoId, 0, instance, value, UNIT_GPS_LONGITUDE, 0);
 }
 
 // Process Binary GPS Location Packet (Lat/Long)
@@ -515,12 +515,12 @@ static void processBinGPSLocPacket(const uint8_t *packet, const uint16_t pseudoI
   // LATITUDE
   int32_t value = spektrumGetValue(packet + 4, 2, int32);
   value = value / 10;
-  // setTelemetryValue(PROTOCOL_TELEMETRY_SPEKTRUM, pseudoId, 0, instance, value, UNIT_GPS_LATITUDE, 0);
+  setTelemetryValue(PROTOCOL_TELEMETRY_SPEKTRUM, pseudoId, 0, instance, value, UNIT_GPS_LATITUDE, 0);
 
   // LONGITUDE
   value = spektrumGetValue(packet + 4, 6, int32);
   value = value / 10;
-  // setTelemetryValue(PROTOCOL_TELEMETRY_SPEKTRUM, pseudoId, 0, instance, value, UNIT_GPS_LONGITUDE, 0);
+  setTelemetryValue(PROTOCOL_TELEMETRY_SPEKTRUM, pseudoId, 0, instance, value, UNIT_GPS_LONGITUDE, 0);
 }
 
 
@@ -529,7 +529,7 @@ void processSpektrumPacket(const uint8_t *packet)
   TRACE("");
   TRACE("SPK: processSpektrumPacket()");
 
-  // setTelemetryValue(PROTOCOL_TELEMETRY_SPEKTRUM, I2C_PSEUDO_TX_RSSI, 0, 0, packet[1], UNIT_RAW, 0);
+  setTelemetryValue(PROTOCOL_TELEMETRY_SPEKTRUM, I2C_PSEUDO_TX_RSSI, 0, 0, packet[1], UNIT_RAW, 0);
   // highest bit indicates that TM1100 is in use, ignore it
   uint8_t i2cAddress = (packet[2] & 0x7f);
 
@@ -623,6 +623,10 @@ void processSpektrumPacket(const uint8_t *packet)
 
     if (i2cAddress != sensor->i2caddress)  // Not the sensor for current packet
       continue;
+
+    if (i2cAddress == 0x7f) {
+      continue;
+    }
   
     TRACE("SPK: handling I2C %x", sensor->i2caddress);
     handled = true;
@@ -632,7 +636,7 @@ void processSpektrumPacket(const uint8_t *packet)
         spektrumGetValue(packet + 4, sensor->startByte, sensor->dataType);
 
     if (!isSpektrumValidValue(value, sensor->dataType)) {
-      TRACE("SPK: invalid value");
+      TRACE("SPK: invalid value %x", value);
       continue;
     }
 
@@ -739,18 +743,18 @@ void processSpektrumPacket(const uint8_t *packet)
 
     TRACE("SPK: setTelemetryValue %x", value);
 
-    // setTelemetryValue(PROTOCOL_TELEMETRY_SPEKTRUM, pseudoId, 0, instance, value, sensor->unit, sensor->precision);
+    setTelemetryValue(PROTOCOL_TELEMETRY_SPEKTRUM, pseudoId, 0, instance, value, sensor->unit, sensor->precision);
   } // FOR
 
   if (!handled) {
-    TRACE("SPK: not handled");
+    TRACE("SPK: not handled %x", i2cAddress);
     // If we see a sensor that is not handled at all, add the raw values of this sensor to show its existance to
     // the user and help debugging/implementing these sensors
 
     for (int startByte=0; startByte<14; startByte+=2) {
       int32_t value = spektrumGetValue(packet + 4, startByte, uint16);
       uint16_t pseudoId = i2cAddress << 8 | startByte;
-      // setTelemetryValue(PROTOCOL_TELEMETRY_SPEKTRUM, pseudoId, 0, instance, value, UNIT_RAW, 0);
+      setTelemetryValue(PROTOCOL_TELEMETRY_SPEKTRUM, pseudoId, 0, instance, value, UNIT_RAW, 0);
     }
   }
 }
@@ -844,7 +848,7 @@ void processDSMBindPacket(uint8_t module, const uint8_t *packet)
   debugval = packet[7] << 24 | packet[6] << 16 | packet[5] << 8 | packet[4];
 
   /* log the bind packet as telemetry for quick debugging */
-  // setTelemetryValue(PROTOCOL_TELEMETRY_SPEKTRUM, I2C_PSEUDO_TX_BIND, 0, 0, debugval, UNIT_RAW, 0);
+  setTelemetryValue(PROTOCOL_TELEMETRY_SPEKTRUM, I2C_PSEUDO_TX_BIND, 0, 0, debugval, UNIT_RAW, 0);
 
   /* Finally stop binding as the rx just told us that it is bound */
   if (getModuleMode(module) == MODULE_MODE_BIND) {
