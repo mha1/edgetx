@@ -390,7 +390,7 @@ static int32_t spektrumGetValue(const uint8_t *packet, int startByte, SpektrumDa
     case int8:
       return *((int8_t *) (data));
     case int16:
-      return (int16_t) ((uint16_t) (data[1] + (data[0] << 8)));
+      return ((int16_t) (data[1] + (data[0] << 8)));
     case uint16:
       return ((uint16_t) (data[1] + (data[0] << 8)));
     case int32:
@@ -698,7 +698,7 @@ void processSpektrumPacket(const uint8_t *packet)
         // Otherwise use the received signal strength of the telemetry packet as indicator
         // Range is 0-31, multiply by 3 to get an almost full reading for 0x1f, the maximum the cyrf chip reports
         TRACE("SPK: I2C_QOS - 2 value %x packet[1] %x", value, packet[1]);
-//        telemetryData.rssi.set(packet[1] * 3);
+        telemetryData.rssi.set(packet[1] * 3);
       }
       telemetryStreaming = TELEMETRY_TIMEOUT10ms;
     } // I2C_QOS
