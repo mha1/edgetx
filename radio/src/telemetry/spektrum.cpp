@@ -530,6 +530,7 @@ static void processBinGPSLocPacket(const uint8_t *packet, const uint16_t pseudoI
 
 void processSpektrumPacket(const uint8_t *packet)
 {
+  TRACE("");
   TRACE("SPK: processSpektrumPacket()");
   return;
 
@@ -537,6 +538,8 @@ void processSpektrumPacket(const uint8_t *packet)
                     packet[1], UNIT_RAW, 0);
   // highest bit indicates that TM1100 is in use, ignore it
   uint8_t i2cAddress = (packet[2] & 0x7f);
+
+  TRACE("SPK: i2cAddress %x", i2cAddress);
 
   uint8_t instance = packet[3];
 
@@ -749,11 +752,14 @@ void processSpektrumPacket(const uint8_t *packet)
     TRACE("SPK: not handled");
     // If we see a sensor that is not handled at all, add the raw values of this sensor to show its existance to
     // the user and help debugging/implementing these sensors
+
+    /*
     for (int startByte=0; startByte<14; startByte+=2) {
       int32_t value = spektrumGetValue(packet + 4, startByte, uint16);
       uint16_t pseudoId = i2cAddress << 8 | startByte;
       setTelemetryValue(PROTOCOL_TELEMETRY_SPEKTRUM, pseudoId, 0, instance, value, UNIT_RAW, 0);
     }
+    */
   }
 }
 
