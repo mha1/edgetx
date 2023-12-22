@@ -611,7 +611,7 @@ void processSpektrumPacket(const uint8_t *packet)
   else if (i2cAddress == I2C_ALPHA6) {
     TRACE("SPK: I2C_ALPHA6");
     // Alpha6 Flight Controller (Blade Helis): Flight Mode
-    processAlpha6Packet(packet);
+//    processAlpha6Packet(packet);
     // Continue for backward compatibility with scripts using 24XX sensors
   } // I2C_ALPHA6
 
