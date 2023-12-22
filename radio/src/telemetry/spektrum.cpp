@@ -337,7 +337,7 @@ const SpektrumSensor spektrumSensors[] = {
   {I2C_RPM,          4,  int16,     STR_SENSOR_TEMP2,             UNIT_FAHRENHEIT, 0}, // Temperature in degrees F.
 
   // 0x7f, QoS DATA, also called Flight Log
-//  {I2C_QOS,          0,  uint16,    STR_SENSOR_QOS_A,             UNIT_RAW,       0}, // A - Antenna Fades on Receiver A
+  {I2C_QOS,          0,  uint16,    STR_SENSOR_QOS_A,             UNIT_RAW,       0}, // A - Antenna Fades on Receiver A
   {I2C_QOS,          2,  uint16,    STR_SENSOR_QOS_B,             UNIT_RAW,       0}, // B - Antenna Fades on Receiver B
   {I2C_QOS,          4,  uint16,    STR_SENSOR_QOS_L,             UNIT_RAW,       0}, // L - Antenna Fades on left Receiver
   {I2C_QOS,          6,  uint16,    STR_SENSOR_QOS_R,             UNIT_RAW,       0}, // R - Antenna Fades on right Receiver
@@ -697,8 +697,8 @@ void processSpektrumPacket(const uint8_t *packet)
       else {
         // Otherwise use the received signal strength of the telemetry packet as indicator
         // Range is 0-31, multiply by 3 to get an almost full reading for 0x1f, the maximum the cyrf chip reports
-        TRACE("SPK: I2C_QOS - 2 value %x packet[1] %x", value, packet[1]);
-        telemetryData.rssi.set(packet[1] * 3);
+        TRACE("SPK: I2C_QOS - 2 value %x packet[1] %x", value, *(packet+1));
+        telemetryData.rssi.set(*(packet+1));
       }
       telemetryStreaming = TELEMETRY_TIMEOUT10ms;
     } // I2C_QOS
