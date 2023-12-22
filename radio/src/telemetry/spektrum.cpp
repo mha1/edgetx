@@ -530,6 +530,8 @@ static void processBinGPSLocPacket(const uint8_t *packet, const uint16_t pseudoI
 
 void processSpektrumPacket(const uint8_t *packet)
 {
+  TRACE("SPK: processSpektrumPacket()");
+
   setTelemetryValue(PROTOCOL_TELEMETRY_SPEKTRUM, I2C_PSEUDO_TX_RSSI, 0, 0,
                     packet[1], UNIT_RAW, 0);
   // highest bit indicates that TM1100 is in use, ignore it
@@ -538,6 +540,7 @@ void processSpektrumPacket(const uint8_t *packet)
   uint8_t instance = packet[3];
 
   if (i2cAddress == I2C_NODATA) {
+  TRACE("SPK: I2C_NODATA");
     // Not a Sensor.. Telemetry is alive, but no data  (avoid creation of fake 0000,0002.. sensors)
     return; 
   }
@@ -549,8 +552,10 @@ void processSpektrumPacket(const uint8_t *packet)
 
   if (i2cAddress == I2C_FWD_PGM) {
 #if defined(LUA) && defined(MULTIMODULE)
+    TRACE("SPK: I2C_FW_PGM");
     // Forward Programming
     if (Multi_Buffer && memcmp(Multi_Buffer, "DSM", 3) == 0) {
+      TRACE("SPK: Multibuffer");
       // Multi_Buffer[0..2]=="DSM" -> Lua script is running
       // Multi_Buffer[3]==0x70 -> TX to RX data ready to be sent
       // Multi_Buffer[4..9]=6 bytes of TX to RX data
@@ -568,6 +573,7 @@ void processSpektrumPacket(const uint8_t *packet)
 
     if (Multi_Buffer && Multi_Buffer[3]==i2cAddress && Multi_Buffer[4]==0 && 
         memcmp(Multi_Buffer, "STR", 3) == 0) {
+        TRACE("SPK: LUA");
       // Multi_Buffer[0..2]=="STR" -> Lua script is running
       // Multi_Buffer[3]==i2C Addr -> I2C address of data requested in Lua script
       // Multi_Buffer[4]== Write Semaphore -> 0=Can Write Data. > 0, data not yet consumed
@@ -585,6 +591,7 @@ void processSpektrumPacket(const uint8_t *packet)
 
 
   if (i2cAddress == I2C_TEXTGEN) {
+      TRACE("SPK: I2C_TEXTGEN");
     // TextGen now accessed via the new "Spectrum Telemetry Raw" LUA method  (See above code)
     // 0		byte:lineNumber	-- Line number to display (0 = title, 1-8 for general, 254 = Refresh backlight, 255 = Erase all text on screen)
 	  // 1		char[13]        -- 0-terminated text when < 13 chars
@@ -592,18 +599,21 @@ void processSpektrumPacket(const uint8_t *packet)
   } // I2C_TEXTGEN
 
   else if (i2cAddress == I2C_FLITECTRL) {
+      TRACE("SPK: I2C_FLITECTRL");
     // AS3X + SAFE information: Flight Mode
     processAS3XPacket(packet);
     // Continue for backward compatibility with scripts using 05XX sensors
   } // I2C_FLITECTRL
 
   else if (i2cAddress == I2C_ALPHA6) {
+    TRACE("SPK: I2C_ALPHA6");
     // Alpha6 Flight Controller (Blade Helis): Flight Mode
     processAlpha6Packet(packet);
     // Continue for backward compatibility with scripts using 24XX sensors
   } // I2C_ALPHA6
 
   else if (i2cAddress == I2C_SMART_BAT_BASE_ADDRESS) {
+    TRACE("SPK: I2C_SMART_BAT");
     // SmartBat Hack
     // use type to create virtual I2CAddresses
     i2cAddress = i2cAddress + (packet[4] >> 4);
@@ -616,19 +626,23 @@ void processSpektrumPacket(const uint8_t *packet)
     if (i2cAddress != sensor->i2caddress)  // Not the sensor for current packet
       continue;
   
+    TRACE("SPK: handling I2C %x", sensor->i2caddress);
     handled = true;
 
     // Extract value, skip header
     int32_t value =
         spektrumGetValue(packet + 4, sensor->startByte, sensor->dataType);
 
-    if (!isSpektrumValidValue(value, sensor->dataType))
+    if (!isSpektrumValidValue(value, sensor->dataType)) {
+      TRACE("SPK: invalid value");
       continue;
+    }
 
     // mV to VOLT PREC2 for Smart Batteries
     if ((i2cAddress >= I2C_SMART_BAT_REALTIME &&
           i2cAddress <= I2C_SMART_BAT_LIMITS) &&
         sensor->unit == UNIT_VOLTS) {
+      TRACE("SPK: I2C_SMART_BAT value %x", value);
       if (value == -1) {
         continue;  // discard unavailable sensors (farzu: i think might not be needed.. previous validation)
       } else {
@@ -637,6 +651,7 @@ void processSpektrumPacket(const uint8_t *packet)
     } // I2C_SMART_BAT_REALTIME
 
     else if (i2cAddress == I2C_ESC) {
+      TRACE("SPK: I2C_ESC value %x", value);
       if (sensor->unit == UNIT_RPMS) {   
         // RPM, 10RPM (0-655340 RPM)
         value = value * 10;
@@ -652,6 +667,7 @@ void processSpektrumPacket(const uint8_t *packet)
     } // I2C_ESC
 
     else if (i2cAddress == I2C_CELLS && sensor->unit == UNIT_VOLTS) {
+      TRACE("SPK: I2C_CELLS value %x", value);
       // Map to FrSky style cell values
       int cellIndex = (sensor->startByte / 2) << 16;
       value = value | cellIndex;
@@ -661,11 +677,13 @@ void processSpektrumPacket(const uint8_t *packet)
       // Spektrum's documents talks says: Resolution: 300A/2048 = 0.196791
       // A/tick Note that 300/2048 = 0,1464. DeviationTX also uses the
       // 0.196791 figure
+      TRACE("SPK: I2C_HIGH_CURRENT value %x", value);
       value = value * 196791 / 100000;
     } // I2C_HIGH_CURRENT
 
     // Check if this looks like a LemonRX Transceiver, they use QoS Frame loss A as RSSI indicator(0-100)
     else if (i2cAddress == I2C_QOS && sensor->startByte == 0) {
+      TRACE("SPK: I2C_QOS");
       if (spektrumGetValue(packet + 4, 2, uint16) == 0x8000 &&
           spektrumGetValue(packet + 4, 4, uint16) == 0x8000 &&
           spektrumGetValue(packet + 4, 6, uint16) == 0x8000 &&
@@ -681,12 +699,14 @@ void processSpektrumPacket(const uint8_t *packet)
     } // I2C_QOS
 
     else if (sensor->i2caddress == I2C_GPS_STAT && sensor->unit == UNIT_DATETIME) {
+      TRACE("SPK: I2C_GPS_STAT");
       // Process Date/Time together
       processGPSStatPacket(packet, pseudoId,  instance);
       continue;  // setTelemetryValue handled
     } // I2C_GPS_STAT
 
     else if (sensor->i2caddress == I2C_GPS_LOC) {
+      TRACE("SPK: I2C_GPS_LOC");
       if (sensor->startByte == 0) {
         // ALTITUDE LOW (METERS)
         uint8_t gpsFlags = packet[4 + 13];
@@ -706,6 +726,7 @@ void processSpektrumPacket(const uint8_t *packet)
     } // I2C_GPS_LOC
 
     else if (i2cAddress == I2C_GPS_BIN) {
+      TRACE("SPK: I2C_GPS_BIN");
       // GPS Binary
       if (sensor->startByte == 0) {
         //mstrens:  Altitude: to take care of 1000m offset
@@ -718,10 +739,13 @@ void processSpektrumPacket(const uint8_t *packet)
       }
     } // I2C_GPS_BIN
 
+    TRACE("SPK: setTelemetryValue %x", value);
+
     setTelemetryValue(PROTOCOL_TELEMETRY_SPEKTRUM, pseudoId, 0, instance, value, sensor->unit, sensor->precision);
   } // FOR
 
   if (!handled) {
+    TRACE("SPK: not handled");
     // If we see a sensor that is not handled at all, add the raw values of this sensor to show its existance to
     // the user and help debugging/implementing these sensors
     for (int startByte=0; startByte<14; startByte+=2) {
