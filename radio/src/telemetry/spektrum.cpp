@@ -338,12 +338,12 @@ const SpektrumSensor spektrumSensors[] = {
 
   // 0x7f, QoS DATA, also called Flight Log
   {I2C_QOS,          0,  uint16,    STR_SENSOR_QOS_A,             UNIT_RAW,       0}, // A - Antenna Fades on Receiver A
-  {I2C_QOS,          2,  uint16,    STR_SENSOR_QOS_B,             UNIT_RAW,       0}, // B - Antenna Fades on Receiver B
-  {I2C_QOS,          4,  uint16,    STR_SENSOR_QOS_L,             UNIT_RAW,       0}, // L - Antenna Fades on left Receiver
-  {I2C_QOS,          6,  uint16,    STR_SENSOR_QOS_R,             UNIT_RAW,       0}, // R - Antenna Fades on right Receiver
-  {I2C_QOS,          8,  uint16,    STR_SENSOR_QOS_F,             UNIT_RAW,       0}, // F - Frame losses.
-  {I2C_QOS,          10, uint16,    STR_SENSOR_QOS_H,             UNIT_RAW,       0}, // H - Holds
-  {I2C_QOS,          12, uint16,    STR_SENSOR_A2,                UNIT_VOLTS,     2}, // Volts, .01V increment.
+//  {I2C_QOS,          2,  uint16,    STR_SENSOR_QOS_B,             UNIT_RAW,       0}, // B - Antenna Fades on Receiver B
+//  {I2C_QOS,          4,  uint16,    STR_SENSOR_QOS_L,             UNIT_RAW,       0}, // L - Antenna Fades on left Receiver
+//  {I2C_QOS,          6,  uint16,    STR_SENSOR_QOS_R,             UNIT_RAW,       0}, // R - Antenna Fades on right Receiver
+//  {I2C_QOS,          8,  uint16,    STR_SENSOR_QOS_F,             UNIT_RAW,       0}, // F - Frame losses.
+//  {I2C_QOS,          10, uint16,    STR_SENSOR_QOS_H,             UNIT_RAW,       0}, // H - Holds
+//  {I2C_QOS,          12, uint16,    STR_SENSOR_A2,                UNIT_VOLTS,     2}, // Volts, .01V increment.
 
   {I2C_PSEUDO_TX,    0,  uint8,     STR_SENSOR_TX_RSSI,           UNIT_RAW,       0},
   {I2C_PSEUDO_TX,    4,  uint32,    STR_SENSOR_BIND,              UNIT_RAW,       0},
