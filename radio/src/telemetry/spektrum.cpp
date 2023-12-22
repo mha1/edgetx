@@ -624,19 +624,20 @@ void processSpektrumPacket(const uint8_t *packet)
     if (i2cAddress != sensor->i2caddress)  // Not the sensor for current packet
       continue;
 
-    if (i2cAddress == 0x7f) {
-      continue;
-    }
+    //if (i2cAddress == I2C_QOS) {
+    //  continue;
+    //}
   
-    TRACE("SPK: handling I2C %x", sensor->i2caddress);
+    TRACE("SPK: handling I2C %x start byte %x", sensor->i2caddress, sensor->startByte);
     handled = true;
 
     // Extract value, skip header
     int32_t value =
         spektrumGetValue(packet + 4, sensor->startByte, sensor->dataType);
+    TRACE("SPK: value #%lx#", value);
 
     if (!isSpektrumValidValue(value, sensor->dataType)) {
-      TRACE("SPK: invalid value %x", value);
+      TRACE("SPK: invalid value *%lx*", value);
       continue;
     }
 
@@ -690,11 +691,13 @@ void processSpektrumPacket(const uint8_t *packet)
           spektrumGetValue(packet + 4, 4, uint16) == 0x8000 &&
           spektrumGetValue(packet + 4, 6, uint16) == 0x8000 &&
           spektrumGetValue(packet + 4, 8, uint16) == 0x8000) {
+        TRACE("SPK: I2C_QOS - 1");
         telemetryData.rssi.set(value);
       }
       else {
         // Otherwise use the received signal strength of the telemetry packet as indicator
         // Range is 0-31, multiply by 3 to get an almost full reading for 0x1f, the maximum the cyrf chip reports
+        TRACE("SPK: I2C_QOS - 2");
         telemetryData.rssi.set(packet[1] * 3);
       }
       telemetryStreaming = TELEMETRY_TIMEOUT10ms;
