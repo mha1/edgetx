@@ -1,4 +1,3 @@
-yoyo
 /*
  * Copyright (C) EdgeTX
  *
