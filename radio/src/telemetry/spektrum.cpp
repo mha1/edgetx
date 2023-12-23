@@ -695,7 +695,16 @@ void processSpektrumPacket(const uint8_t *packet)
         telemetryData.rssi.set(value);
       }
       else */
-      {
+
+      bool v1 = spektrumGetValue(packet + 4, 2, uint16) == 0x8000; 
+      bool v2 = spektrumGetValue(packet + 4, 4, uint16) == 0x8000;
+      bool v3 = spektrumGetValue(packet + 4, 6, uint16) == 0x8000;
+      bool v4 = spektrumGetValue(packet + 4, 8, uint16) == 0x8000;
+
+      if (v1 && v2 && v3 && v4) {
+        TRACE("SPK: I2C_QOS - 1");
+        telemetryData.rssi.set(value);
+      } else {
         // Otherwise use the received signal strength of the telemetry packet as indicator
         // Range is 0-31, multiply by 3 to get an almost full reading for 0x1f, the maximum the cyrf chip reports
         TRACE("SPK: I2C_QOS - 2 value %x packet[1] %x", value, packet[1]);
