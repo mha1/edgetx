@@ -687,18 +687,19 @@ void processSpektrumPacket(const uint8_t *packet)
     // Check if this looks like a LemonRX Transceiver, they use QoS Frame loss A as RSSI indicator(0-100)
     else if (i2cAddress == I2C_QOS && sensor->startByte == 0) {
       TRACE("SPK: I2C_QOS");
-      if (spektrumGetValue(packet + 4, 2, uint16) == 0x8000 &&
+ /*     if (spektrumGetValue(packet + 4, 2, uint16) == 0x8000 &&
           spektrumGetValue(packet + 4, 4, uint16) == 0x8000 &&
           spektrumGetValue(packet + 4, 6, uint16) == 0x8000 &&
           spektrumGetValue(packet + 4, 8, uint16) == 0x8000) {
         TRACE("SPK: I2C_QOS - 1");
         telemetryData.rssi.set(value);
       }
-      else {
+      else */
+      {
         // Otherwise use the received signal strength of the telemetry packet as indicator
         // Range is 0-31, multiply by 3 to get an almost full reading for 0x1f, the maximum the cyrf chip reports
-        TRACE("SPK: I2C_QOS - 2 value %x packet[1] %x", value, *(packet+1));
-        telemetryData.rssi.set(*(packet+1));
+        TRACE("SPK: I2C_QOS - 2 value %x packet[1] %x", value, packet[1]);
+        telemetryData.rssi.set(packet[1]);
       }
       telemetryStreaming = TELEMETRY_TIMEOUT10ms;
     } // I2C_QOS
