@@ -530,7 +530,7 @@ static void processBinGPSLocPacket(const uint8_t *packet, const uint16_t pseudoI
 
 void processSpektrumPacket(const uint8_t *packet)
 {
-  setTelemetryValue(PROTOCOL_TELEMETRY_SPEKTRUM, I2C_PSEUDO_TX_RSSI, 0, 0, 
+  setTelemetryValue(PROTOCOL_TELEMETRY_SPEKTRUM, I2C_PSEUDO_TX_RSSI, 0, 0,
                     packet[1], UNIT_RAW, 0);
   // highest bit indicates that TM1100 is in use, ignore it
   uint8_t i2cAddress = (packet[2] & 0x7f);
