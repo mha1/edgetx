@@ -359,6 +359,8 @@ static void processMultiTelemetryPaket(const uint8_t * packet, uint8_t module)
   uint8_t len = packet[1];
   const uint8_t * data = packet + 2;
 
+  //DUMP(packet, len);
+
   // Switch type
   switch (type) {
     case MultiStatus:

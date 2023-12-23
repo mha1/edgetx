@@ -699,7 +699,7 @@ void processSpektrumPacket(const uint8_t *packet)
         // Otherwise use the received signal strength of the telemetry packet as indicator
         // Range is 0-31, multiply by 3 to get an almost full reading for 0x1f, the maximum the cyrf chip reports
         TRACE("SPK: I2C_QOS - 2 value %x packet[1] %x", value, packet[1]);
-        telemetryData.rssi.set(packet[1]);
+        telemetryData.rssi.set(packet[1] * 3);
       }
       telemetryStreaming = TELEMETRY_TIMEOUT10ms;
     } // I2C_QOS
