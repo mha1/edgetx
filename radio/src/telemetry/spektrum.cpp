@@ -390,7 +390,7 @@ static int32_t spektrumGetValue(const uint8_t *packet, int startByte, SpektrumDa
     case int8:
       return *((int8_t *) (data));
     case int16:
-      return ((int16_t) (data[1] + (data[0] << 8)));
+      return (int16_t) ((uint16_t) (data[1] + (data[0] << 8)));
     case uint16:
       return ((uint16_t) (data[1] + (data[0] << 8)));
     case int32:
@@ -457,11 +457,13 @@ static void processGPSStatPacket(const uint8_t *packet, const uint16_t pseudoId,
   // Depending on the last byte it SETS DATE or TIME:  
   // DATE: HEX (YYMMDD01)   TIME: HEX(HHMMSS00)
   int32_t value = (td.tm_hour << 24) + (td.tm_min << 16) + (td.tm_sec << 8);
-  setTelemetryValue(PROTOCOL_TELEMETRY_SPEKTRUM, pseudoId, 0, instance, value, UNIT_DATETIME, 0);
+  setTelemetryValue(PROTOCOL_TELEMETRY_SPEKTRUM, pseudoId, 0, instance,
+                    value, UNIT_DATETIME, 0);
 
   value = ((td.tm_year + 1900 - 2000) << 24) + ((td.tm_mon + 1) << 16) +
           (td.tm_mday << 8) + 0x01;
-  setTelemetryValue(PROTOCOL_TELEMETRY_SPEKTRUM, pseudoId, 0, instance, value, UNIT_DATETIME, 0);
+  setTelemetryValue(PROTOCOL_TELEMETRY_SPEKTRUM, pseudoId, 0, instance,
+                    value, UNIT_DATETIME, 0);
 
   // Get Altitude High since we need to combine it with Alt-Low
   // Save the high part for later (0-99)
@@ -493,7 +495,8 @@ static void processGPSLocPacket(const uint8_t *packet, const uint16_t pseudoId, 
   if ((gpsFlags & GPS_INFO_FLAGS_IS_NORTH) == 0) {  // SOUTH, negative
     value = -value;
   }
-  setTelemetryValue(PROTOCOL_TELEMETRY_SPEKTRUM, pseudoId, 0, instance, value, UNIT_GPS_LATITUDE, 0);
+  setTelemetryValue(PROTOCOL_TELEMETRY_SPEKTRUM, pseudoId, 0, instance,
+                    value, UNIT_GPS_LATITUDE, 0);
 
   // LONGITUDE
   fmin = bcdToInt8(packetData[6]) + (bcdToInt8(packetData[7]) * 100);
@@ -506,7 +509,8 @@ static void processGPSLocPacket(const uint8_t *packet, const uint16_t pseudoId, 
   if ((gpsFlags & GPS_INFO_FLAGS_IS_EAST) == 0) {  // WEST, negative
     value = -value;
   }
-  setTelemetryValue(PROTOCOL_TELEMETRY_SPEKTRUM, pseudoId, 0, instance, value, UNIT_GPS_LONGITUDE, 0);
+  setTelemetryValue(PROTOCOL_TELEMETRY_SPEKTRUM, pseudoId, 0, instance,
+                    value, UNIT_GPS_LONGITUDE, 0);
 }
 
 // Process Binary GPS Location Packet (Lat/Long)
@@ -529,7 +533,8 @@ void processSpektrumPacket(const uint8_t *packet)
   TRACE("");
   TRACE("SPK: processSpektrumPacket()");
 
-  setTelemetryValue(PROTOCOL_TELEMETRY_SPEKTRUM, I2C_PSEUDO_TX_RSSI, 0, 0, packet[1], UNIT_RAW, 0);
+  setTelemetryValue(PROTOCOL_TELEMETRY_SPEKTRUM, I2C_PSEUDO_TX_RSSI, 0, 0, 
+                    packet[1], UNIT_RAW, 0);
   // highest bit indicates that TM1100 is in use, ignore it
   uint8_t i2cAddress = (packet[2] & 0x7f);
 
@@ -623,10 +628,6 @@ void processSpektrumPacket(const uint8_t *packet)
 
     if (i2cAddress != sensor->i2caddress)  // Not the sensor for current packet
       continue;
-
-    //if (i2cAddress == I2C_QOS) {
-    //  continue;
-    //}
   
     TRACE("SPK: handling I2C %x start byte %x", sensor->i2caddress, sensor->startByte);
     handled = true;
@@ -861,7 +862,8 @@ void processDSMBindPacket(uint8_t module, const uint8_t *packet)
   debugval = packet[7] << 24 | packet[6] << 16 | packet[5] << 8 | packet[4];
 
   /* log the bind packet as telemetry for quick debugging */
-  setTelemetryValue(PROTOCOL_TELEMETRY_SPEKTRUM, I2C_PSEUDO_TX_BIND, 0, 0, debugval, UNIT_RAW, 0);
+  setTelemetryValue(PROTOCOL_TELEMETRY_SPEKTRUM, I2C_PSEUDO_TX_BIND, 0, 0,
+                    debugval, UNIT_RAW, 0);
 
   /* Finally stop binding as the rx just told us that it is bound */
   if (getModuleMode(module) == MODULE_MODE_BIND) {
