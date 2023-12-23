@@ -764,7 +764,6 @@ void processSpektrumPacket(const uint8_t *packet)
     TRACE("SPK: not handled %x", i2cAddress);
     // If we see a sensor that is not handled at all, add the raw values of this sensor to show its existance to
     // the user and help debugging/implementing these sensors
-
     for (int startByte=0; startByte<14; startByte+=2) {
       int32_t value = spektrumGetValue(packet + 4, startByte, uint16);
       uint16_t pseudoId = i2cAddress << 8 | startByte;
