@@ -666,23 +666,23 @@ void processSpektrumPacket(const uint8_t *packet)
 
     // Check if this looks like a LemonRX Transceiver, they use QoS Frame loss A as RSSI indicator(0-100)
     else if (i2cAddress == I2C_QOS && sensor->startByte == 0) {
- /*     if (spektrumGetValue(packet + 4, 2, uint16) == 0x8000 &&
-          spektrumGetValue(packet + 4, 4, uint16) == 0x8000 &&
-          spektrumGetValue(packet + 4, 6, uint16) == 0x8000 &&
-          spektrumGetValue(packet + 4, 8, uint16) == 0x8000) {
-        telemetryData.rssi.set(value);
-      }
-      else */
-
+#define BUG_WORKAROUND
+#ifdef BUG_WORKAROUND
       bool v1 = spektrumGetValue(&packet[6],  0, uint16) == 0x8000; 
       bool v2 = spektrumGetValue(&packet[8],  0, uint16) == 0x8000;
       bool v3 = spektrumGetValue(&packet[10], 0, uint16) == 0x8000;
       bool v4 = spektrumGetValue(&packet[12], 0, uint16) == 0x8000;
 
       if (v1 && v2 && v3 && v4) {
+#else
+      if (spektrumGetValue(packet + 4, 2, uint16) == 0x8000 &&
+          spektrumGetValue(packet + 4, 4, uint16) == 0x8000 &&
+          spektrumGetValue(packet + 4, 6, uint16) == 0x8000 &&
+          spektrumGetValue(packet + 4, 8, uint16) == 0x8000) {
+#endif
         telemetryData.rssi.set(value);
-      } else 
-      {
+      } 
+      else {
         // Otherwise use the received signal strength of the telemetry packet as indicator
         // Range is 0-31, multiply by 3 to get an almost full reading for 0x1f, the maximum the cyrf chip reports
         telemetryData.rssi.set(packet[1] * 3);
