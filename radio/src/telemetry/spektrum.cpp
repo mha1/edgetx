@@ -681,7 +681,7 @@ void processSpektrumPacket(const uint8_t *packet)
           spektrumGetValue(packet + 4, 8, uint16) == 0x8000) {
 #endif
         telemetryData.rssi.set(value);
-      } 
+      }
       else {
         // Otherwise use the received signal strength of the telemetry packet as indicator
         // Range is 0-31, multiply by 3 to get an almost full reading for 0x1f, the maximum the cyrf chip reports
