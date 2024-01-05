@@ -21,6 +21,7 @@
 
 #include "stm32_softserial_driver.h"
 #include "stm32_exti_driver.h"
+#include "debug.h"
 
 #include <string.h>
 
@@ -457,10 +458,14 @@ static bool stm32_softserial_tx_dma_tc_isr(void* ctx)
 
 static void stm32_softserial_tx_send_buffer(void* ctx, const uint8_t* data, uint32_t size)
 {
+  TRACE("M: ss 1");
+
   auto port = (const stm32_softserial_tx_port*)ctx;
   auto timer = port->tim;
   if (!stm32_pulse_if_not_running_disable(timer))
     return;
+
+  TRACE("M: ss 2");
 
   // transform serial payload into timer pulses/length
   auto st = port->st;
