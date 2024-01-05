@@ -21,6 +21,7 @@
 
 #include "stm32_pulse_driver.h"
 #include "stm32_dma.h"
+#include "debug.h"
 
 #include "definitions.h"
 
@@ -190,8 +191,12 @@ bool stm32_pulse_get_polarity(const stm32_pulse_timer_t* tim)
 // return true if stopped, false otherwise
 bool stm32_pulse_if_not_running_disable(const stm32_pulse_timer_t* tim)
 {
-  if (LL_DMA_IsEnabledStream(tim->DMAx, tim->DMA_Stream))
+  if (LL_DMA_IsEnabledStream(tim->DMAx, tim->DMA_Stream)) {
+    TRACE("M: LL_DMA_IsEnabledStream false ");
     return false;
+  }
+
+  TRACE("M: LL_DMA_IsEnabledStream true ");
 
   // disable timer
   LL_TIM_DisableCounter(tim->TIMx);
