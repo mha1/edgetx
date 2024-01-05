@@ -281,7 +281,7 @@ static void multiSendPulses(void* ctx, uint8_t* buffer, int16_t* channels, uint8
   auto drv = modulePortGetSerialDrv(mod_st->tx);
   auto drv_ctx = modulePortGetCtx(mod_st->tx);
 
-  TRACE("M: multiSendPulse mod_st %4x drv %4x drv_ctx %4x bf %4x size %4x", mod_st, drv, drv_ctx, buffer, data-buffer);
+  TRACE("M: multiSP mod_st %4x drv %4x drv_ctx %4x bf %4x size %4x", mod_st, drv, drv_ctx, buffer, data-buffer);
 
   drv->sendBuffer(drv_ctx, buffer, data - buffer);
 }
@@ -291,7 +291,7 @@ static void multiProcessData(void* ctx, uint8_t data, uint8_t* buffer, uint8_t* 
   auto mod_st = (etx_module_state_t*)ctx;
   auto module = modulePortGetModule(mod_st);
 
-  TRACE("M: multiProcessData mod_st %4x", mod_st);
+  //TRACE("M: multiProcessData mod_st %4x", mod_st);
 
   processMultiTelemetryData(data, module);
 }
