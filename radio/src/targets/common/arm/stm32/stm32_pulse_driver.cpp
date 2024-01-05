@@ -191,12 +191,13 @@ bool stm32_pulse_get_polarity(const stm32_pulse_timer_t* tim)
 // return true if stopped, false otherwise
 bool stm32_pulse_if_not_running_disable(const stm32_pulse_timer_t* tim)
 {
+  TRACE("DMAx %4x, Stream %4x", tim->DMAx, tim->DMA_Stream);
   if (LL_DMA_IsEnabledStream(tim->DMAx, tim->DMA_Stream)) {
-    TRACE("M: LL_DMA_IsEnabledStream false ");
+    TRACE("M: false ");
     return false;
   }
 
-  TRACE("M: LL_DMA_IsEnabledStream true ");
+  TRACE("M: true ");
 
   // disable timer
   LL_TIM_DisableCounter(tim->TIMx);
