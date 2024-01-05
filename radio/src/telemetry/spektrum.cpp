@@ -666,7 +666,7 @@ void processSpektrumPacket(const uint8_t *packet)
 
     // Check if this looks like a LemonRX Transceiver, they use QoS Frame loss A as RSSI indicator(0-100)
     else if (i2cAddress == I2C_QOS && sensor->startByte == 0) {
-#define BUG_WORKAROUND
+//#define BUG_WORKAROUND
 #ifdef BUG_WORKAROUND
       bool v1 = spektrumGetValue(&packet[6],  0, uint16) == 0x8000; 
       bool v2 = spektrumGetValue(&packet[8],  0, uint16) == 0x8000;
