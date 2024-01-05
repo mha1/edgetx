@@ -221,18 +221,12 @@ static void* multiInit(uint8_t module)
     cfg.polarity = ETX_Pol_Inverted;
     mod_st = modulePortInitSerial(module, ETX_MOD_PORT_UART, &cfg);
 
-    TRACE("M: multiInit 1 mod_st %4x", mod_st);
-
     if (!mod_st) {
       mod_st = modulePortInitSerial(module, ETX_MOD_PORT_SOFT_INV, &cfg);
     }
 
-    TRACE("M: multiInit 2 mod_st %4x", mod_st);
-
     // no TX port: bail out
     if (!mod_st) return nullptr;
-
-    TRACE("M: multiInit 3 mod_st %4x", mod_st);
 
     // Init S.PORT RX channel
     cfg.direction = ETX_Dir_RX;
@@ -262,7 +256,6 @@ static void multiDeInit(void* ctx)
 {
   auto mod_st = (etx_module_state_t*)ctx;
 
-  TRACE("M: multiDeInit mod_st %4x", mod_st);
   modulePortDeInit(mod_st);
 }
 
@@ -281,8 +274,6 @@ static void multiSendPulses(void* ctx, uint8_t* buffer, int16_t* channels, uint8
   auto drv = modulePortGetSerialDrv(mod_st->tx);
   auto drv_ctx = modulePortGetCtx(mod_st->tx);
 
-  TRACE("M: multiSP mod_st %4x drv %4x drv_ctx %4x bf %4x size %4x", mod_st, drv, drv_ctx, buffer, data-buffer);
-
   drv->sendBuffer(drv_ctx, buffer, data - buffer);
 }
 
@@ -290,8 +281,6 @@ static void multiProcessData(void* ctx, uint8_t data, uint8_t* buffer, uint8_t* 
 {
   auto mod_st = (etx_module_state_t*)ctx;
   auto module = modulePortGetModule(mod_st);
-
-  //TRACE("M: multiProcessData mod_st %4x", mod_st);
 
   processMultiTelemetryData(data, module);
 }

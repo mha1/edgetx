@@ -21,6 +21,7 @@
 
 #include "stm32_serial_driver.h"
 #include <string.h>
+#include "debug.h"
 
 // Serial buffer state
 struct stm32_buffer_state {
@@ -303,6 +304,7 @@ static void stm32_serial_send_byte(void* ctx, uint8_t c)
 static void stm32_serial_send_buffer(void* ctx, const uint8_t* data, uint32_t size)
 {
   auto st = (stm32_serial_state*)ctx;
+  TRACE("M: st %4x", st);
   if (!st) return;
 
   // try TX DMA first
@@ -310,6 +312,7 @@ static void stm32_serial_send_buffer(void* ctx, const uint8_t* data, uint32_t si
   auto usart = sp->usart;
   if (usart->txDMA && !IS_CCM_RAM(data)) {
     stm32_usart_send_buffer(usart, data, size);
+    TRACE("M: usart %4x size %d", usart, size);
     return;
   }
 
@@ -318,10 +321,12 @@ static void stm32_serial_send_buffer(void* ctx, const uint8_t* data, uint32_t si
     st->u.tx_buf.buf = data;
     st->u.tx_buf.len = size;
     st->callbacks.on_send = _on_send_single_buffer;
+    TRACE("M: nib usart %4x", usart);
     stm32_usart_enable_tx_irq(usart);
     return;
   }
 
+  TRACE("M: ctx %4x size %d", ctx, size);
   // else stack single bytes into our internal buffer
   while(size > 0) {
     stm32_serial_send_byte(ctx, *data++);
