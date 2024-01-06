@@ -220,8 +220,6 @@ bool stm32_pulse_if_not_running_disable(const stm32_pulse_timer_t* tim)
     return false;
   }
 
-  TRACE("M: true ");
-
   // disable timer
   LL_TIM_DisableCounter(tim->TIMx);
   LL_TIM_DisableIT_UPDATE(tim->TIMx);
@@ -287,7 +285,7 @@ void stm32_pulse_start_dma_req(const stm32_pulse_timer_t* tim,
                                const void* pulses, uint16_t length,
                                uint32_t ocmode, uint32_t cmp_val)
 {
-  TRACE("M: stm32_pulse_start_dma_req");
+  TRACE("2");
   // Re-configure timer output
   set_compare_reg(tim, cmp_val);
   set_oc_mode(tim, ocmode);
