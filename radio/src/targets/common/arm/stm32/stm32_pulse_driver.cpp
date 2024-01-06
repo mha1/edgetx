@@ -189,10 +189,32 @@ bool stm32_pulse_get_polarity(const stm32_pulse_timer_t* tim)
          LL_TIM_OCPOLARITY_HIGH;
 }
 
+//typedef struct
+//{
+//  __IO uint32_t CR;     /*!< DMA stream x configuration register      */
+//  __IO uint32_t NDTR;   /*!< DMA stream x number of data register     */
+//  __IO uint32_t PAR;    /*!< DMA stream x peripheral address register */
+//  __IO uint32_t M0AR;   /*!< DMA stream x memory 0 address register   */
+//  __IO uint32_t M1AR;   /*!< DMA stream x memory 1 address register   */
+//  __IO uint32_t FCR;    /*!< DMA stream x FIFO control register       */
+//} DMA_Stream_TypeDef;
+
 // return true if stopped, false otherwise
 bool stm32_pulse_if_not_running_disable(const stm32_pulse_timer_t* tim)
 {
-  TRACE("DMAx %4x, Stream %4x", tim->DMAx, tim->DMA_Stream);
+  uint32_t Stream = tim->DMA_Stream;
+  DMA_TypeDef *DMAx = tim->DMAx;
+
+  TRACE("%4x: %4x %4x %4x %4x %4x %x",
+    Stream, 
+    ((DMA_Stream_TypeDef*)((uint32_t)((uint32_t)DMAx + STREAM_OFFSET_TAB[Stream])))->CR,
+    ((DMA_Stream_TypeDef*)((uint32_t)((uint32_t)DMAx + STREAM_OFFSET_TAB[Stream])))->NDTR, 
+    ((DMA_Stream_TypeDef*)((uint32_t)((uint32_t)DMAx + STREAM_OFFSET_TAB[Stream])))->PAR, 
+    ((DMA_Stream_TypeDef*)((uint32_t)((uint32_t)DMAx + STREAM_OFFSET_TAB[Stream])))->M0AR, 
+    ((DMA_Stream_TypeDef*)((uint32_t)((uint32_t)DMAx + STREAM_OFFSET_TAB[Stream])))->M1AR,
+    ((DMA_Stream_TypeDef*)((uint32_t)((uint32_t)DMAx + STREAM_OFFSET_TAB[Stream])))->FCR);
+  
+  //TRACE("DMAx %4x, Stream %4x", tim->DMAx->CR, tim->DMA_Stream);
   if (LL_DMA_IsEnabledStream(tim->DMAx, tim->DMA_Stream)) {
     TRACE("M: false ");
     return false;
