@@ -21,6 +21,7 @@
 
 #include "stm32_usart_driver.h"
 #include "stm32_dma.h"
+#include "debug.h"
 
 #include <string.h>
 
@@ -178,6 +179,7 @@ void stm32_usart_init_rx_dma(const stm32_usart_t* usart, const void* buffer, uin
     NVIC_DisableIRQ(usart->IRQn);
   }
 
+  TRACE("M: stm32_usart_init_rx_dma");
   LL_DMA_DeInit(usart->rxDMA, usart->rxDMA_Stream);
 
   LL_DMA_InitTypeDef dmaInit;
@@ -201,6 +203,7 @@ void stm32_usart_deinit_rx_dma(const stm32_usart_t* usart)
 {
   if (!usart->rxDMA) return;
 
+  TRACE("M: stm32_usart_deinit_rx_dma");
   LL_DMA_DeInit(usart->rxDMA, usart->rxDMA_Stream);
 
   if ((int32_t)(usart->IRQn) >= 0) {
@@ -303,6 +306,7 @@ void stm32_usart_init(const stm32_usart_t* usart, const etx_serial_init* params)
 
 void stm32_usart_deinit(const stm32_usart_t* usart)
 {
+  TRACE("M: stm32_usart_deinit");
   if (usart->rxDMA) {
     LL_DMA_DeInit(usart->rxDMA, usart->rxDMA_Stream);
   }
@@ -345,6 +349,7 @@ void stm32_usart_send_byte(const stm32_usart_t* usart, uint8_t byte)
 
 void stm32_usart_send_buffer(const stm32_usart_t* usart, const uint8_t * data, uint32_t size)
 {
+  TRACE("M: stm32_usart_send_buffer");
   _half_duplex_output(usart);
 
   if (usart->txDMA) {
