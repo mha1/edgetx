@@ -22,6 +22,7 @@
 #include "stm32_pulse_driver.h"
 #include "stm32_dma.h"
 #include "debug.h"
+#include "hal.h"
 
 #include "definitions.h"
 
@@ -204,6 +205,12 @@ bool stm32_pulse_if_not_running_disable(const stm32_pulse_timer_t* tim)
 {
   uint32_t Stream = tim->DMA_Stream;
   DMA_TypeDef *DMAx = tim->DMAx;
+
+  static uint32_t lastTime = 0;
+  uint32_t now = TIMER_2MHz_TIMER->CNT;
+  TRACE("t %ld", now - lastTime);
+  lastTime = now;
+
   
   if (LL_DMA_IsEnabledStream(tim->DMAx, tim->DMA_Stream)) {
     // stream is 1
