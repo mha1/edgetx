@@ -222,8 +222,7 @@ bool stm32_pulse_if_not_running_disable(const stm32_pulse_timer_t* tim)
       ((DMA_Stream_TypeDef*)((uint32_t)((uint32_t)DMAx + STREAM_OFFSET_TAB[Stream])))->M0AR, 
       ((DMA_Stream_TypeDef*)((uint32_t)((uint32_t)DMAx + STREAM_OFFSET_TAB[Stream])))->M1AR,
       ((DMA_Stream_TypeDef*)((uint32_t)((uint32_t)DMAx + STREAM_OFFSET_TAB[Stream])))->FCR,
-      LL_TIM_IsEnabledCounter(tim)
-    
+      LL_TIM_IsEnabledCounter(tim->TIMx)
     );
 
     TRACE("M: false ");
