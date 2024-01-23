@@ -255,7 +255,6 @@ static void* multiInit(uint8_t module)
 static void multiDeInit(void* ctx)
 {
   auto mod_st = (etx_module_state_t*)ctx;
-
   modulePortDeInit(mod_st);
 }
 
@@ -273,7 +272,6 @@ static void multiSendPulses(void* ctx, uint8_t* buffer, int16_t* channels, uint8
 
   auto drv = modulePortGetSerialDrv(mod_st->tx);
   auto drv_ctx = modulePortGetCtx(mod_st->tx);
-
   drv->sendBuffer(drv_ctx, buffer, data - buffer);
 }
 

@@ -21,7 +21,6 @@
 
 #include "module_timer_driver.h"
 #include "stm32_pulse_driver.h"
-#include "debug.h"
 
 static void* module_timer_init(void* hw_def, const etx_timer_config_t* cfg)
 {
@@ -48,9 +47,7 @@ static void module_timer_send(void* ctx, const etx_timer_config_t* cfg,
 {
   auto timer = (const stm32_pulse_timer_t*)ctx;
   if (!stm32_pulse_if_not_running_disable(timer)) {
-    LL_DMA_DeInit(timer->DMAx, timer->DMA_Stream); {
-        TRACE("M: module_timer_send");
-    }
+    LL_DMA_DeInit(timer->DMAx, timer->DMA_Stream); 
     return;
   }
 
