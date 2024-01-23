@@ -196,7 +196,7 @@ bool stm32_pulse_if_not_running_disable(const stm32_pulse_timer_t* tim)
  
   if (LL_DMA_IsEnabledStream(tim->DMAx, tim->DMA_Stream)) {
     TRACE("M: false ");
-    return false;
+    //return true;
   }
 
   // disable timer
