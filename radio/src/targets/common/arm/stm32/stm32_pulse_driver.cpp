@@ -105,7 +105,6 @@ static void disable_tim_clock(TIM_TypeDef* TIMx)
 
 void stm32_pulse_deinit(const stm32_pulse_timer_t* tim)
 {
-  TRACE("M: stm32_pulse_deinit");
   // Disable IRQs
   if (tim->DMAx) {
     NVIC_DisableIRQ(tim->DMA_IRQn);
