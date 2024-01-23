@@ -208,6 +208,30 @@ bool stm32_pulse_if_not_running_disable(const stm32_pulse_timer_t* tim)
   //TRACE("t %ld", now - lastTime);
   //lastTime = now;
 
+  TRACE("ok %x %x %x %x %x %x %x %x %x %x %x %x %x %x %x %x %x %x %x %x %x",
+    tim->TIMx->CR1         /*!< TIM control register 1,              Address offset: 0x00 */,
+    tim->TIMx->CR2         /*!< TIM control register 2,              Address offset: 0x04 */,
+    tim->TIMx->SMCR        /*!< TIM slave mode control register,     Address offset: 0x08 */,
+    tim->TIMx->DIER        /*!< TIM DMA/interrupt enable register,   Address offset: 0x0C */,
+    tim->TIMx->SR          /*!< TIM status register,                 Address offset: 0x10 */,
+    tim->TIMx->EGR         /*!< TIM event generation register,       Address offset: 0x14 */,
+    tim->TIMx->CCMR1       /*!< TIM capture/compare mode register 1, Address offset: 0x18 */,
+    tim->TIMx->CCMR2       /*!< TIM capture/compare mode register 2, Address offset: 0x1C */,
+    tim->TIMx->CCER        /*!< TIM capture/compare enable register, Address offset: 0x20 */,
+    tim->TIMx->CNT         /*!< TIM counter register,                Address offset: 0x24 */,
+    tim->TIMx->PSC         /*!< TIM prescaler,                       Address offset: 0x28 */,
+    tim->TIMx->ARR         /*!< TIM auto-reload register,            Address offset: 0x2C */,
+    tim->TIMx->RCR         /*!< TIM repetition counter register,     Address offset: 0x30 */,
+    tim->TIMx->CCR1        /*!< TIM capture/compare register 1,      Address offset: 0x34 */,
+    tim->TIMx->CCR2        /*!< TIM capture/compare register 2,      Address offset: 0x38 */,
+    tim->TIMx->CCR3        /*!< TIM capture/compare register 3,      Address offset: 0x3C */,
+    tim->TIMx->CCR4        /*!< TIM capture/compare register 4,      Address offset: 0x40 */,
+    tim->TIMx->BDTR        /*!< TIM break and dead-time register,    Address offset: 0x44 */,
+    tim->TIMx->DCR         /*!< TIM DMA control register,            Address offset: 0x48 */,
+    tim->TIMx->DMAR        /*!< TIM DMA address for full transfer,   Address offset: 0x4C */,
+    tim->TIMx->OR          /*!< TIM option register,                 Address offset: 0x50 */
+  );  
+
   if (LL_DMA_IsEnabledStream(tim->DMAx, tim->DMA_Stream)) {
     // stream is 1
 
