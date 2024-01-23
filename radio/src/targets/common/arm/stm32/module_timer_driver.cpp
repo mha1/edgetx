@@ -47,7 +47,7 @@ static void module_timer_send(void* ctx, const etx_timer_config_t* cfg,
 {
   auto timer = (const stm32_pulse_timer_t*)ctx;
   if (!stm32_pulse_if_not_running_disable(timer)) {
-    LL_DMA_DeInit(timer->DMAx, timer->DMA_Stream); 
+    LL_DMA_DeInit(timer->DMAx, timer->DMA_Stream);
     return;
   }
 
