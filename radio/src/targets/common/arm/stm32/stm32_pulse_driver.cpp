@@ -203,6 +203,11 @@ bool stm32_pulse_get_polarity(const stm32_pulse_timer_t* tim)
 // return true if stopped, false otherwise
 bool stm32_pulse_if_not_running_disable(const stm32_pulse_timer_t* tim)
 {
+  if(LL_TIM_IsActiveFlag_UPDATE(tim->TIMx) && !LL_TIM_IsEnabledIT_UPDATE(tim->TIMx)) {
+    LL_TIM_EnableIT_UPDATE(tim->TIMx); 
+    return false;
+  }
+
   //static uint32_t lastTime = 0;
   //uint32_t now = TIMER_2MHz_TIMER->CNT;
   //TRACE("t %ld", now - lastTime);
