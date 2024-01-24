@@ -462,12 +462,8 @@ static void stm32_softserial_tx_send_buffer(void* ctx, const uint8_t* data, uint
 
   auto port = (const stm32_softserial_tx_port*)ctx;
   auto timer = port->tim;
-  //if (!stm32_pulse_if_not_running_disable(timer))
-  //  return;
-
-  // disable timer
-  LL_TIM_DisableCounter(timer->TIMx);
-  LL_TIM_DisableIT_UPDATE(timer->TIMx);
+  if (!stm32_pulse_if_not_running_disable(timer))
+    return;
 
   // transform serial payload into timer pulses/length
   auto st = port->st;
