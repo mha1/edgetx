@@ -660,7 +660,7 @@ void ModuleSubTypeChoice::update()
     values.clear();
 
     auto protos = MultiRfProtocols::instance(moduleIdx);
-    protos->triggerScan();
+    //protos->triggerScan();
 
     if (protos->isScanning()) {
       new RfScanDialog(parent, protos, [=](){ update(); });
