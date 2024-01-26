@@ -311,7 +311,7 @@ void stm32_pulse_start_dma_req(const stm32_pulse_timer_t* tim,
   } else {
     // Reset counter close to overflow
     if (IS_TIM_32B_COUNTER_INSTANCE(tim->TIMx)) {
-      LL_TIM_SetCounter(tim->TIMx, 0xFFFFFFFF);
+      LL_TIM_SetCounter(tim->TIMx, 0xFFFF);
     } else {
       LL_TIM_SetCounter(tim->TIMx, 0xFFFF);
     }
