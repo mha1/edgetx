@@ -318,11 +318,16 @@ void stm32_pulse_start_dma_req(const stm32_pulse_timer_t* tim,
   }
 
   LL_TIM_EnableDMAReq_UPDATE(tim->TIMx);
+
+  uint16_t now = TIMER_2MHz_TIMER->CNT; while((TIMER_2MHz_TIMER->CNT - now) < 400); 
+
   LL_DMA_EnableStream(tim->DMAx, tim->DMA_Stream);
 
   // Trigger update to effect the first DMA transaction
   // and thus load ARR with the first duration
 
+  now = TIMER_2MHz_TIMER->CNT; while((TIMER_2MHz_TIMER->CNT - now) < 400);
+  
   // start timer
   LL_TIM_EnableCounter(tim->TIMx);
 }
