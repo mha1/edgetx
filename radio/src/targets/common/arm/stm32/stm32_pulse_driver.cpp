@@ -22,7 +22,6 @@
 #include "stm32_pulse_driver.h"
 #include "stm32_dma.h"
 #include "debug.h"
-#include "hal.h"
 
 #include "definitions.h"
 
@@ -195,7 +194,7 @@ bool stm32_pulse_if_not_running_disable(const stm32_pulse_timer_t* tim)
  
   if (LL_DMA_IsEnabledStream(tim->DMAx, tim->DMA_Stream)) {
     TRACE("M: false ");
-    //return false;
+    return false;
   }
 
   // disable timer
