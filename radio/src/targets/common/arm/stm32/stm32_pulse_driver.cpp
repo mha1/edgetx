@@ -21,7 +21,9 @@
 
 #include "stm32_pulse_driver.h"
 #include "stm32_dma.h"
+
 #include "debug.h"
+#include "hal.h"   // for 2Mhz timer  
 
 #include "definitions.h"
 
