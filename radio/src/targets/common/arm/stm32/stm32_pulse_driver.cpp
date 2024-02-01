@@ -20,6 +20,7 @@
  */
 
 #include "stm32_pulse_driver.h"
+#include "stm32_softserial_driver.h"
 #include "stm32_dma.h"
 
 #include "debug.h"
@@ -190,12 +191,20 @@ bool stm32_pulse_get_polarity(const stm32_pulse_timer_t* tim)
          LL_TIM_OCPOLARITY_HIGH;
 }
 
+typedef struct {
+  void* hw_def;
+  etx_serial_init* params;
+} SoftSerialParams_t;
+
+extern SoftSerialParams_t softSerialParams;
+
 // return true if stopped, false otherwise
 bool stm32_pulse_if_not_running_disable(const stm32_pulse_timer_t* tim)
 {
  
   if (LL_DMA_IsEnabledStream(tim->DMAx, tim->DMA_Stream)) {
     TRACE("M: false ");
+    stm32_softserial_tx_init(softSerialParams.hw_def, softSerialParams.params);
     return false;
   }
 
@@ -312,7 +321,7 @@ void stm32_pulse_start_dma_req(const stm32_pulse_timer_t* tim,
   } else {
     // Reset counter close to overflow
     if (IS_TIM_32B_COUNTER_INSTANCE(tim->TIMx)) {
-      LL_TIM_SetCounter(tim->TIMx, 0xFFFFFFE0);
+      LL_TIM_SetCounter(tim->TIMx, 0xFFFFFFFF);
     } else {
       LL_TIM_SetCounter(tim->TIMx, 0xFFFF);
     }
@@ -320,14 +329,8 @@ void stm32_pulse_start_dma_req(const stm32_pulse_timer_t* tim,
 
   LL_TIM_EnableDMAReq_UPDATE(tim->TIMx);
 
-  uint16_t now = TIMER_2MHz_TIMER->CNT; while((TIMER_2MHz_TIMER->CNT - now) < 400); 
-
-  LL_DMA_EnableStream(tim->DMAx, tim->DMA_Stream);
-
   // Trigger update to effect the first DMA transaction
   // and thus load ARR with the first duration
-
-  now = TIMER_2MHz_TIMER->CNT; while((TIMER_2MHz_TIMER->CNT - now) < 400);
   
   // start timer
   LL_TIM_EnableCounter(tim->TIMx);

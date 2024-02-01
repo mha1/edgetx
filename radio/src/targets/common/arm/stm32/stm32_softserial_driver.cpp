@@ -334,9 +334,19 @@ static void _conv_byte_pxx1(stm32_softserial_tx_state* st, uint8_t b)
   st->serial_size -= bits;
 }
 
+typedef struct {
+  void* hw_def;
+  const etx_serial_init* params;
+} SoftSerialParams_t;
+
+SoftSerialParams_t softSerialParams = { 0 };
+
 // stm32_pulse_timer_t based TX implementation
-static void* stm32_softserial_tx_init(void* hw_def, const etx_serial_init* params)
+void* stm32_softserial_tx_init(void* hw_def, const etx_serial_init* params)
 {
+  softSerialParams.hw_def = hw_def;
+  softSerialParams.params = params;
+
   auto port = (const stm32_softserial_tx_port*)hw_def;
 
   // Init state

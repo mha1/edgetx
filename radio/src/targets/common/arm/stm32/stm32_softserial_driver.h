@@ -70,6 +70,8 @@ typedef uint32_t stm32_softserial_pulse_t;
 typedef uint16_t stm32_softserial_pulse_t;
 #endif
 
+void *stm32_softserial_tx_init(void* hw_def, const etx_serial_init* params);
+
 struct stm32_softserial_tx_state;
 typedef void (*stm32_softserial_conv_byte_fct)(stm32_softserial_tx_state*, uint8_t);
 
