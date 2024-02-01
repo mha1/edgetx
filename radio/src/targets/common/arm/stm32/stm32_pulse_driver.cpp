@@ -193,7 +193,7 @@ bool stm32_pulse_get_polarity(const stm32_pulse_timer_t* tim)
 
 typedef struct {
   void* hw_def;
-  etx_serial_init* params;
+  const etx_serial_init* params;
 } SoftSerialParams_t;
 
 extern SoftSerialParams_t softSerialParams;
