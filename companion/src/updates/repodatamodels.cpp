@@ -59,15 +59,12 @@ void RepoRawItemModel::parseAll(QJsonDocument * json)
 void RepoRawItemModel::parseMetaData(const int mdt, QJsonDocument * json)
 {
   switch (mdt) {
-    case MDT_Build_Asset:
-    case MDT_Build_Assets:
-    case MDT_Build_Release:
-    case MDT_Build_Releases:
-    case MDT_GitHub_Asset:
+    case MDT_Asset:
+    case MDT_Release:
       parseOne(json);
       break;
-    case MDT_GitHub_Assets:
-    case MDT_GitHub_Releases:
+    case MDT_Assets:
+    case MDT_Releases:
       parseAll(json);
       break;
     default:
@@ -85,17 +82,6 @@ void RepoRawItemModel::parseOne(QJsonDocument * json)
     parseJsonObject(obj);
     setRefreshRequired(false);
   }
-}
-
-bool RepoRawItemModel::setValue(const int id, const int role, const QVariant value)
-{
-  //qDebug() << "id:" << id << "role:" << role << "value:" << value;
-  const QModelIndexList idxlst = match(index(0, 0), RIMR_Id, QVariant(id), 1, Qt::MatchExactly);
-
-  if (!idxlst.isEmpty())
-    return setData(idxlst.at(0), value, role);
-
-  return false;
 }
 
 //  static

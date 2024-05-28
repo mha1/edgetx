@@ -134,10 +134,10 @@ void ProgressWidget::addMessage(const QString & text, const int & type, bool ric
       color = "dimgrey";  // not important messages, may be filtered out
       break;
     case QtWarningMsg:    // use warning level as emphasis
-      color = "orangered";
+      color = "darkblue";
       break;
     case QtCriticalMsg:   // use critical as a warning
-      color = "darkred";
+      color = "#ff7900";
       break;
     case QtFatalMsg:      // fatal for hard errors
       color = "red";
@@ -205,9 +205,4 @@ void ProgressWidget::addSeparator()
 void ProgressWidget::lock(bool lock)
 {
   emit locked(lock);
-}
-
-void ProgressWidget::forceKeepOpen(bool value)
-{
-  emit keepOpen(value);
 }

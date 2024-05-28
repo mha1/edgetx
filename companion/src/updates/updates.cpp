@@ -122,10 +122,10 @@ void Updates::runUpdate()
 {
   bool ok = false;
   ProgressDialog progressDialog(this, tr("Update Components"), CompanionIcon("fuses.png"), true);
-  progressDialog.setProcessStarted();
+  progressDialog.progress()->lock(true);
   progressDialog.progress()->setInfo(tr("Starting..."));
   ok = factories->updateAll(progressDialog.progress());
-  progressDialog.setProcessStopped();
+  progressDialog.progress()->lock(false);
   progressDialog.progress()->setInfo(tr("Finished %1").arg(ok ? tr("successfully") : tr("with errors")));
   progressDialog.exec();
 

@@ -1,8 +1,7 @@
 /*
- * Copyright (C) EdgeTX
+ * Copyright (C) OpenTX
  *
  * Based on code named
- *   opentx - https://github.com/opentx/opentx
  *   th9x - http://code.google.com/p/th9x
  *   er9x - http://code.google.com/p/er9x
  *   gruvin9x - http://code.google.com/p/gruvin9x
@@ -28,8 +27,7 @@
 ProgressDialog::ProgressDialog(QWidget *parent, const QString &title, const QIcon &icon, bool forceOpen):
 QDialog(parent),
 ui(new Ui::ProgressDialog),
-locked(false),
-keepOpen(false)
+locked(false)
 {
   ui->setupUi(this);
   setWindowTitle(title);
@@ -57,8 +55,7 @@ void ProgressDialog::on_closeButton_clicked()
   if (!locked) {
     ui->outputProgress->stop();
     emit rejected();
-    if (!keepOpen)
-      close();
+    close();
   }
 }
 
@@ -92,9 +89,3 @@ void ProgressDialog::setProcessStopped()
 {
   ui->closeButton->setText(tr("Close"));
 }
-
-void ProgressDialog::on_outputProgress_keepOpen(bool val)
-{
-  keepOpen = val;
-}
-

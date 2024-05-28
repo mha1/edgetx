@@ -53,10 +53,9 @@
 #endif
 
 UpdateCompanion::UpdateCompanion(QWidget * parent) :
-  UpdateInterface(parent, CID_Companion, QCoreApplication::translate("UpdateCompanion", "Companion"), Repo::REPO_TYPE_GITHUB,
-                  QString(GH_API_REPOS_EDGETX).append("/edgetx"), "nightly")
+  UpdateInterface(parent, CID_Companion, QCoreApplication::translate("UpdateCompanion", "Companion"))
 {
-  init(); // call after UpdateInterface ctor due to virtual functions
+  init(QString(GH_API_REPOS_EDGETX).append("/edgetx"), "nightly");
 }
 
 void UpdateCompanion::assetSettingsInit()
@@ -78,7 +77,7 @@ void UpdateCompanion::assetSettingsInit()
   qDebug() << "Asset settings initialised";
 }
 
-int UpdateCompanion::asyncInstall()
+bool UpdateCompanion::asyncInstall()
 {
 #ifdef OS_SUPPORTED_INSTALLER
   //status()->reportProgress(tr("Run application installer: %1").arg(g.runAppInstaller() ? tr("true") : tr("false")), QtDebugMsg);

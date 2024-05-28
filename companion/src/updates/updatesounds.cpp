@@ -28,10 +28,9 @@
 #include <QAbstractItemView>
 
 UpdateSounds::UpdateSounds(QWidget * parent) :
-  UpdateInterface(parent, CID_Sounds, tr("Sounds"), Repo::REPO_TYPE_GITHUB,
-                  QString(GH_API_REPOS_EDGETX).append("/edgetx-sdcard-sounds"), "latest", 50)
+  UpdateInterface(parent, CID_Sounds, tr("Sounds"))
 {
-  init(); // call after UpdateInterface ctor due to virtual functions
+  init(QString(GH_API_REPOS_EDGETX).append("/edgetx-sdcard-sounds"), "", 50);
   langPacks = new QStandardItemModel();
 }
 

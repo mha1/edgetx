@@ -27,7 +27,6 @@
 #include "repoassets.h"
 
 #include <QtCore>
-#include <QJsonObject>
 
 constexpr char GH_API_REPOS[]         {"https://api.github.com/repos"};
 constexpr char GH_API_REPOS_EDGETX[]  {"https://api.github.com/repos/EdgeTX"};
@@ -37,39 +36,14 @@ class Repo : public QObject
     Q_OBJECT
 
   public:
-    enum RepoType {
-      REPO_TYPE_GITHUB,
-      REPO_TYPE_BUILD,
-    };
-    Q_ENUM(RepoType)
-
-    explicit Repo(QObject * parent, UpdateStatus * status, UpdateNetwork * network,
-                  const QString & repoPath, const QString & nightly, const int resultsPerPage);
+    explicit Repo(QObject * parent, UpdateStatus * status, UpdateNetwork * network);
     virtual ~Repo();
-
-    virtual const QString urlAsset(const int assetId) const = 0;
-    virtual const QString urlAssets(const int releaseId) const = 0;
-    virtual const QString urlContent(const QString & filename) const = 0;
-    virtual const QString urlJobs() const = 0;
-    virtual const QString urlReleases() const = 0;
-    virtual const QString urlStatus() const = 0;
-
-    virtual const UpdateNetwork::DownloadDataType assetDownloadDataType() const { return UpdateNetwork::DDT_Unknown; }
-    virtual const UpdateNetwork::DownloadDataType assetContentDataType() const { return UpdateNetwork::DDT_Unknown; }
-
-    virtual const RepoRawItemModel::MetaDataType assetMetaDataType() const { return RepoRawItemModel::MDT_Unknown; }
-    virtual const RepoRawItemModel::MetaDataType assetsMetaDataType() const { return RepoRawItemModel::MDT_Unknown; }
-    virtual const RepoRawItemModel::MetaDataType releasesMetaDataType() const { return RepoRawItemModel::MDT_Unknown; }
-
-    void setConfig(const QJsonObject & config);
-    QJsonObject* config() { return m_config; }
 
     RepoAssets* const assets() const { return m_assets; }
     bool getJson(const QString filename, QJsonDocument * json);
-    const QString nightly() const { return m_nightly; }
+    void init(const QString & repoPath, const QString & nightly, const int resultsPerPage);
     const QString path() const { return m_path; }
     RepoReleases* const releases() const { return m_releases; }
-    const int resultsPerPage() const { return m_resultsPerPage; }
 
   private:
     UpdateStatus* const m_status;
@@ -77,7 +51,4 @@ class Repo : public QObject
     RepoReleases* const m_releases;
     RepoAssets* const m_assets;
     QString m_path;
-    QString m_nightly;
-    int m_resultsPerPage;
-    QJsonObject *m_config;
 };

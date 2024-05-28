@@ -21,6 +21,8 @@
 
 #pragma once
 
+#pragma once
+
 #include "updateinterface.h"
 
 class UpdateMultiProtocol : public UpdateInterface

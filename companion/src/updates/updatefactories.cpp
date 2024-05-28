@@ -26,7 +26,6 @@
 #include "updatesounds.h"
 #include "updatethemes.h"
 #include "updatemultiprotocol.h"
-#include "updatecloudbuild.h"
 
 UpdateFactories::UpdateFactories(QWidget * parent) :
   QWidget(parent)
@@ -65,13 +64,6 @@ const bool UpdateFactories::isUpdateAvailable(QMap<QString, int> & list)
   return ret;
 }
 
-void UpdateFactories::radioProfileChanged()
-{
-  foreach (UpdateFactoryInterface * factory, registeredUpdateFactories) {
-    factory->instance()->radioProfileChanged();
-  }
-}
-
 void UpdateFactories::registerUpdateFactory(UpdateFactoryInterface * factory)
 {
   foreach (UpdateFactoryInterface * registeredFactory, registeredUpdateFactories) {
@@ -93,7 +85,6 @@ void UpdateFactories::registerUpdateFactories()
   registerUpdateFactory(new UpdateFactory<UpdateSounds>(this));
   registerUpdateFactory(new UpdateFactory<UpdateThemes>(this));
   registerUpdateFactory(new UpdateFactory<UpdateMultiProtocol>(this));
-  registerUpdateFactory(new UpdateFactory<UpdateCloudBuild>(this));
 
   //  Note: Companion must be last as its install requires the app to be closed and thus would interrupt the update loop
   registerUpdateFactory(new UpdateFactory<UpdateCompanion>(this));

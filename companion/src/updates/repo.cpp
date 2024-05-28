@@ -21,17 +21,12 @@
 
 #include "repo.h"
 
-Repo::Repo(QObject * parent, UpdateStatus * status, UpdateNetwork * network,
-           const QString & path, const QString & nightly, const int resultsPerPage) :
+Repo::Repo(QObject * parent, UpdateStatus * status, UpdateNetwork * network) :
   QObject(parent),
   m_status(status),
   m_network(network),
   m_releases(new RepoReleases(this, status, network)),
-  m_assets(new RepoAssets(this, status, network)),
-  m_path(path),
-  m_nightly(nightly),
-  m_resultsPerPage(resultsPerPage),
-  m_config(nullptr)
+  m_assets(new RepoAssets(this, status, network))
 {
   connect(m_releases, &RepoReleases::idChanged, [=](const int id) {
     m_assets->onReleaseIdChanged(id);
@@ -42,13 +37,11 @@ Repo::~Repo()
 {
   delete m_assets;
   delete m_releases;
-  if (m_config)
-    delete m_config;
 }
 
 bool Repo::getJson(const QString filename, QJsonDocument * json)
 {
-  m_network->downloadJsonContent(urlContent(filename), json);
+  m_network->downloadJsonContent(m_releases->urlContent(filename), json);
 
   if (!m_network->isSuccess()) {
     m_status->reportProgress("Unable to download json data", QtDebugMsg);
@@ -58,10 +51,9 @@ bool Repo::getJson(const QString filename, QJsonDocument * json)
   return true;
 }
 
-void Repo::setConfig(const QJsonObject & config)
+void Repo::init(const QString & repoPath, const QString & nightly, const int resultsPerPage)
 {
-  if (m_config)
-    delete m_config;
-
-  m_config = new QJsonObject(config);
+  m_path = repoPath;
+  m_releases->init(repoPath, nightly, resultsPerPage);
+  m_assets->init(repoPath, QString(), resultsPerPage);
 }

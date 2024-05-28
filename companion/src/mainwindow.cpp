@@ -1250,7 +1250,6 @@ void MainWindow::onCurrentProfileChanged()
   g.moveCurrentProfileToTop();
   Firmware::setCurrentVariant(Firmware::getFirmwareForId(g.currentProfile().fwType()));
   emit firmwareChanged();
-  updateFactories->radioProfileChanged();
   QApplication::clipboard()->clear();
   updateMenus();
 }

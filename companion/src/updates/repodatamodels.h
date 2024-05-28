@@ -44,9 +44,7 @@ class RepoItemModelBase
       RIMR_Available,
       RIMR_Flags,
       RIMR_CopyFilter,
-      RIMR_SubDirectory,
-      RIMR_DownloadUrl,
-      RIMR_DownloadName,
+      RIMR_SubDirectory
     };
 
   private:
@@ -62,19 +60,10 @@ class RepoRawItemModel : public QStandardItemModel, public RepoItemModelBase
     virtual ~RepoRawItemModel() {}
 
     enum MetaDataType {
-      MDT_Unknown,
-      MDT_GitHub_Asset,
-      MDT_GitHub_First = MDT_GitHub_Asset,
-      MDT_GitHub_Assets,
-      MDT_GitHub_Release,
-      MDT_GitHub_Releases,
-      MDT_GitHub_Last = MDT_GitHub_Releases,
-      MDT_Build_Asset,
-      MDT_Build_First = MDT_Build_Asset,
-      MDT_Build_Assets,
-      MDT_Build_Release,
-      MDT_Build_Releases,
-      MDT_Build_Last = MDT_Build_Releases,
+      MDT_Asset,
+      MDT_Assets,
+      MDT_Release,
+      MDT_Releases
     };
 
     static QString typeToString(const int val);
@@ -94,7 +83,6 @@ class RepoRawItemModel : public QStandardItemModel, public RepoItemModelBase
     void parseMetaData(const int mdt, QJsonDocument * json);
     void parseOne(QJsonDocument * json);
     void setRefreshRequired(const bool val) { m_refreshRequired = val; }
-    bool setValue(const int id, const int role, const QVariant value);
     void update();
 
   private:

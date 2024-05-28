@@ -1,8 +1,7 @@
 /*
- * Copyright (C) EdgeTX
+ * Copyright (C) OpenTX
  *
  * Based on code named
- *   opentx - https://github.com/opentx/opentx
  *   th9x - http://code.google.com/p/th9x
  *   er9x - http://code.google.com/p/er9x
  *   gruvin9x - http://code.google.com/p/gruvin9x
@@ -19,7 +18,8 @@
  * GNU General Public License for more details.
  */
 
-#pragma once
+#ifndef _PROGRESSDIALOG_H_
+#define _PROGRESSDIALOG_H_
 
 #include <QDialog>
 
@@ -34,26 +34,26 @@ class ProgressDialog : public QDialog
 {
   Q_OBJECT
 
-  public:
-    ProgressDialog(QWidget *parent, const QString &label, const QIcon &icon, bool forceOpen=false);
-    ~ProgressDialog();
+public:
+  ProgressDialog(QWidget *parent, const QString &label, const QIcon &icon, bool forceOpen=false);
+  ~ProgressDialog();
 
-    ProgressWidget * progress();
-    bool isEmpty() const;
+  ProgressWidget * progress();
+  bool isEmpty() const;
 
-  public slots:
-    void setProcessStarted();
-    void setProcessStopped();
+public slots:
+  void setProcessStarted();
+  void setProcessStopped();
 
-  private slots:
-    void on_closeButton_clicked();
-    void on_outputProgress_detailsToggled();
-    void on_outputProgress_locked(bool);
-    void on_outputProgress_keepOpen(bool);
-    void shrink();
+private slots:
+  void on_closeButton_clicked();
+  void on_outputProgress_detailsToggled();
+  void on_outputProgress_locked(bool);
+  void shrink();
 
-  private:
-    Ui::ProgressDialog *ui;
-    bool locked;
-    bool keepOpen;
+private:
+  Ui::ProgressDialog *ui;
+  bool locked;
 };
+
+#endif // _PROGRESSDIALOG_H_

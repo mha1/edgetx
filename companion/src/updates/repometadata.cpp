@@ -76,6 +76,12 @@ const int RepoMetaData::id() const
   return m_id;
 }
 
+void RepoMetaData::init(const QString & repoPath, const int resultsPerPage)
+{
+  m_repoPath = repoPath;
+  m_resultsPerPage = resultsPerPage;
+}
+
 void RepoMetaData::invalidate()
 {
   setId(0);
@@ -107,6 +113,16 @@ UpdateNetwork* const RepoMetaData::network() const
   return m_network;
 }
 
+const QString RepoMetaData::repoPath() const
+{
+  return m_repoPath;
+}
+
+const int RepoMetaData::resultsPerPage() const
+{
+  return m_resultsPerPage;
+}
+
 bool RepoMetaData::retrieveMetaData(const int mdt, const QString url)
 {
   if (!m_rawItemModel->isRefreshRequired())
@@ -114,21 +130,12 @@ bool RepoMetaData::retrieveMetaData(const int mdt, const QString url)
 
   QJsonDocument *json = new QJsonDocument();
 
-  if (!url.isEmpty()) {
-    network()->downloadMetaData(mdt >= RepoRawItemModel::MDT_GitHub_First &&
-                                mdt <= RepoRawItemModel::MDT_GitHub_Last ? UpdateNetwork::DDT_GitHub_MetaData :
-                                                                           UpdateNetwork::DDT_Build_MetaData,
-                                url,
-                                json);
+  network()->downloadMetaData(url, json);
 
-    if (!network()->isSuccess()) {
-      status()->reportProgress("Unable to download release asset meta data", QtDebugMsg);
-      invalidate();
-      return false;
-    }
-  }
-  else {
-    json->setObject(QJsonObject()); // add a dummy object so later tests pass
+  if (!network()->isSuccess()) {
+    status()->reportProgress("Unable to download release asset meta data", QtDebugMsg);
+    invalidate();
+    return false;
   }
 
   m_rawItemModel->parseMetaData(mdt, json);
@@ -172,4 +179,25 @@ void RepoMetaData::setModels(RepoRawItemModel * repoRawItemModel, RepoFilteredIt
 UpdateStatus* const RepoMetaData::status() const
 {
   return m_status;
+}
+
+const QString RepoMetaData::urlAsset(const int assetId) const
+{
+  return QString("%1/assets/%2").arg(urlReleases()).arg(assetId);
+}
+
+const QString RepoMetaData::urlAssets(const int releaseId) const
+{
+  return QString("%1/%2/assets").arg(urlReleases()).arg(releaseId) % (m_resultsPerPage > -1 ?
+    QString("\?per_page=%1").arg(m_resultsPerPage) : "");
+}
+
+const QString RepoMetaData::urlContent(const QString & filename) const
+{
+  return QString("%1/contents/%2").arg(m_repoPath).arg(filename);
+}
+
+const QString RepoMetaData::urlReleases() const
+{
+  return QString("%1/releases").arg(m_repoPath);
 }

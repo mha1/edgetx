@@ -38,6 +38,6 @@ class UpdateCompanion : public UpdateInterface
     virtual const bool isUpdateAvailable() override;
 
   protected:
-    virtual int asyncInstall() override;
+    virtual bool asyncInstall() override;
     virtual void assetSettingsInit() override;
 };

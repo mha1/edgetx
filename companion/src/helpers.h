@@ -263,8 +263,6 @@ class SemanticVersion
     bool fromInt(const unsigned int val);
     bool isEmpty(const QString vers);
     bool isEmpty();
-    bool isPreRelease(const QString vers);
-    bool isPreRelease();
 
     SemanticVersion& operator=(const SemanticVersion& rhs);
 
