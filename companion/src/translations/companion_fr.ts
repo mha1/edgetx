@@ -2162,6 +2162,11 @@ Voulez-vous importer les paramètres depuis un fichier ?</translation>
         <translation>Mode Course/Racing</translation>
     </message>
     <message>
+        <location filename="../firmwares/customfunctiondata.cpp" line="124"/>
+        <source>Arm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../firmwares/customfunctiondata.cpp" line="125"/>
         <source>Disable Touch</source>
         <translation>Désactiver Touches</translation>
