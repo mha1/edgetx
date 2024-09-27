@@ -2377,6 +2377,11 @@ Vill du hämta inställningarna från en fil?</translation>
         <translation>Tävlingsläge</translation>
     </message>
     <message>
+        <location filename="../firmwares/customfunctiondata.cpp" line="124"/>
+        <source>Arm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../firmwares/customfunctiondata.cpp" line="126"/>
         <source>Disable Touch</source>
         <translation>Inaktivera pekskärm</translation>
