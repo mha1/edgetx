@@ -41,6 +41,7 @@ CustomFunctionsPanel::CustomFunctionsPanel(QWidget * parent, ModelData * model, 
   harpicId = tabModelFactory->registerItemModel(CustomFunctionData::harpicItemModel());
   repeatId = tabModelFactory->registerItemModel(CustomFunctionData::repeatItemModel());
   repeatLuaId = tabModelFactory->registerItemModel(CustomFunctionData::repeatLuaItemModel());
+  repeatSetScreenId = tabModelFactory->registerItemModel(CustomFunctionData::repeatSetScreenItemModel());
   gvarAdjustModeId = tabModelFactory->registerItemModel(CustomFunctionData::gvarAdjustModeItemModel());
 
   tabFilterFactory = new FilteredItemModelFactory();
@@ -209,6 +210,8 @@ CustomFunctionsPanel::CustomFunctionsPanel(QWidget * parent, ModelData * model, 
     fswtchRepeat[i]->setProperty("index", i);
     if (functions[i].func == FuncPlayScript || functions[i].func == FuncRGBLed)
       fswtchRepeat[i]->setModel(tabModelFactory->getItemModel(repeatLuaId));
+    else if (functions[i].func == FuncSetScreen && !Boards::getCapability(firmware->getBoard(), Board::HasColorLcd))
+      fswtchRepeat[i]->setModel(tabModelFactory->getItemModel(repeatSetScreenId));
     else
       fswtchRepeat[i]->setModel(tabModelFactory->getItemModel(repeatId));
     fswtchRepeat[i]->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Fixed);
@@ -356,6 +359,8 @@ void CustomFunctionsPanel::functionEdited()
     functions[index].enabled = true;
     if (functions[index].func == FuncPlayScript || functions[index].func == FuncRGBLed)
       fswtchRepeat[index]->setModel(tabModelFactory->getItemModel(repeatLuaId));
+    else if (functions[index].func == FuncSetScreen && !Boards::getCapability(firmware->getBoard(), Board::HasColorLcd))
+      fswtchRepeat[index]->setModel(tabModelFactory->getItemModel(repeatSetScreenId));
     else
       fswtchRepeat[index]->setModel(tabModelFactory->getItemModel(repeatId));
     if (functions[index].func == FuncLogs)
