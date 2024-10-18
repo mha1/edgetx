@@ -93,14 +93,13 @@ uint8_t createCrossfireModelIDFrame(uint8_t moduleIdx, uint8_t * frame)
 }
 
 // Range for pulses (channels output) is [-1024:+1024]
-uint8_t createCrossfireChannelsFrame(uint8_t * frame, int16_t * pulses, bool RCext, uint8_t armStatus)
+uint8_t createCrossfireChannelsFrame(uint8_t * frame, int16_t * pulses)
 {
-  uint8_t extAdjust = RCext ? 1: 0;
   uint8_t * buf = frame;
   *buf++ = MODULE_ADDRESS;
-  *buf++ = 24 + extAdjust ; // 1(ID) + 22 + (+1 if RCext) + 1(CRC)
+  *buf++ = 24; // 1(ID) + 22 + 1(CRC)
   uint8_t * crc_start = buf;
-  *buf++ = RCext ? CHANNELS_ID_EXT : CHANNELS_ID;
+  *buf++ = CHANNELS_ID;
   uint32_t bits = 0;
   uint8_t bitsavailable = 0;
   for (int i=0; i<CROSSFIRE_CHANNELS_COUNT; i++) {
@@ -113,15 +112,53 @@ uint8_t createCrossfireChannelsFrame(uint8_t * frame, int16_t * pulses, bool RCe
       bitsavailable -= 8;
     }
   }
-  
-  if (RCext) {
-    TRACE("[XF] RCext arm %d", armStatus);
-    *buf++ = armStatus;  // Arm status
-  } else {
-    TRACE("[XF] RC");
-  }
+  *buf++ = crc8(crc_start, 23);
+  return buf - frame;
+}
 
-  *buf++ = crc8(crc_start, 23 + extAdjust);
+
+/*
+* SUBSET RC FRAME 0x17
+*
+* The structure of 0x17 frame consists of 8-bit configuration data & variable length packed channel data.
+*
+* definition of the configuration byte
+* bits 0-4: number of first channel packed
+* bits 5-6: resolution configuration of the channel data (00 -> 10 bits, 01 -> 11 bits, 10 -> 12 bits, 11 -> 13 bits)
+* bit 7:    reserved
+
+* data structure of the channel data
+*  - first channel packed with specified resolution
+*  - second channel packed with specified resolution
+*  - third channel packed with specified resolution
+*                       ...
+*  - last channel packed with specified resolution
+*/
+
+// Range for pulses (channels output) is [-1024:+1024]
+uint8_t createCrossfireSubsetChannelsFrame(uint8_t * frame, int16_t * pulses, bool armCmd)
+{
+  uint8_t * buf = frame;
+  *buf++ = MODULE_ADDRESS;
+  *buf++ = 1 + 22 + 1 + 1 + 2;  // 1(ID) + 22 + 1(CRC)   + 1(CONFIG) + 2(extended data)
+  uint8_t * crc_start = buf;
+  *buf++ = SUBSET_CHANNELS_ID;
+  *buf++ = 0xA0;                // 11Bit resolution, start channel 0, extended data
+  uint32_t bits = 0;        
+  uint8_t bitsavailable = 0;
+  for (int i=0; i<CROSSFIRE_CHANNELS_COUNT; i++) {
+    uint32_t val = limit(0, CROSSFIRE_CENTER + (CROSSFIRE_CENTER_CH_OFFSET(i) * 4) / 5 + (pulses[i] * 4) / 5, 2 * CROSSFIRE_CENTER);
+    bits |= val << bitsavailable;
+    bitsavailable += CROSSFIRE_CH_BITS;
+    while (bitsavailable >= 8) {
+      *buf++ = bits;
+      bits >>= 8;
+      bitsavailable -= 8;
+    }
+  }
+  *buf++ = armCmd ? 1 : 0;      // commanded armed status
+  *buf++ = 0;                   // spare  
+  *buf++ = crc8(crc_start, 23 + 3);
   return buf - frame;
 }
 
@@ -178,8 +215,13 @@ static void setupPulsesCrossfire(uint8_t module, uint8_t*& p_buf,
       moduleState[module].mode = MODULE_MODE_NORMAL;
     } else {
       /* TODO: nChannels */
-      bool crsfArmingMode = g_model.crsfArmingMode;
-      p_buf += createCrossfireChannelsFrame(p_buf, channels, g_model.crsfArmingMode, crsfArmingMode && isFunctionActive(FUNCTION_ARM));
+      if(g_model.crsfArmingMode) {
+        TRACE("[XF] SUBSET RC");
+        p_buf += createCrossfireSubsetChannelsFrame(p_buf, channels, isFunctionActive(FUNCTION_ARM));
+      } else {
+        TRACE("[XF] RC");
+        p_buf += createCrossfireChannelsFrame(p_buf, channels);
+      }
     }
   }
 }
