@@ -425,7 +425,7 @@ inline uint8_t EXTERNAL_MODULE_TYPE_ROW()
 #define IF_MODULE_BAUDRATE_ADJUST(module, xxx) (isModuleCrossfire(module) ? (uint8_t)(xxx) : HIDDEN_ROW)
 #endif
 #define IF_MODULE_ARMED(module, xxx) (crossfireModuleStatus[module].isELRSV4 ? (uint8_t)(xxx) : HIDDEN_ROW)
-#define IF_MODULE_ARMED_TRIGGER(module, xxx) (()crossfireModuleStatus[module].isELRSV4  && g_model.moduleData[module].crsf.crsfArmingMode ? (uint8_t)(xxx) : HIDDEN_ROW)  
+#define IF_MODULE_ARMED_TRIGGER(module, xxx) ((crossfireModuleStatus[module].isELRSV4  && g_model.moduleData[module].crsf.crsfArmingMode) ? (uint8_t)(xxx) : HIDDEN_ROW)  
 #else
 #define IF_MODULE_SYNCED(module, xxx)
 #define IF_MODULE_BAUDRATE_ADJUST(module, xxx)
