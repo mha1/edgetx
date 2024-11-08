@@ -111,6 +111,7 @@ struct CrossfireModuleStatus
     char name[CRSF_NAME_MAXSIZE];
     bool queryCompleted;
     bool isELRS;
+    bool isELRSV4;
 };
 
 extern CrossfireModuleStatus crossfireModuleStatus[2];

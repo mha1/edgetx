@@ -30,12 +30,14 @@ struct ModuleData;
 class CrossfireSettings : public Window, public ModuleOptions
 {
   ModuleData* md;
+  StaticText *text;
+  Choice *choice;
   SwitchChoice *switchChoice;
-
+  uint8_t moduleIdx;
+  bool isELRSV4;
+  
   void checkEvents() override;
   void update() override;
-
-  uint8_t lastCrsfArmingMode;
   
 public:
   CrossfireSettings(Window* parent, const FlexGridLayout& g, uint8_t moduleIdx);
