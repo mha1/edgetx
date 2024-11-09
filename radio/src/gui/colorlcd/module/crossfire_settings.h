@@ -30,11 +30,10 @@ struct ModuleData;
 class CrossfireSettings : public Window, public ModuleOptions
 {
   ModuleData* md;
-  StaticText *text;
-  Choice *choice;
-  SwitchChoice *switchChoice;
+  StaticText *lblArmMode;
+  Choice *choArmMode;
+  SwitchChoice *choArmSwitch;
   uint8_t moduleIdx;
-  bool isELRSV4;
   
   void checkEvents() override;
   void update() override;

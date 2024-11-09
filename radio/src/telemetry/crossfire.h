@@ -111,7 +111,6 @@ struct CrossfireModuleStatus
     char name[CRSF_NAME_MAXSIZE];
     bool queryCompleted;
     bool isELRS;
-    bool isELRSV4;
 };
 
 extern CrossfireModuleStatus crossfireModuleStatus[2];
@@ -156,6 +155,11 @@ const uint8_t CROSSFIRE_FRAME_PERIODS[] = {
     (i + (DIM(CROSSFIRE_BAUDRATES) - CROSSFIRE_DEFAULT_INDEX)) \
         % DIM(CROSSFIRE_BAUDRATES)
 #endif
+
+#define CRSF_ELRS_MIN_VER(moduleIdx, maj, min) \
+        (crossfireModuleStatus[moduleIdx].isELRS \
+         && crossfireModuleStatus[moduleIdx].major >= maj \
+         && crossfireModuleStatus[moduleIdx].minor >= min)
 
 #if defined(HARDWARE_INTERNAL_MODULE)
 #define INT_CROSSFIRE_BR_IDX   CROSSFIRE_STORE_TO_INDEX(g_eeGeneral.internalModuleBaudrate)

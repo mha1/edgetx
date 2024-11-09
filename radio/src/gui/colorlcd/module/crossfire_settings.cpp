@@ -30,7 +30,7 @@
 
 CrossfireSettings::CrossfireSettings(Window* parent, const FlexGridLayout& g,
                                      uint8_t moduleIdx) :
-    Window(parent, rect_t{}), md(&g_model.moduleData[moduleIdx])
+    Window(parent, rect_t{}), md(&g_model.moduleData[moduleIdx]), moduleIdx(moduleIdx)
 {
   FlexGridLayout grid(g);
   setFlexLayout();
@@ -67,33 +67,33 @@ CrossfireSettings::CrossfireSettings(Window* parent, const FlexGridLayout& g,
     return std::string(msg);
   });
  
-  this->moduleIdx = moduleIdx;
+  moduleIdx = moduleIdx;
 
   auto armingLine = newLine(grid);
-  text = new StaticText(armingLine, rect_t{}, STR_ARMING_MODE);
+  lblArmMode = new StaticText(armingLine, rect_t{}, STR_ARMING_MODE);
   auto box = new Window(armingLine, rect_t{});
   box->padAll(PAD_TINY);
   box->setFlexLayout(LV_FLEX_FLOW_ROW, PAD_SMALL);
-  choice = new Choice(box, rect_t{}, STR_CRSF_ARMING_MODES, 0, 1, GET_SET_DEFAULT(md->crsf.crsfArmingMode));
-  switchChoice = new SwitchChoice(box, rect_t{}, SWSRC_FIRST, SWSRC_LAST, GET_SET_DEFAULT(md->crsf.crsfArmingTrigger));
-  switchChoice->setAvailableHandler([=](int sw) { return isSwitchAvailableForArming(sw); });
+  choArmMode = new Choice(box, rect_t{}, STR_CRSF_ARMING_MODES, 0, 1, GET_SET_DEFAULT(md->crsf.crsfArmingMode));
+  choArmSwitch = new SwitchChoice(box, rect_t{}, SWSRC_FIRST, SWSRC_LAST, GET_SET_DEFAULT(md->crsf.crsfArmingTrigger));
+  choArmSwitch->setAvailableHandler([=](int sw) { return isSwitchAvailableForArming(sw); });
 
   update();                      
 }
 
 void CrossfireSettings::update() {
-    if(crossfireModuleStatus[this->moduleIdx].isELRSV4) {
-      text->show();
-      choice->show();
+    if(CRSF_ELRS_MIN_VER(moduleIdx, 4, 0)) {
+      lblArmMode->show();
+      choArmMode->show();
 
       if(md->crsf.crsfArmingMode == ARMING_MODE_SWITCH)
-        switchChoice->show();
+        choArmSwitch->show();
       else
-        switchChoice->hide();
+        choArmSwitch->hide();
     } else {
-      text->hide();
-      choice->hide();
-      switchChoice->hide();
+      lblArmMode->hide();
+      choArmMode->hide();
+      choArmSwitch->hide();
     }
 }
 
