@@ -34,7 +34,7 @@ class CrossfireSettings : public Window, public ModuleOptions
   Choice *choArmMode;
   SwitchChoice *choArmSwitch;
   uint8_t moduleIdx;
-  
+
   void checkEvents() override;
   void update() override;
   

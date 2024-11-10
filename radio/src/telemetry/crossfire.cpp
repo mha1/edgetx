@@ -278,9 +278,9 @@ void processCrossfireTelemetryFrame(uint8_t module, uint8_t* rxBuffer,
           md->crsf.crsfArmingMode = ARMING_MODE_CH5;
           md->crsf.crsfArmingTrigger = SWSRC_NONE;
 
-          storageDirty(EE_MODEL); 
+          storageDirty(EE_MODEL);
         }
-        
+
         crossfireModuleStatus[module].queryCompleted = true;
       }
 
