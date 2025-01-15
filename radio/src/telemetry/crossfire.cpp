@@ -99,11 +99,11 @@ void processCrossfireTelemetryValue(uint8_t index, int32_t value)
 
 template <int N>
 bool getCrossfireTelemetryValue(uint8_t index, int32_t& value,
-                                uint8_t* rxBuffer)
+                                uint8_t* rxBuffer, bool _unsigned = false)
 {
   bool result = false;
   uint8_t * byte = &rxBuffer[index];
-  value = (*byte & 0x80) ? -1 : 0;
+  value = ((*byte & 0x80) && !_unsigned)? -1 : 0;
   for (uint8_t i=0; i<N; i++) {
     value <<= 8;
     if (*byte != 0xff) {
@@ -138,7 +138,7 @@ void processCrossfireTelemetryFrame(uint8_t module, uint8_t* rxBuffer,
         processCrossfireTelemetryValue(GPS_LONGITUDE_INDEX, value/10);
       if (getCrossfireTelemetryValue<2>(11, value, rxBuffer))
         processCrossfireTelemetryValue(GPS_GROUND_SPEED_INDEX, value);
-      if (getCrossfireTelemetryValue<2>(13, value, rxBuffer))
+      if (getCrossfireTelemetryValue<2>(13, value, rxBuffer, true))
         processCrossfireTelemetryValue(GPS_HEADING_INDEX, value);
       if (getCrossfireTelemetryValue<2>(15, value, rxBuffer))
         processCrossfireTelemetryValue(GPS_ALTITUDE_INDEX,  value - 1000);
