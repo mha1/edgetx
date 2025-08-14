@@ -20,8 +20,9 @@
  */
 
 //
-//  Data based on MPM firmware version 1.3.3.33 multi.txt
+//  Data based on MPM firmware version 1.3.4.31 multi.txt
 //
+
 #if defined(MULTIMODULE) or defined(SIMU)
 
 #pragma once
@@ -179,7 +180,6 @@ PROTODEF ({
   {MODULE_SUBTYPE_MULTI_YD717,      4, false, false,  STR_SUBTYPE_YD717,     nullptr},
   {MODULE_SUBTYPE_MULTI_KN,         1, false, false,  STR_SUBTYPE_KN,        nullptr},
   {MODULE_SUBTYPE_MULTI_SYMAX,      1, false, false,  STR_SUBTYPE_SYMAX,     nullptr},
-
   {MODULE_SUBTYPE_MULTI_SLT,        6, false, true,   STR_SUBTYPE_SLT,       STR_MULTI_RFTUNE},
   {MODULE_SUBTYPE_MULTI_CX10,       6, false, false,  STR_SUBTYPE_CX10,      nullptr},
   {MODULE_SUBTYPE_MULTI_CG023,      1, false, false,  STR_SUBTYPE_CG023,     nullptr},
@@ -190,7 +190,6 @@ PROTODEF ({
   {MODULE_SUBTYPE_MULTI_MJXQ,       6, false, false,  STR_SUBTYPE_MJXQ,      nullptr},
   {MODULE_SUBTYPE_MULTI_SHENQI,     0, false, false,  NO_SUBTYPE,            nullptr},
   {MODULE_SUBTYPE_MULTI_FY326,      1, false, false,  STR_SUBTYPE_FY326,     nullptr},
-
   {MODULE_SUBTYPE_MULTI_FUTABA,     0, true,  true,   STR_SUBTYPE_FUTABA,    STR_MULTI_RFTUNE},
   {MODULE_SUBTYPE_MULTI_J6PRO,      0, false, true,   NO_SUBTYPE,            nullptr},
   {MODULE_SUBTYPE_MULTI_FQ777,      0, false, false,  NO_SUBTYPE,            nullptr},
@@ -201,7 +200,6 @@ PROTODEF ({
   {MODULE_SUBTYPE_MULTI_FS_AFHDS2A, 7, true,  true,   STR_SUBTYPE_AFHDS2A,   STR_MULTI_SERVOFREQ},
   {MODULE_SUBTYPE_MULTI_Q2X2,       2, false, false,  STR_SUBTYPE_Q2X2,      nullptr},
   {MODULE_SUBTYPE_MULTI_WK_2X01,    5, true,  true,   STR_SUBTYPE_WK2x01,    nullptr},
-
   {MODULE_SUBTYPE_MULTI_Q303,       3, false, false,  STR_SUBTYPE_Q303,      nullptr},
   {MODULE_SUBTYPE_MULTI_GW008,      0, false, false,  NO_SUBTYPE,            nullptr},
   {MODULE_SUBTYPE_MULTI_DM002,      0, false, false,  NO_SUBTYPE,            nullptr},
@@ -212,7 +210,6 @@ PROTODEF ({
   // MODULE_SUBTYPE_MULTI_CFLIE non selectable and masked out for selection
   {MODULE_SUBTYPE_MULTI_HITEC,      2, false, false,  STR_SUBTYPE_HITEC,     STR_MULTI_RFTUNE},
   {MODULE_SUBTYPE_MULTI_WFLY,       0, true,  false,  STR_SUBTYPE_WFLY,      nullptr},
-
   {MODULE_SUBTYPE_MULTI_BUGS,       0, false, false,  NO_SUBTYPE,            nullptr},
   {MODULE_SUBTYPE_MULTI_BUGS_MINI,  1, false, false,  STR_SUBTYPE_BUGS_MINI, nullptr},
   {MODULE_SUBTYPE_MULTI_TRAXXAS,    0, false, false,  STR_SUBTYPE_TRAXXAS,   nullptr},
@@ -223,7 +220,6 @@ PROTODEF ({
   {MODULE_SUBTYPE_MULTI_V761,       2, false, false,  STR_SUBTYPE_V761,      nullptr},
   {MODULE_SUBTYPE_MULTI_KF606,      2, false, false,  STR_SUBTYPE_KF606,     STR_MULTI_RFTUNE},
   {MODULE_SUBTYPE_MULTI_REDPINE,    1, false, false,  STR_SUBTYPE_REDPINE,   STR_MULTI_RFTUNE},
-
   {MODULE_SUBTYPE_MULTI_POTENSIC,   0, false, false,  STR_SUBTYPE_POTENSIC,  nullptr},
   {MODULE_SUBTYPE_MULTI_ZSX,        0, false, false,  STR_SUBTYPE_ZSX,       nullptr},
   {MODULE_SUBTYPE_MULTI_HEIGHT,     1, false, false,  STR_SUBTYPE_HEIGHT,    nullptr},
@@ -234,8 +230,7 @@ PROTODEF ({
   {MODULE_SUBTYPE_MULTI_FX,         3, false, false,  STR_SUBTYPE_FX,        nullptr},
   {MODULE_SUBTYPE_MULTI_BAYANG_RX,  1, false, false,  STR_SUBTYPE_RX,        nullptr},
   {MODULE_SUBTYPE_MULTI_PELIKAN,    2, false, true,   STR_SUBTYPE_PELIKAN,   nullptr},
-
-  {MODULE_SUBTYPE_MULTI_TIGER,      0, false, false,  NO_SUBTYPE,            nullptr},
+  {MODULE_SUBTYPE_MULTI_EAZYRC,     0, false, false,  NO_SUBTYPE,            nullptr},
   {MODULE_SUBTYPE_MULTI_XK,         1, false, false,  STR_SUBTYPE_XK,        STR_MULTI_RFTUNE},
   {MODULE_SUBTYPE_MULTI_XN297DUMP,  3, false, false,  STR_SUBTYPE_XN297DUMP, STR_MULTI_RFCHAN},
   {MODULE_SUBTYPE_MULTI_FRSKYX2,    4, true,  false,  STR_SUBTYPE_FRSKYX2,   STR_MULTI_RFTUNE},
@@ -245,7 +240,6 @@ PROTODEF ({
   {MODULE_SUBTYPE_MULTI_SKYARTEC,   0, false, true,   NO_SUBTYPE,            STR_MULTI_RFTUNE},
   {MODULE_SUBTYPE_MULTI_ESKY150V2,  0, false, true,   STR_SUBTYPE_ESKY150V2, STR_MULTI_RFTUNE},
   {MODULE_SUBTYPE_MULTI_DSM_RX,     3, false, true,   STR_SUBTYPE_DSM_RX,    nullptr},
-
   {MODULE_SUBTYPE_MULTI_JJRC345,    1, false, false,  STR_SUBTYPE_JJRC345,   nullptr},
   {MODULE_SUBTYPE_MULTI_Q90C,       0, false, false,  NO_SUBTYPE,            STR_MULTI_RFTUNE},
   {MODULE_SUBTYPE_MULTI_KYOSHO,     1, false, true,   STR_SUBTYPE_KYOSHO,    nullptr},
@@ -256,7 +250,6 @@ PROTODEF ({
   {MODULE_SUBTYPE_MULTI_MLINK,      0, true,  false,  NO_SUBTYPE,            nullptr},
   {MODULE_SUBTYPE_MULTI_WFLY2,      0, true,  false,  STR_SUBTYPE_WFLY2,     STR_MULTI_OPTION},
   {MODULE_SUBTYPE_MULTI_E016HV2,    0, false, false,  STR_SUBTYPE_E016HV2,   STR_MULTI_RFTUNE},
-
   {MODULE_SUBTYPE_MULTI_E010R5,     0, false, false,  NO_SUBTYPE,            nullptr},
   {MODULE_SUBTYPE_MULTI_LOLI,       0, true,  false,  NO_SUBTYPE,            nullptr},
   {MODULE_SUBTYPE_MULTI_E129,       1, false, false,  STR_SUBTYPE_E129,      nullptr},
@@ -267,7 +260,6 @@ PROTODEF ({
   // MODULE_SUBTYPE_MULTI_WILLIFM non selectable and masked out for selection
   {MODULE_SUBTYPE_MULTI_LOSI,       0, false, false,  NO_SUBTYPE,            nullptr},
   {MODULE_SUBTYPE_MULTI_MOULDKG,    1, false, false,  STR_SUBTYPE_MOULDKG,   STR_MULTI_OPTION},
-
   {MODULE_SUBTYPE_MULTI_XERALL,     0, false, false,  NO_SUBTYPE,            nullptr},
   {MODULE_SUBTYPE_MULTI_MT99XX2,    1, false, false,  STR_SUBTYPE_MT992,     nullptr},
   {MODULE_SUBTYPE_MULTI_KYOSHO2,    0, false, false,  STR_SUBTYPE_KYOSHO2,   nullptr},
@@ -278,11 +270,9 @@ PROTODEF ({
   {MODULE_SUBTYPE_MULTI_KYOSHO3,    0, false, false,  NO_SUBTYPE,            nullptr},
   {MODULE_SUBTYPE_MULTI_XK2,        1, false, false,  STR_SUBTYPE_XK2,       STR_MULTI_RFTUNE},
   {MODULE_SUBTYPE_MULTI_YUXIANG,    0, false, false,  NO_SUBTYPE,            nullptr},
-
-  // MODULE_SUBTYPE_UDIRC non selectable and masked out for selection
+  // MODULE_SUBTYPE_PINECONE non selectable and masked out for selection
   {MODULE_SUBTYPE_MULTI_JIABAILE,   1, false, false,  STR_SUBTYPE_JIABAILE,  nullptr},
   {MODULE_SUBTYPE_MULTI_H36,        0, false, false,  NO_SUBTYPE,            nullptr},
-
   {MODULE_SUBTYPE_MULTI_NN1,        7, true,  true,   STR_SUBTYPE_NN,        STR_MULTI_OPTION},
   {MODULE_SUBTYPE_MULTI_NN2,        7, true,  true,   STR_SUBTYPE_NN,        STR_MULTI_OPTION},
   {MODULE_SUBTYPE_MULTI_NN3,        7, true,  true,   STR_SUBTYPE_NN,        STR_MULTI_OPTION},
