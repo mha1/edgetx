@@ -95,7 +95,7 @@ STRLIST(STR_SUBTYPE_FRSKYD,    {"D8","Cloned"})
 STRLIST(STR_SUBTYPE_FRSKYX,    {"CH_16","CH_8","EU_16","EU_8","Cloned","Clon_8"})
 STRLIST(STR_SUBTYPE_HISKY,     {"Hisky","HK310"})
 STRLIST(STR_SUBTYPE_V2X2,      {"Std","JXD506","MR101"})
-STRLIST(STR_SUBTYPE_DSM,       {"DSM2_1F","DSM2_2F","DSMX_1F","DSMX_2F","AUTO,DSMR_1F","DSMR","DSM2_SFC"})
+STRLIST(STR_SUBTYPE_DSM,       {"DSM2_1F","DSM2_2F","DSMX_1F","DSMX_2F","AUTO","DSMR_1F","DSMR","DSM2_SFC"})
 STRLIST(STR_SUBTYPE_DEVO,      {"8ch","10ch","12ch","6ch","7ch"})
 STRLIST(STR_SUBTYPE_YD717,     {"Std","SkyWlkr","Syma X4","XINXUN","NIHUI"})
 STRLIST(STR_SUBTYPE_KN,        {"WLtoys","FeiLun"})
@@ -116,7 +116,7 @@ STRLIST(STR_SUBTYPE_WK2x01,    {"WK2801","WK2401","W6_5_1","W6_6_1","W6_HEL","W6
 STRLIST(STR_SUBTYPE_Q303,      {"Q303","CX35","CX10D","CX10WD"})
 STRLIST(STR_SUBTYPE_CABELL,    {"CAB_V3","C_TELEM","-","-","-","-","F_SAFE","UNBIND"})
 STRLIST(STR_SUBTYPE_ESKY150,   {"4ch","7ch"})
-STRLIST(STR_SUBTYPE_H83D,      {"H8_3D","H8_3D","H20H","H20Mini","H30Mini"})
+STRLIST(STR_SUBTYPE_H83D,      {"H8_3D","H20H","H20Mini","H30Mini"})
 STRLIST(STR_SUBTYPE_CORONA,    {"COR_V1","COR_V2","FD_V3"})
 STRLIST(STR_SUBTYPE_HITEC,     {"OPT_FW","OPT_HUB","MINIMA"})
 STRLIST(STR_SUBTYPE_WFLY,      {"WFR0x"})
@@ -135,7 +135,7 @@ STRLIST(STR_SUBTYPE_FRSKYX_RX, {"Multi","CloneTX","EraseTX","CPPM"})
 STRLIST(STR_SUBTYPE_HOTT,      {"Sync","No_Sync"})
 STRLIST(STR_SUBTYPE_FX,        {"816","620","9630","Q560"})
 STRLIST(STR_SUBTYPE_PELIKAN,   {"Pro","Lite","SCX24"})
-STRLIST(STR_SUBTYPE_XK,        {"X450","X420"})
+STRLIST(STR_SUBTYPE_XK,        {"X450","X420","Cars"})
 STRLIST(STR_SUBTYPE_XN297DUMP, {"250K","1M","2M","AUTO"})
 STRLIST(STR_SUBTYPE_FRSKYX2,   {"CH_16","CH_8","EU_16","EU_8","Cloned"})
 STRLIST(STR_SUBTYPE_FRSKYR9,   {"915MHz","868MHz","915_8ch","868_8ch","FCC","--","FCC_8ch","--_8ch"})
@@ -166,7 +166,7 @@ STRLIST(STR_SUBTYPE_NN,        { SPARE_SUBTYPE_NAMES })
 
 //
 // Common data structure defining Multi protocol capabilites, i.e. number of subtypes,
-// failsafe support yes/no, channel map disabled yes/no, reference to the suptype options strings above
+// failsafe support yes/no, channel map disabled yes/no, reference to the subtype options strings above
 // and further protocol options, e.g. RF tune, video frequency.
 //
 PROTODEF ({
@@ -175,7 +175,7 @@ PROTODEF ({
   {MODULE_SUBTYPE_MULTI_FRSKY,      1, false, false,  STR_SUBTYPE_FRSKYD,    STR_MULTI_RFTUNE},
   {MODULE_SUBTYPE_MULTI_HISKY,      1, true,  true,   STR_SUBTYPE_HISKY,     nullptr},
   {MODULE_SUBTYPE_MULTI_V2X2,       2, false, false,  STR_SUBTYPE_V2X2,      nullptr},
-  {MODULE_SUBTYPE_MULTI_DSM2,       6, false, true,   STR_SUBTYPE_DSM,       STR_MULTI_MAX_THROW},
+  {MODULE_SUBTYPE_MULTI_DSM2,       7, false, true,   STR_SUBTYPE_DSM,       STR_MULTI_MAX_THROW},
   {MODULE_SUBTYPE_MULTI_DEVO,       4, true,  true,   STR_SUBTYPE_DEVO,      STR_MULTI_FIXEDID},
   {MODULE_SUBTYPE_MULTI_YD717,      4, false, false,  STR_SUBTYPE_YD717,     nullptr},
   {MODULE_SUBTYPE_MULTI_KN,         1, false, false,  STR_SUBTYPE_KN,        nullptr},
@@ -205,7 +205,7 @@ PROTODEF ({
   {MODULE_SUBTYPE_MULTI_DM002,      0, false, false,  NO_SUBTYPE,            nullptr},
   {MODULE_SUBTYPE_MULTI_CABELL,     7, false, false,  STR_SUBTYPE_CABELL,    STR_MULTI_OPTION},
   {MODULE_SUBTYPE_MULTI_ESKY150,    1, false, false,  STR_SUBTYPE_ESKY150,   nullptr},
-  {MODULE_SUBTYPE_MULTI_H83D,       4, false, false,  STR_SUBTYPE_H83D,      nullptr},
+  {MODULE_SUBTYPE_MULTI_H83D,       3, false, false,  STR_SUBTYPE_H83D,      nullptr},
   {MODULE_SUBTYPE_MULTI_CORONA,     2, false, false,  STR_SUBTYPE_CORONA,    STR_MULTI_RFTUNE},
   // MODULE_SUBTYPE_MULTI_CFLIE non selectable and masked out for selection
   {MODULE_SUBTYPE_MULTI_HITEC,      2, false, false,  STR_SUBTYPE_HITEC,     STR_MULTI_RFTUNE},
@@ -231,7 +231,7 @@ PROTODEF ({
   {MODULE_SUBTYPE_MULTI_BAYANG_RX,  1, false, false,  STR_SUBTYPE_RX,        nullptr},
   {MODULE_SUBTYPE_MULTI_PELIKAN,    2, false, true,   STR_SUBTYPE_PELIKAN,   nullptr},
   {MODULE_SUBTYPE_MULTI_EAZYRC,     0, false, false,  NO_SUBTYPE,            nullptr},
-  {MODULE_SUBTYPE_MULTI_XK,         1, false, false,  STR_SUBTYPE_XK,        STR_MULTI_RFTUNE},
+  {MODULE_SUBTYPE_MULTI_XK,         2, false, false,  STR_SUBTYPE_XK,        STR_MULTI_RFTUNE},
   {MODULE_SUBTYPE_MULTI_XN297DUMP,  3, false, false,  STR_SUBTYPE_XN297DUMP, STR_MULTI_RFCHAN},
   {MODULE_SUBTYPE_MULTI_FRSKYX2,    4, true,  false,  STR_SUBTYPE_FRSKYX2,   STR_MULTI_RFTUNE},
   {MODULE_SUBTYPE_MULTI_FRSKY_R9,   7, true,  false,  STR_SUBTYPE_FRSKYR9,   nullptr},
