@@ -35,6 +35,9 @@ TelemetryProviderCrossfire::TelemetryProviderCrossfire(QWidget * parent):
 {
   ui->setupUi(this);
 
+  // default to lonk stats sent
+  ui->enabled_linkstats->setChecked(true);
+
   // Set default values from UI definition into GPS
   gps.setLatLon(ui->input_gps->text());
   gps.setCourseDegrees(ui->input_hdg->value());
@@ -147,8 +150,7 @@ void TelemetryProviderCrossfire::generateTelemetryFrame(SimulatorInterface *simu
 
   switch (item++) {
   case 0:
-    // Always generate link stats
-    if (true) {
+    if (ui->enabled_linkstats->isChecked()) {
       // just want a block here to put these variables in
       uint8_t rssi1 = ui->input_1rss->value();
       uint8_t rssi2 = ui->input_2rss->value();
@@ -402,6 +404,8 @@ void TelemetryProviderCrossfire::on_button_saveTelemetryValues_clicked()
 
   out << getLogfileIdentifier();
   out << "\r\n";
+  out << ui->enabled_linkstats->isChecked();
+  out << "\r\n";
   out << ui->input_1rss->text();
   out << "\r\n";
   out << ui->input_2rss->text();
@@ -499,6 +503,7 @@ void TelemetryProviderCrossfire::on_button_loadTelemetryValues_clicked()
     return;
   }
 
+  inputText = in.readLine(); inputInt = inputText.toInt(); ui->enabled_linkstats->setChecked(inputInt);
   inputText = in.readLine(); inputInt = inputText.toInt(); ui->input_1rss->setValue(inputInt);
   inputText = in.readLine(); inputInt = inputText.toInt(); ui->input_2rss->setValue(inputInt);
   inputText = in.readLine(); inputInt = inputText.toInt(); ui->input_rqly->setValue(inputInt);

@@ -20,7 +20,7 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="23" column="1">
+   <item row="24" column="1">
     <widget class="QSpinBox" name="input_sats">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -38,7 +38,7 @@
      </property>
     </widget>
    </item>
-   <item row="33" column="1">
+   <item row="34" column="1">
     <widget class="QDoubleSpinBox" name="input_alt">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -65,7 +65,7 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="0">
+   <item row="2" column="0">
     <widget class="QLabel" name="label_2rss">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -83,7 +83,7 @@
      </property>
     </widget>
    </item>
-   <item row="8" column="0">
+   <item row="9" column="0">
     <widget class="QLabel" name="label_tqly">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -101,7 +101,7 @@
      </property>
     </widget>
    </item>
-   <item row="23" column="0">
+   <item row="24" column="0">
     <widget class="QLabel" name="label_sats">
      <property name="font">
       <font>
@@ -113,7 +113,7 @@
      </property>
     </widget>
    </item>
-   <item row="32" column="1">
+   <item row="33" column="1">
     <widget class="QDoubleSpinBox" name="input_vspd">
      <property name="font">
       <font>
@@ -122,7 +122,7 @@
      </property>
     </widget>
    </item>
-   <item row="11" column="0">
+   <item row="12" column="0">
     <widget class="QLabel" name="label_rpwr">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -140,7 +140,7 @@
      </property>
     </widget>
    </item>
-   <item row="14" column="0">
+   <item row="15" column="0">
     <widget class="QLabel" name="label_rxbt">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -158,7 +158,7 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="2">
+   <item row="4" column="2">
     <widget class="QLabel" name="label_rsnr_unit">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -176,7 +176,7 @@
      </property>
     </widget>
    </item>
-   <item row="20" column="0">
+   <item row="21" column="0">
     <widget class="QLabel" name="label_gps">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -194,7 +194,7 @@
      </property>
     </widget>
    </item>
-   <item row="11" column="2">
+   <item row="12" column="2">
     <widget class="QLabel" name="label_rpwr_unit">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -212,7 +212,7 @@
      </property>
     </widget>
    </item>
-   <item row="33" column="2">
+   <item row="34" column="2">
     <widget class="QLabel" name="label_alt_unit">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -230,7 +230,7 @@
      </property>
     </widget>
    </item>
-   <item row="7" column="0">
+   <item row="8" column="0">
     <widget class="QLabel" name="label_ant">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -248,7 +248,7 @@
      </property>
     </widget>
    </item>
-   <item row="21" column="2">
+   <item row="22" column="2">
     <widget class="QLabel" name="label_gspd_unit">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -266,7 +266,7 @@
      </property>
     </widget>
    </item>
-   <item row="32" column="0">
+   <item row="33" column="0">
     <widget class="QLabel" name="label_vspd">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -284,7 +284,7 @@
      </property>
     </widget>
    </item>
-   <item row="22" column="0">
+   <item row="23" column="0">
     <widget class="QLabel" name="label_hdg">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -302,7 +302,7 @@
      </property>
     </widget>
    </item>
-   <item row="37" column="1">
+   <item row="38" column="1">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -315,7 +315,7 @@
      </property>
     </spacer>
    </item>
-   <item row="3" column="0">
+   <item row="4" column="0">
     <widget class="QLabel" name="label_rsnr">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -333,7 +333,7 @@
      </property>
     </widget>
    </item>
-   <item row="9" column="2">
+   <item row="10" column="2">
     <widget class="QLabel" name="label_tsnr_unit">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -351,7 +351,7 @@
      </property>
     </widget>
    </item>
-   <item row="8" column="2">
+   <item row="9" column="2">
     <widget class="QLabel" name="label_tqly_unit">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -369,7 +369,7 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="1">
+   <item row="5" column="1">
     <widget class="QSpinBox" name="input_trss">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -393,7 +393,7 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="2">
+   <item row="3" column="2">
     <widget class="QLabel" name="label_rqly_unit">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -411,7 +411,7 @@
      </property>
     </widget>
    </item>
-   <item row="22" column="2">
+   <item row="23" column="2">
     <widget class="QLabel" name="label_hdg_unit">
      <property name="font">
       <font>
@@ -423,7 +423,7 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="1">
+   <item row="2" column="1">
     <widget class="QSpinBox" name="input_2rss">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -447,7 +447,7 @@
      </property>
     </widget>
    </item>
-   <item row="16" column="0">
+   <item row="17" column="0">
     <widget class="QLabel" name="label_capa">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -465,7 +465,7 @@
      </property>
     </widget>
    </item>
-   <item row="7" column="1">
+   <item row="8" column="1">
     <widget class="QSpinBox" name="input_ant">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -483,7 +483,7 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="1">
+   <item row="6" column="1">
     <widget class="QComboBox" name="input_tpwr">
      <property name="font">
       <font>
@@ -540,7 +540,7 @@
      </item>
     </widget>
    </item>
-   <item row="28" column="1">
+   <item row="29" column="1">
     <widget class="QDoubleSpinBox" name="input_yaw">
      <property name="font">
       <font>
@@ -558,7 +558,7 @@
      </property>
     </widget>
    </item>
-   <item row="17" column="0">
+   <item row="18" column="0">
     <widget class="QLabel" name="label_batpercent">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -576,7 +576,7 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="2">
+   <item row="1" column="2">
     <widget class="QLabel" name="label_1rss_unit">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -594,7 +594,7 @@
      </property>
     </widget>
    </item>
-   <item row="35" column="1">
+   <item row="36" column="1">
     <widget class="QPushButton" name="button_saveTelemetryValues">
      <property name="font">
       <font>
@@ -606,7 +606,7 @@
      </property>
     </widget>
    </item>
-   <item row="32" column="2">
+   <item row="33" column="2">
     <widget class="QLabel" name="label_vspd_unit">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -624,7 +624,7 @@
      </property>
     </widget>
    </item>
-   <item row="20" column="2">
+   <item row="21" column="2">
     <widget class="QLabel" name="label_gps_unit">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -646,7 +646,7 @@
      </property>
     </widget>
    </item>
-   <item row="21" column="1">
+   <item row="22" column="1">
     <widget class="QDoubleSpinBox" name="input_gspd">
      <property name="font">
       <font>
@@ -664,7 +664,7 @@
      </property>
     </widget>
    </item>
-   <item row="21" column="0">
+   <item row="22" column="0">
     <widget class="QLabel" name="label_gspd">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -682,7 +682,7 @@
      </property>
     </widget>
    </item>
-   <item row="22" column="1">
+   <item row="23" column="1">
     <widget class="QDoubleSpinBox" name="input_hdg">
      <property name="font">
       <font>
@@ -697,7 +697,7 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="1">
+   <item row="3" column="1">
     <widget class="QSpinBox" name="input_rqly">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -718,7 +718,7 @@
      </property>
     </widget>
    </item>
-   <item row="28" column="0">
+   <item row="29" column="0">
     <widget class="QLabel" name="label_yaw">
      <property name="font">
       <font>
@@ -730,7 +730,7 @@
      </property>
     </widget>
    </item>
-   <item row="30" column="0">
+   <item row="31" column="0">
     <widget class="QLabel" name="label_fm">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -748,7 +748,7 @@
      </property>
     </widget>
    </item>
-   <item row="14" column="1">
+   <item row="15" column="1">
     <widget class="QDoubleSpinBox" name="input_rxbt">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -766,7 +766,7 @@
      </property>
     </widget>
    </item>
-   <item row="14" column="2">
+   <item row="15" column="2">
     <widget class="QLabel" name="label_rxbt_unit">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -784,7 +784,7 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="0">
+   <item row="6" column="0">
     <widget class="QLabel" name="label_tpwr">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -802,7 +802,7 @@
      </property>
     </widget>
    </item>
-   <item row="30" column="1">
+   <item row="31" column="1">
     <widget class="QLineEdit" name="input_fm">
      <property name="font">
       <font>
@@ -814,7 +814,7 @@
      </property>
     </widget>
    </item>
-   <item row="25" column="1">
+   <item row="26" column="1">
     <widget class="QDoubleSpinBox" name="input_ptch">
      <property name="font">
       <font>
@@ -832,7 +832,7 @@
      </property>
     </widget>
    </item>
-   <item row="27" column="2" rowspan="2">
+   <item row="28" column="2" rowspan="2">
     <widget class="QLabel" name="label_yaw_unit">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -850,7 +850,7 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="1">
+   <item row="4" column="1">
     <widget class="QSpinBox" name="input_rsnr">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -871,7 +871,7 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="0">
+   <item row="5" column="0">
     <widget class="QLabel" name="label_trss">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -889,7 +889,7 @@
      </property>
     </widget>
    </item>
-   <item row="9" column="0">
+   <item row="10" column="0">
     <widget class="QLabel" name="label_tsnr">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -907,7 +907,7 @@
      </property>
     </widget>
    </item>
-   <item row="12" column="1">
+   <item row="13" column="1">
     <widget class="QSpinBox" name="input_trsp">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -928,7 +928,7 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="2">
+   <item row="5" column="2">
     <widget class="QLabel" name="label_trss_unit">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -946,7 +946,7 @@
      </property>
     </widget>
    </item>
-   <item row="17" column="1">
+   <item row="18" column="1">
     <widget class="QSpinBox" name="input_batpercent">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -967,7 +967,7 @@
      </property>
     </widget>
    </item>
-   <item row="15" column="1">
+   <item row="16" column="1">
     <widget class="QDoubleSpinBox" name="input_curr">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -985,7 +985,7 @@
      </property>
     </widget>
    </item>
-   <item row="6" column="0">
+   <item row="7" column="0">
     <widget class="QLabel" name="label_rfmd">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -1003,7 +1003,7 @@
      </property>
     </widget>
    </item>
-   <item row="17" column="2">
+   <item row="18" column="2">
     <widget class="QLabel" name="label_batpercent_unit">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1021,7 +1021,7 @@
      </property>
     </widget>
    </item>
-   <item row="10" column="2">
+   <item row="11" column="2">
     <widget class="QLabel" name="label_rrsp_unit">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1039,7 +1039,19 @@
      </property>
     </widget>
    </item>
-   <item row="13" column="1">
+   <item row="0" column="1">
+    <widget class="QCheckBox" name="enabled_linkstats">
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Link Stats</string>
+     </property>
+    </widget>
+   </item>
+   <item row="14" column="1">
     <widget class="QCheckBox" name="enabled_battery">
      <property name="font">
       <font>
@@ -1051,7 +1063,7 @@
      </property>
     </widget>
    </item>
-   <item row="25" column="0">
+   <item row="26" column="0">
     <widget class="QLabel" name="label_ptch">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -1069,7 +1081,7 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="0">
+   <item row="3" column="0">
     <widget class="QLabel" name="label_rqly">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -1087,7 +1099,7 @@
      </property>
     </widget>
    </item>
-   <item row="16" column="2">
+   <item row="17" column="2">
     <widget class="QLabel" name="label_capa_unit">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -1105,7 +1117,7 @@
      </property>
     </widget>
    </item>
-   <item row="24" column="1">
+   <item row="25" column="1">
     <widget class="QCheckBox" name="enabled_attitude">
      <property name="font">
       <font>
@@ -1117,7 +1129,7 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="1">
+   <item row="1" column="1">
     <widget class="QSpinBox" name="input_1rss">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -1141,7 +1153,7 @@
      </property>
     </widget>
    </item>
-   <item row="6" column="1">
+   <item row="7" column="1">
     <widget class="QSpinBox" name="input_rfmd">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -1159,7 +1171,7 @@
      </property>
     </widget>
    </item>
-   <item row="26" column="1" rowspan="2">
+   <item row="27" column="1" rowspan="2">
     <widget class="QDoubleSpinBox" name="input_roll">
      <property name="font">
       <font>
@@ -1177,7 +1189,7 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="0">
+   <item row="1" column="0">
     <widget class="QLabel" name="label_1rss">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -1195,7 +1207,7 @@
      </property>
     </widget>
    </item>
-   <item row="18" column="1">
+   <item row="19" column="1">
     <widget class="QCheckBox" name="enabled_gps">
      <property name="font">
       <font>
@@ -1207,7 +1219,7 @@
      </property>
     </widget>
    </item>
-   <item row="15" column="0">
+   <item row="16" column="0">
     <widget class="QLabel" name="label_curr">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -1225,7 +1237,7 @@
      </property>
     </widget>
    </item>
-   <item row="12" column="0">
+   <item row="13" column="0">
     <widget class="QLabel" name="label_trsp">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -1243,7 +1255,7 @@
      </property>
     </widget>
    </item>
-   <item row="26" column="0">
+   <item row="27" column="0">
     <widget class="QLabel" name="label_roll">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -1261,7 +1273,7 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="2">
+   <item row="2" column="2">
     <widget class="QLabel" name="label_2rss_unit">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1279,7 +1291,7 @@
      </property>
     </widget>
    </item>
-   <item row="36" column="1">
+   <item row="37" column="1">
     <widget class="QPushButton" name="button_loadTelemetryValues">
      <property name="font">
       <font>
@@ -1291,14 +1303,14 @@
      </property>
     </widget>
    </item>
-   <item row="34" column="1">
+   <item row="35" column="1">
     <widget class="Line" name="line">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
-   <item row="25" column="2">
+   <item row="26" column="2">
     <widget class="QLabel" name="label_ptch_unit">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -1316,7 +1328,7 @@
      </property>
     </widget>
    </item>
-   <item row="8" column="1">
+   <item row="9" column="1">
     <widget class="QSpinBox" name="input_tqly">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -1337,7 +1349,7 @@
      </property>
     </widget>
    </item>
-   <item row="31" column="1">
+   <item row="32" column="1">
     <widget class="QCheckBox" name="enabled_barometer">
      <property name="font">
       <font>
@@ -1349,7 +1361,7 @@
      </property>
     </widget>
    </item>
-   <item row="9" column="1">
+   <item row="10" column="1">
     <widget class="QSpinBox" name="input_tsnr">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -1370,7 +1382,7 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="2">
+   <item row="6" column="2">
     <widget class="QLabel" name="label_tpwr_unit">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -1388,7 +1400,7 @@
      </property>
     </widget>
    </item>
-   <item row="33" column="0">
+   <item row="34" column="0">
     <widget class="QLabel" name="label_alt">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -1406,7 +1418,7 @@
      </property>
     </widget>
    </item>
-   <item row="15" column="2">
+   <item row="16" column="2">
     <widget class="QLabel" name="label_curr_unit">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -1424,7 +1436,7 @@
      </property>
     </widget>
    </item>
-   <item row="12" column="2">
+   <item row="13" column="2">
     <widget class="QLabel" name="label_trsp_unit">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1442,7 +1454,7 @@
      </property>
     </widget>
    </item>
-   <item row="26" column="2">
+   <item row="27" column="2">
     <widget class="QLabel" name="label_roll_unit">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -1460,7 +1472,7 @@
      </property>
     </widget>
    </item>
-   <item row="11" column="1">
+   <item row="12" column="1">
     <widget class="QSpinBox" name="input_rpwr">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -1481,7 +1493,7 @@
      </property>
     </widget>
    </item>
-   <item row="10" column="1">
+   <item row="11" column="1">
     <widget class="QSpinBox" name="input_rrsp">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -1502,7 +1514,7 @@
      </property>
     </widget>
    </item>
-   <item row="10" column="0">
+   <item row="11" column="0">
     <widget class="QLabel" name="label_rrsp">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -1520,7 +1532,7 @@
      </property>
     </widget>
    </item>
-   <item row="29" column="1">
+   <item row="30" column="1">
     <widget class="QCheckBox" name="enabled_flightcontroller">
      <property name="font">
       <font>
@@ -1532,7 +1544,7 @@
      </property>
     </widget>
    </item>
-   <item row="19" column="0">
+   <item row="20" column="0">
     <widget class="QLabel" name="label_gps_sim">
      <property name="font">
       <font>
@@ -1544,7 +1556,7 @@
      </property>
     </widget>
    </item>
-   <item row="16" column="1">
+   <item row="17" column="1">
     <widget class="QSpinBox" name="input_capa">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -1565,7 +1577,7 @@
      </property>
     </widget>
    </item>
-   <item row="19" column="1">
+   <item row="20" column="1">
     <widget class="QPushButton" name="button_gpsRunStop">
      <property name="font">
       <font>
@@ -1577,7 +1589,7 @@
      </property>
     </widget>
    </item>
-   <item row="20" column="1">
+   <item row="21" column="1">
     <widget class="QLineEdit" name="input_gps">
      <property name="font">
       <font>
