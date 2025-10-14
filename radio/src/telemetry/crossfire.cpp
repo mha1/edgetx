@@ -66,7 +66,7 @@ const CrossfireSensor crossfireSensors[] = {
   CS(BARO_ALT_ID,    0, STR_SENSOR_ALT,           UNIT_METERS,            2),
   CS(AIRSPEED_ID,    0, STR_SENSOR_ASPD,          UNIT_KMH,               1),
   CS(CF_RPM_ID,      0, STR_SENSOR_RPM,           UNIT_RPMS,              0),
-  CS(TEMP_ID,        0, STR_SENSOR_TEMP,          UNIT_DEGREE,            1),
+  CS(TEMP_ID,        0, STR_SENSOR_TEMP,          UNIT_CELSIUS,           1),
   CS(CELLS_ID,       0, STR_SENSOR_CELLS,         UNIT_CELLS,             2),
   CS(VOLT_ARRAY_ID,  0, STR_SENSOR_VOLT,          UNIT_VOLTS,             2),
   CS(0,              0, "UNKNOWN",                UNIT_RAW,               0),
@@ -111,9 +111,6 @@ const CrossfireSensor & getCrossfireSensor(uint8_t id, uint8_t subId)
 
 void processCrossfireTelemetryValue(uint8_t index, int32_t value)
 {
-  if (!TELEMETRY_STREAMING())
-    return;
-
   const CrossfireSensor & sensor = crossfireSensors[index];
   setTelemetryValue(PROTOCOL_TELEMETRY_CROSSFIRE, sensor.id, 0, sensor.subId,
                     value, sensor.unit, sensor.precision);
@@ -149,11 +146,13 @@ void processCrossfireTelemetryFrame(uint8_t module, uint8_t* rxBuffer,
   int32_t value;
   switch(id) {
     case CF_VARIO_ID:
+      telemetryStreaming = TELEMETRY_TIMEOUT10ms;
       if (getCrossfireTelemetryValue<2>(3, value, rxBuffer))
         processCrossfireTelemetryValue(VERTICAL_SPEED_INDEX, value);
       break;
 
     case GPS_ID:
+      telemetryStreaming = TELEMETRY_TIMEOUT10ms;
       if (getCrossfireTelemetryValue<4>(3, value, rxBuffer))
         processCrossfireTelemetryValue(GPS_LATITUDE_INDEX, value/10);
       if (getCrossfireTelemetryValue<4>(7, value, rxBuffer))
@@ -169,6 +168,7 @@ void processCrossfireTelemetryFrame(uint8_t module, uint8_t* rxBuffer,
       break;
 
     case BARO_ALT_ID:
+      telemetryStreaming = TELEMETRY_TIMEOUT10ms;
       if (getCrossfireTelemetryValue<2>(3, value, rxBuffer)) {
         if (value & 0x8000) {
           // Altitude in meters
@@ -202,6 +202,7 @@ void processCrossfireTelemetryFrame(uint8_t module, uint8_t* rxBuffer,
       break;
 
     case AIRSPEED_ID:
+      telemetryStreaming = TELEMETRY_TIMEOUT10ms;
       if (getCrossfireTelemetryValue<2>(3, value, rxBuffer)) {
         // Airspeed in 0.1 * km/h (hectometers/h)
         // Converstion to KMH is done through PREC1
@@ -211,6 +212,7 @@ void processCrossfireTelemetryFrame(uint8_t module, uint8_t* rxBuffer,
 
     case CF_RPM_ID:
     {
+      telemetryStreaming = TELEMETRY_TIMEOUT10ms;
       getCrossfireTelemetryValue<1>(3, value, rxBuffer);
       uint8_t sensorID = value;
       for(uint8_t i = 0; i * 3 < (crsfPayloadLen - 4);  i++) {
@@ -224,6 +226,7 @@ void processCrossfireTelemetryFrame(uint8_t module, uint8_t* rxBuffer,
 
     case TEMP_ID:
     {
+      telemetryStreaming = TELEMETRY_TIMEOUT10ms;
       getCrossfireTelemetryValue<1>(3, value, rxBuffer);
       uint8_t sensorID = value;
       for(uint8_t i = 0; i * 2 < (crsfPayloadLen - 4);  i++) {
@@ -237,6 +240,7 @@ void processCrossfireTelemetryFrame(uint8_t module, uint8_t* rxBuffer,
 
     case CELLS_ID:
     {
+      telemetryStreaming = TELEMETRY_TIMEOUT10ms;
       getCrossfireTelemetryValue<1>(3, value, rxBuffer);
       uint8_t sensorID = value;
 
@@ -262,6 +266,7 @@ void processCrossfireTelemetryFrame(uint8_t module, uint8_t* rxBuffer,
     }
 
     case LINK_ID:
+      telemetryStreaming = TELEMETRY_TIMEOUT10ms;
       for (unsigned int i=0; i<=TX_SNR_INDEX; i++) {
         if (getCrossfireTelemetryValue<1>(3+i, value, rxBuffer)) {
           if (i == TX_POWER_INDEX) {
@@ -274,13 +279,11 @@ void processCrossfireTelemetryFrame(uint8_t module, uint8_t* rxBuffer,
           if (i == RX_QUALITY_INDEX) {
             if (value) {
               telemetryData.rssi.set(value);
-              telemetryStreaming = TELEMETRY_TIMEOUT10ms;
               telemetryData.telemetryValid |= 1 << module;
             }
             else {
               if (telemetryData.telemetryValid & (1 << module)) {
                 telemetryData.rssi.reset();
-                telemetryStreaming = 0;
               }
               telemetryData.telemetryValid &= ~(1 << module);
             }
@@ -311,6 +314,7 @@ void processCrossfireTelemetryFrame(uint8_t module, uint8_t* rxBuffer,
       break;
 
     case LINK_RX_ID:
+      telemetryStreaming = TELEMETRY_TIMEOUT10ms;
       if (getCrossfireTelemetryValue<1>(4, value, rxBuffer))
         processCrossfireTelemetryValue(RX_RSSI_PERC_INDEX, value);
       if (getCrossfireTelemetryValue<1>(7, value, rxBuffer))
@@ -318,6 +322,7 @@ void processCrossfireTelemetryFrame(uint8_t module, uint8_t* rxBuffer,
       break;
 
     case LINK_TX_ID:
+      telemetryStreaming = TELEMETRY_TIMEOUT10ms;
       if (getCrossfireTelemetryValue<1>(4, value, rxBuffer))
         processCrossfireTelemetryValue(TX_RSSI_PERC_INDEX, value);
       if (getCrossfireTelemetryValue<1>(7, value, rxBuffer))
@@ -327,6 +332,7 @@ void processCrossfireTelemetryFrame(uint8_t module, uint8_t* rxBuffer,
       break;
 
     case BATTERY_ID:
+      telemetryStreaming = TELEMETRY_TIMEOUT10ms;
       if (getCrossfireTelemetryValue<2>(3, value, rxBuffer))
         processCrossfireTelemetryValue(BATT_VOLTAGE_INDEX, value);
       if (getCrossfireTelemetryValue<2>(5, value, rxBuffer))
@@ -338,6 +344,7 @@ void processCrossfireTelemetryFrame(uint8_t module, uint8_t* rxBuffer,
       break;
 
     case ATTITUDE_ID:
+      telemetryStreaming = TELEMETRY_TIMEOUT10ms;
       if (getCrossfireTelemetryValue<2>(3, value, rxBuffer))
         processCrossfireTelemetryValue(ATTITUDE_PITCH_INDEX, value/10);
       if (getCrossfireTelemetryValue<2>(5, value, rxBuffer))
@@ -348,6 +355,7 @@ void processCrossfireTelemetryFrame(uint8_t module, uint8_t* rxBuffer,
 
     case FLIGHT_MODE_ID:
     {
+      telemetryStreaming = TELEMETRY_TIMEOUT10ms;
       const CrossfireSensor & sensor = crossfireSensors[FLIGHT_MODE_INDEX];
       auto textLength = min<int>(16, rxBuffer[1]);
       rxBuffer[textLength] = '\0';
