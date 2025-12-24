@@ -175,6 +175,8 @@ void writeHeader()
   f_puts("Time,", &g_oLogFile);
 #endif
 
+  f_puts("LastUpd,crsfErrCnt,crsfCrcErr,crsfLenErr,", &g_oLogFile);
+
   char label[TELEM_LABEL_LEN+7];
   for (int i=0; i<MAX_TELEMETRY_SENSORS; i++) {
     if (isTelemetryFieldAvailable(i)) {
@@ -297,7 +299,14 @@ void logsWrite()
         if (isTelemetryFieldAvailable(i)) {
           TelemetrySensor & sensor = g_model.telemetrySensors[i];
           TelemetryItem telemetryItem;
-          
+
+          if (i == 0)
+          {
+            extern uint32_t crsfCrcErr;
+            extern uint32_t crsfLenErr;
+            f_printf(&g_oLogFile, "%u,%u,%u,%u,", (get_tmr10ms() - telemetryItems[i].tmr10) * 10U, crsfCrcErr + crsfLenErr, crsfCrcErr, crsfLenErr);
+          }
+
           if (sensor.logs) {
             if(TELEMETRY_STREAMING() && !telemetryItems[i].isOld())
               telemetryItem = telemetryItems[i];

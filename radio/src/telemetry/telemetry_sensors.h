@@ -32,6 +32,7 @@ class TelemetryItem
 {
   public:
     int32_t  value;           // value, stored as uint32_t but interpreted accordingly to type
+    uint32_t tmr10;
 
     union {
       int32_t valueMin;         // min store
@@ -121,6 +122,7 @@ class TelemetryItem
     inline void setFresh()
     {
       timeout = TELEMETRY_SENSOR_TIMEOUT_START;
+      tmr10 = get_tmr10ms();
     }
 
     inline void setOld()

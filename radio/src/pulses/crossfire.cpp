@@ -126,7 +126,18 @@ uint8_t createCrossfireChannelsFrame(uint8_t moduleIdx, uint8_t * frame, int16_t
   if (armingMode == ARMING_MODE_SWITCH) {
     swsrc_t sw =  md->crsf.crsfArmingTrigger;
 
-    *buf++ = (sw != SWSRC_NONE) && getSwitch(sw, 0);  // commanded armed status in Switch mode
+    if (sw != SWSRC_NONE) {
+      *buf = getSwitch(sw, 0);  // commanded armed status in Switch mode
+
+      extern bool crsfErrorFlag;
+
+      if(crsfErrorFlag) {
+        *buf |= 0x02;
+        crsfErrorFlag = false;
+      }
+
+      buf++;
+    }
   }
   
   *buf++ = crc8(crc_start, 23 + lenAdjust);
@@ -237,6 +248,11 @@ static bool _validHdr(uint8_t* buf)
   return buf[0] == RADIO_ADDRESS || buf[0] == UART_SYNC;
 }
 
+uint32_t crsfCrcErr = 0;
+uint32_t crsfLenErr = 0;
+
+bool crsfErrorFlag = false;
+
 static uint8_t* _processFrames(void* ctx, uint8_t* buf, uint8_t& len)
 {
   uint8_t* p_buf = buf;
@@ -252,6 +268,8 @@ static uint8_t* _processFrames(void* ctx, uint8_t* buf, uint8_t& len)
     if (!_lenIsSane(pkt_len)) {
       TRACE("[XF] pkt len error (%d)", pkt_len);
       len = 0;
+      crsfLenErr++;
+      crsfErrorFlag = true;
       break;
     }
 
@@ -262,6 +280,8 @@ static uint8_t* _processFrames(void* ctx, uint8_t* buf, uint8_t& len)
 
     if (!_checkFrameCRC(p_buf)) {
       TRACE("[XF] CRC error ");
+      crsfCrcErr++;
+      crsfErrorFlag = true;
     } else {
 #if defined(BLUETOOTH)
       // TODO: generic telemetry mirror to BT
