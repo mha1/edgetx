@@ -131,18 +131,14 @@ uint8_t createCrossfireChannelsFrame(uint8_t moduleIdx, uint8_t * frame, int16_t
   if (md->crsf.crsfArmingMode == ARMING_MODE_SWITCH) {
     swsrc_t sw =  md->crsf.crsfArmingTrigger;
 
-    if (sw == SWSRC_NONE) {
-      *buf = 0;                 // flag arming mode Switch and command disarmed status
-    } else {
-      *buf = getSwitch(sw, 0);  // flag arming mode Switch and commanded armed status
-    }
+    *buf = (sw != SWSRC_NONE) && getSwitch(sw, 0);  // commanded armed status in Switch mode
   } else {
-    *buf = 0x02;                // flag arming mode CH5
+    *buf = 0x02;                                    // flag arming mode CH5
   }
 
   extern bool crsfErrorFlag;
   if(crsfErrorFlag) {
-    *buf |= 0x04;               // flag crsf error
+    *buf |= 0x04;                                   // flag crsf error
     crsfErrorFlag = false;
   }
 
