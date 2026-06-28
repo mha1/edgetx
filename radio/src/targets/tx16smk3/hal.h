@@ -404,7 +404,7 @@ USART6: INTMODULE_USART
 #define AUDIO_RESET_PIN                 GPIO_PIN(GPIOH, 10)
 #define AUDIO_HP_DETECT_PIN             GPIO_PIN(GPIOH, 14)
 #undef VOLUME_LEVEL_MAX
-#define VOLUME_LEVEL_MAX                20
+#define VOLUME_LEVEL_MAX                23
 #define I2S_DMA                         DMA1
 #define I2S_DMA_Stream                  LL_DMA_STREAM_4
 #define I2S_DMA_Stream_Request          LL_DMAMUX1_REQ_SPI2_TX

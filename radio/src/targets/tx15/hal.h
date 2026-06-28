@@ -352,7 +352,7 @@ SAI1_Block_A: PDM_CLOCK (1 MHz bit-clock output on SAI1_CK1 / PE5, !FLYSKY_GIMBA
 #define AUDIO_RESET_PIN                 GPIO_PIN(GPIOH, 10)
 #define AUDIO_HP_DETECT_PIN             GPIO_PIN(GPIOA, 5)
 #undef VOLUME_LEVEL_MAX
-#define VOLUME_LEVEL_MAX                20
+#define VOLUME_LEVEL_MAX                23
 #define I2S_DMA                         DMA1
 #define I2S_DMA_Stream                  LL_DMA_STREAM_4
 #define I2S_DMA_Stream_Request          LL_DMAMUX1_REQ_SPI2_TX
